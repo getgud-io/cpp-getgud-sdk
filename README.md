@@ -50,10 +50,34 @@ You can set configuration settings by calling the `LoadSettings()` method on the
 Example configuration file:
 
 ```ini
-streamGameURL=https://api.getgud.com/stream/game/
-updatePlayersURL=https://api.getgud.com/player/update/
-sendReportsURL=https://api.getgud.com/report/outside-match/
-throttleCheckUrl=https://api.getgud.com/game/throttle-check/
+{
+  "streamGameURL": "test_link",
+  "updatePlayersURL": "test_link",
+  "sendReportsURL": "test_link",
+  "throttleCheckUrl": "test_link",
+  "reportsMaxBufferSizeInBytes": 100000,
+  "maxReportsToSendAtOnce": 100,
+  "playersMaxBufferSizeInBytes": 100000,
+  "maxPlayerUpdatesToSendAtOnce": 100,
+  "gameSenderSleepIntervalMilliseconds": 100,
+  "apiTimeoutMilliseconds": 400,
+  "apiWaitTimeMilliseconds": 100,
+  "packetMaxSizeInBytes": 2000000,
+  "actionsBufferMaxSizeInBytes": 1000000,
+  "gameContainerMaxSizeInBytes": 50000000,
+  "maxGames": 50,
+  "maxMatchesPerGame": 50,
+  "minPacketSizeForSendingInBytes": 1000000,
+  "packetTimeoutInMilliseconds": 1000,
+  "gameCloseGraceAfterMarkEndInMilliseconds": 1000,
+  "liveGameTimeoutInMilliseconds": 20000,
+  "hyperModeFeatureEnabled": true,
+  "hyperModeMaxThreads": 10,
+  "hyperModeAtBufferPercentage": 10,
+  "hyperModeUpperPercentageBound": 90,
+  "hyperModeThreadCreationStaggerMilliseconds": 100,
+  "logLevel": "WARN_AND_ERROR"
+}
 ```
 
 ### Loading the config file
