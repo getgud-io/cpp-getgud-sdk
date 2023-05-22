@@ -25,17 +25,6 @@ To use the GetGud SDK, you will need to include the required header file:
 
 Ensure you compile and link with the provided GetGud library.
 
-Please note: In debug mode, some variables are used to track and monitor actions and empty actions. This will display the number of actions and empty actions being processed through the SDK.
-
-```cpp
-#ifdef _DEBUG
- public:
-  int actionsAmount = 0;
-  int totalCreatedActions = 0;
-  int emptyActionsAmount = 0;
-  int totalCreatedEmptyActions = 0;
-#endif
-```
 
 ## Configuration
 
