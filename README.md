@@ -1,6 +1,6 @@
 # GetGud C++ SDK Documentation
 
-This C++ SDK allows you to integrate the GetGud analytics platform in your application for performance monitoring and reporting purposes.
+This C++ SDK allows you to integrate the GetGud in your application for toxicity protection and analytics purposes.
 
 ## Table of Contents
 
