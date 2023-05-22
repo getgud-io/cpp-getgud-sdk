@@ -38,7 +38,11 @@ This sets up internal components and prepares the SDK for use.
 
 ### Starting and Ending Games
 
-To start a new game, call `StartGame()` with the appropriate parameters:
+To start a new game, call `StartGame()` with the following parameters:
+* `titleId` - internal titleId from Getgud, it is provided to you when you create new title in Getgud
+* `privateKey` - private key is always provided to you along the titleId after creation of new title in Getgud
+* `serverName` - name of your game server
+* `gameMode` - mode of the game you are about to start
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gameMode);
