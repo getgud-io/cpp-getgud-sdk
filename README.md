@@ -28,6 +28,8 @@ Make sure to compile and link with the provided GetGud library.
 
 ### Initialization
 
+#### Init()
+
 Before using the GetGud SDK, you must initialize it:
 
 ```cpp
@@ -38,6 +40,7 @@ This sets up internal components and prepares the SDK for use.
 
 ### Starting and Ending Games
 
+#### StartGame(titleId, privateKey, serverName, gameMode)
 To start a new game, call `StartGame()` with the following parameters:
 * `titleId` - internal titleId from Getgud, it is provided to you when you create new title in Getgud
 * `privateKey` - private key is always provided to you along the titleId after creation of new title in Getgud
@@ -48,13 +51,15 @@ To start a new game, call `StartGame()` with the following parameters:
 std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gameMode);
 ```
 
-To start a new game using environment variables for `titleId` and `privateKey`:
+#### StartGame(serverName, gameMode)
+You can start new game but this time you can specify your titleId and privateKey as environment variables through `TITLE_ID` and `PRIVATE_KEY` variables.
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
 ```
 
-To mark a game as finished, call `MarkEndGame()` with the game GUID:
+#### MarkEndGame(gameGuid)
+When the game ends you should mark it as finished for Getgud. To mark a game as finished, call `MarkEndGame()` with the game GUID:
 
 ```cpp
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
