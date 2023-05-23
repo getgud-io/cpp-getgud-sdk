@@ -162,6 +162,8 @@ Make sure to adjust the values in the configuration file according to your appli
 
 ## Logging
 
+SDK will log all its actions depending on what `logLevel` you set up in the config file. You should also set up env variable `LOG_FILE_PATH` with the path to file where SDK will log data, otherwise the logging will not work.
+
 ## Usage
 
 ### Initialization
