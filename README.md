@@ -156,22 +156,30 @@ To start a new match for an existing game, call `StartMatch()`:
 std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 ```
 
+When you start a new live Match you get a `matchGuid`, you will need to use it when you add Actions, Chat Data and Report Data to this live Match.
+
 A live Match is where you are going to accumulate actions, chat data and reports for this live Match entity. Remember a single live Game will have one or more live Matches, each match will contain it's own actions, chat and reports.
 
 You do not have to Stop the match manually, this is done for you automatically when you `MarkEndGame`
 
 
-### Adding Actions, Reports and Chat data to live Matches
+### Adding Actions, Chat and Reports to live Match
+
+
 
 ### Ending Games and Matches
 
-When the live Game ends, you should mark it as finished for Getgud. To mark a game as finished, call `MarkEndGame()` with the game GUID you received when you started the Game:
+#### MarkEndGame(gameGuid)
+
+When the live Game ends, you should mark it as finished for Getgud. To mark a game as finished, call `MarkEndGame` with the game GUID you received when you started the Game:
 
 ```cpp
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
 
-### Sending Reports to past Matches
+When the Game is marked as ended your Actions, Chat Data and Report Data for ANY of the Game's Matches will not be added anymore.
+
+`MarkEndGame` returns true/false depending if the Game was succesfully closed or not.
 
 ### Sending Reports to past Matches
 
