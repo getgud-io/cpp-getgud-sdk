@@ -3,7 +3,7 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
 
 ## Table of Contents
 
-- Prerequsites
+- [Prerequsites](https://github.com/getgud-io/cpp-getgud-sdk#prerequisites)
 - How SDK works
 - Getting Started
 - Configuration
