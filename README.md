@@ -170,7 +170,7 @@ When the live Match is started, you can add Actions, Chat Data and Reports to th
 
 #### Spawn Action
 
-To add a spawn action to a match, use the `SendSpawnAction()` function:
+To add a spawn action to a match, use the `SendSpawnAction` function. This marks the Spawn of every `Player` in side the Match.
 
 ```cpp
 bool SendSpawnAction(std::string matchGuid,
@@ -182,6 +182,27 @@ bool SendSpawnAction(std::string matchGuid,
                      PositionF position,
                      RotationF rotation);
 ```
+
+Here is an example:
+```cpp
+GetGudSdk::BaseActionData* action = new GetGudSdk::SendSpawnAction(
+          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          1684059337532,  // actionTimeEpoch
+          "player_1", // playerGuid
+          "ttr", // characterGuid
+          GetGudSdk::PositionF{1, 2, 3}, // position
+          GetGudSdk::RotationF{10, 20} // rotation
+);
+```
+
+The `PositionActionData` uses the following parameters:
+
+* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
+* `actionTimeEpoch` - epoch time in milliseconds when the action happened
+* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36
+* `characterGuid` - guid of the character from your game, max length is 36
+* `position` - X,Y,Z coordinates of player at the moment of action.
+* `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 #### Position Action
 
