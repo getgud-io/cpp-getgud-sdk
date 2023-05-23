@@ -63,13 +63,11 @@ To use the GetGud SDK, you will need to include the required header file:
 #include "../include/GetGudSdk.h"
 ```
 
-Ensure you compile and link with the provided GetGud library.
-
 
 ## Configuration
 
-The Config file is loaded during `GetGudSdk::Init();` operation using `CONFIG_PATH` env variable.
-Example configuration file:
+The Config JSON file is loaded during `GetGudSdk::Init();` operation using `CONFIG_PATH` env variable.
+Example of configuration file `config.json`:
 
 ```json
 {
@@ -102,7 +100,7 @@ Example configuration file:
 }
 ```
 
-Please note that SDK will not function properly if `CONFIG_PATH` is not set.
+Please note that SDK will not start if `CONFIG_PATH` is not set.
 Make sure to adjust the values in the configuration file according to your application's requirements.
 
 ### Description of the Config fields
@@ -121,7 +119,7 @@ Before using the GetGud SDK, you must initialize it:
 GetGudSdk::Init();
 ```
 
-This sets up internal components, such as memory management, network connections, loads config file and prepares the SDK for use.
+This sets up internal components, such as memory management, network connections, loads config file, starts Logger and prepares the SDK for use.
 
 ### Starting Games and Matches
 
@@ -137,7 +135,7 @@ To start a new game, call `StartGame()` with the following parameters:
 std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gameMode);
 ```
 
-This will start a new live Game which will accumulate actions, chat messages and reports and once has enough data will send a request to Getgud.
+This will start a new live Game which will accumulate live Matches and once has enough data will send a request to Getgud.
 
 `StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
 
@@ -151,12 +149,16 @@ std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
 
 #### StartMatch(gameGuid, matchMode, mapName)
 
-When you have started a live Game you can now attach Matches to the Game. In Get
+When you have started a live Game you can now attach Matches to the Game.
 To start a new match for an existing game, call `StartMatch()`:
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 ```
+
+A live Match is where you are going to accumulate actions, chat data and reports for this live Match entity. Remember a single live Game will have one or more live Matches, each match will contain it's own actions, chat and reports.
+
+You do not have to Stop the match manually, this is done for you automatically when you `MarkEndGame`
 
 
 ### Adding Actions, Reports and Chat data to live Matches
