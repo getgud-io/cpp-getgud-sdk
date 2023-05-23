@@ -3,11 +3,12 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
 
 ## Table of Contents
 
-- 1. Getting Started
-- 2. Configuration
+- Prerequsites
+- Getting Started
+- Configuration
     - Description of the Config fields
-- 3. Logging
-- 4. Usage
+- Logging
+- Usage
     - Initialization
     - Starting Games and Matches
     - Adding Actions, Reports and Chat data to live Matches
@@ -15,31 +16,46 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
     - Sending Reports to past Matches
     - Sending Player Updates
     - Disposing the SDK
-- 5. Examples
+- Examples
 
-## 1. Getting Started
+## Prerequisites
 
 To start, let’s talk about the logical structure of how getgud is built.
 
-`Client->1->N->Title 1->N->Game->1->N->Match`
+`Client->1->N->Title->1->N->Game->1->N->Match`
 
 * The top entity in getgud is `Client`, it represents a company that uses Getgud. Client is the main container for all other entities. it holds all the company’s PII, permissions, status and as with all entities, an integer primary key, in this case – `clientId`.
+
   ```
   Example of client: Valve 
   ```
+
 * The second top container is `Title`, it represents a literal game’s title, a client can have many titles, for example: a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
+
   ```
   Example of Title: CS:GO 
   ```
+
 * Next up is `Game`, it is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is given to you when the `Game` starts. 
+
   ```
   An example of Game is a CS:GO Game which has 30 rounds inside it.
   ```
+
 * `Match` represents the actual play time; the game stream we collect and analyze.  Like `Game`, `Match` also has a GUID `matchGuid` and like `Game`, `Match` holds a bunch of statistics about itself.
+
   ```
   An example of Match is a single CS:GO round inside the game.
   ```
 
+Now that the basic structure is set and we understand the main containers, we should talk about the `Player` entity, although it is not part of the main chain, it’s not less important than any entity in the chain.
+
+* The `Player` entity represents a literal player and holds the player’s PII. A Player belongs to a `Title`. Player also has a GUID, which should be unique to the `titleId`. A player has an interesting relationship with `Match`, it’s a N:N relationship; a match holds many players and a player plays in many matches.
+
+* A `TB Type` (AKA toxic behavior type) and its child `TB Subtype` are entities that represent toxic behaviors (cheating as well as griefing). For example, one TB-Type might represent the Aimbot cheat and one of its child TB-Subtypes would be Spinbot. You are going to use this when sending your `Reports` to Getgud.
+
+
+## Getting Started
 
 To use the GetGud SDK, you will need to include the required header file:
 
@@ -50,7 +66,7 @@ To use the GetGud SDK, you will need to include the required header file:
 Ensure you compile and link with the provided GetGud library.
 
 
-## 2. Configuration
+## Configuration
 
 The Config file is loaded during `GetGudSdk::Init();` operation using `CONFIG_PATH` env variable.
 Example configuration file:
@@ -91,9 +107,9 @@ Make sure to adjust the values in the configuration file according to your appli
 
 ### Description of the Config fields
 
-## 3. Logging
+## Logging
 
-## 4. Usage
+## Usage
 
 ### Initialization
 
@@ -208,6 +224,6 @@ GetGudSdk::Dispose();
 
 This will release any resources or connections being used by the SDK.
 
-## 5. Example
+## Example
 
 An example of how to use the GetGud C++ SDK can be found in the [test](../test) directory.
