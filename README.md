@@ -11,9 +11,10 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
 - Usage
     - Initialization
     - Starting Games and Matches
-    - Adding Actions, Reports and Chat data to live Matches
+    - Adding Actions to live Match
+    - Adding Chat messages and Reports to live Match
     - Ending Games and Matches
-    - Sending Reports to past Matches
+    - Adding Reports to past Matches
     - Sending Player Updates
     - Disposing the SDK
 - Examples
@@ -163,9 +164,110 @@ A live Match is where you are going to accumulate actions, chat data and reports
 You do not have to Stop the match manually, this is done for you automatically when you `MarkEndGame`
 
 
-### Adding Actions, Chat and Reports to live Match
+### Adding Actions to live Match
+
+When the live Match is started, you can add Actions, Chat Data and Reports to this match. There are 6 Action types you can add to the Match. We call them the primal 6 actions. Let's dive into each Action Type.
+
+#### Spawn Action
+
+To add a spawn action to a match, use the `SendSpawnAction()` function:
+
+```cpp
+bool SendSpawnAction(std::string matchGuid,
+                     long long actionTimeEpoch,
+                     std::string playerGuid,
+                     std::string characterGuid,
+                     int teamId,
+                     float initialHealth,
+                     PositionF position,
+                     RotationF rotation);
+```
+
+#### Position Action
+
+To add a position action to a match, use the `SendPositionAction()` function:
+
+```cpp
+bool SendPositionAction(std::string matchGuid,
+                        long long actionTimeEpoch,
+                        std::string playerGuid,
+                        PositionF position,
+                        RotationF rotation);
+```
+
+#### Attack Action
+
+To add an attack action to a match, use the `SendAttackAction()` function:
+
+```cpp
+bool SendAttackAction(std::string matchGuid,
+                      long long actionTimeEpoch,
+                      std::string playerGuid,
+                      std::string weaponGuid);
+```
+
+#### Damage Action
+
+To add a damage action to a match, use the `SendDamageAction()` function:
+
+```cpp
+bool SendDamageAction(std::string matchGuid,
+                      long long actionTimeEpoch,
+                      std::string playerGuid,
+                      std::string victimPlayerGuid,
+                      float damageDone,
+                      std::string weaponGuid);
+```
+
+#### Heal Action
+
+To add a heal action to a match, use the `SendHealAction()` function:
+
+```cpp
+bool SendHealAction(std::string matchGuid,
+                    long long actionTimeEpoch,
+                    std::string playerGuid,
+                    float healthGained);
+```
+
+#### Death Action
+
+To add a death action to a match, use the `SendDeathAction()` function:
+
+```cpp
+bool SendDeathAction(std::string matchGuid,
+                     long long actionTimeEpoch,
+                     std::string playerGuid);
+```
+
+All these actions help you record player behaviors during a live match.
+
+In addition to the specific action functions mentioned earlier, you can also add actions using these alternative methods:
+
+#### SendActions (Batch)
+
+To add a batch of actions to a match, use the `SendActions()` function:
+
+```cpp
+bool SendActions(std::deque<BaseActionData*> actions);
+```
+
+This function accepts a deque of actions, where `BaseActionData` type actions can be any of the primal 6 actions (Spawn, Position, Attack, Damage, Heal, or Death actions). This method is useful when you want to send multiple actions at once.
+
+#### SendAction (Single)
+
+To add a single action to a match, use the `SendAction()` function:
+
+```cpp
+bool SendAction(BaseActionData* action);
+```
+
+This function accepts any action derived from `BaseActionData` type, including any of the primal 6 actions. This method is useful when you want to send a single action without specifying its type explicitly.
+
+These alternative methods provide more flexibility in the way you add actions to live Matches.
 
 
+### Adding Chat and Reports to live Match
 
 ### Ending Games and Matches
 
