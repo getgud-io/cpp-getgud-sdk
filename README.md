@@ -19,6 +19,28 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
 
 ## 1. Getting Started
 
+To start, let’s talk about the logical structure of how getgud is built.
+
+`Client->1->N->Title 1->N->Game->1->N->Match`
+
+* The top entity in getgud is `Client`, it represents a company that uses Getgud. Client is the main container for all other entities. it holds all the company’s PII, permissions, status and as with all entities, an integer primary key, in this case – `clientId`.
+  ```
+  Example of client: Valve 
+  ```
+* The second top container is `Title`, it represents a literal game’s title, a client can have many titles, for example: a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
+  ```
+  Example of Title: CS:GO 
+  ```
+* Next up is `Game`, it is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is given to you when the `Game` starts. 
+  ```
+  An example of Game is a CS:GO Game which has 30 rounds inside it.
+  ```
+* `Match` represents the actual play time; the game stream we collect and analyze.  Like `Game`, `Match` also has a GUID `matchGuid` and like `Game`, `Match` holds a bunch of statistics about itself.
+  ```
+  An example of Match is a single CS:GO round inside the game.
+  ```
+
+
 To use the GetGud SDK, you will need to include the required header file:
 
 ```cpp
@@ -83,7 +105,7 @@ Before using the GetGud SDK, you must initialize it:
 GetGudSdk::Init();
 ```
 
-This sets up internal components, such as memory management and network connections, and prepares the SDK for use.
+This sets up internal components, such as memory management, network connections, loads config file and prepares the SDK for use.
 
 ### Starting Games and Matches
 
@@ -99,31 +121,37 @@ To start a new game, call `StartGame()` with the following parameters:
 std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gameMode);
 ```
 
+This will start a new live Game which will accumulate actions, chat messages and reports and once has enough data will send a request to Getgud.
+
+`StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
+
 #### StartGame(serverName, gameMode)
 
-You can start a new game using environment variables `TITLE_ID` and `PRIVATE_KEY` for the titleId and privateKey:
+You can also start a live Game using environment variables `TITLE_ID` and `PRIVATE_KEY`, in this case you do not have to specify `titleId` and `privateKey` as function arguments:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
 ```
 
-#### MarkEndGame(gameGuid)
+#### StartMatch(gameGuid, matchMode, mapName)
 
-When the game ends, you should mark it as finished for Getgud. To mark a game as finished, call `MarkEndGame()` with the game GUID:
-
-```cpp
-bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
-```
-
-### Adding Actions, Reports and Chat data to live Matches
-
+When you have started a live Game you can now attach Matches to the Game. In Get
 To start a new match for an existing game, call `StartMatch()`:
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 ```
 
+
+### Adding Actions, Reports and Chat data to live Matches
+
 ### Ending Games and Matches
+
+When the live Game ends, you should mark it as finished for Getgud. To mark a game as finished, call `MarkEndGame()` with the game GUID you received when you started the Game:
+
+```cpp
+bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
+```
 
 ### Sending Reports to past Matches
 
