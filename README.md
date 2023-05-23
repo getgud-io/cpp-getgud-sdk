@@ -142,23 +142,23 @@ Make sure to adjust the values in the configuration file according to your appli
 - `maxPlayerUpdatesToSendAtOnce`: Maximum number of player updates that will be sent to Getgud at once.
 
 #### Live Games and Matches fields
-- `gameSenderSleepIntervalMilliseconds`: Time interval between sending game updates in milliseconds.
-- `apiTimeoutMilliseconds`: API timeout in milliseconds, the maximum time the transfer is allowed to complete.
-- `apiWaitTimeMilliseconds`: API response waiting time in milliseconds, until the connection will be established.
-- `packetMaxSizeInBytes`: Maximum size of a packet in bytes.
-- `actionsBufferMaxSizeInBytes`: Maximum size of the actions buffer in bytes.
-- `gameContainerMaxSizeInBytes`: Maximum size of the game container in bytes.
-- `maxGames`: Maximum number of games allowed.
-- `maxMatchesPerGame`: Maximum number of matches per game
-- `minPacketSizeForSendingInBytes`: Minimum size of a packet required for sending in bytes.
-- `packetTimeoutInMilliseconds`: Packet timeout in milliseconds.
-- `gameCloseGraceAfterMarkEndInMilliseconds`: Grace period in milliseconds after marking a game as ended before closing it.
-- `liveGameTimeoutInMilliseconds`: Live game timeout in milliseconds.
-- `hyperModeFeatureEnabled`: Flag to enable or disable the hyper-mode feature.
-- `hyperModeMaxThreads`: Maximum number of threads allowed in hyper-mode.
-- `hyperModeAtBufferPercentage`: Percentage of buffer usage to trigger hyper-mode.
-- `hyperModeUpperPercentageBound`: Upper percentage bound for buffer usage in hyper-mode.
-- `hyperModeThreadCreationStaggerMilliseconds`: Time interval between creation of consecutive threads in hyper-mode in milliseconds.
+- `gameSenderSleepIntervalMilliseconds`: Sleep time of every Game Sender
+- `apiTimeoutMilliseconds`: API timeout in milliseconds, the maximum time the data transfer is allowed to complete.
+- `apiWaitTimeMilliseconds`: The SDK will be trying to send the game packet for this time frame. So it will do K attempts to send packet, each attempt will have a timeout of `apiTimeoutMilliseconds`, and when it fails it will try to send again until wait time is over.
+- `packetMaxSizeInBytes`: Maximum size of a game packet in bytes to send to Getgud.
+- `actionsBufferMaxSizeInBytes`: Maximum size of the actions buffer in bytes. We use action buffer to transfer actions from GetGudSdk to one of the Game Senders
+- `gameContainerMaxSizeInBytes`: Maximum size of the game container in bytes. We use Game Container to transfer metadata of Games and Matches to one of the Game Senders
+- `maxGames`: Maximum number of live Games allowed at once.
+- `maxMatchesPerGame`: Maximum number of live Matches per live Game.
+- `minPacketSizeForSendingInBytes`: Minimum size of a packet required for sending to Getgud in bytes.
+- `packetTimeoutInMilliseconds`: If a live Game is not getting any action in this time frame, the game packet to Getgud will be sent even though its size is less then `minPacketSizeForSendingInBytes`.
+- `gameCloseGraceAfterMarkEndInMilliseconds`: Grace period in milliseconds after marking a game as ended before closing it. This is done to accumulate some actions which may still not be in the game packet.
+- `liveGameTimeoutInMilliseconds`: If the live game didn't receive any actions for this time in millliseconds we will close it.
+- `hyperModeFeatureEnabled`: Flag to enable or disable the hypermode feature. Hyper mode allows to spawn more than 1 Game Sender threads in case Action Buffer or Game Container become too large.
+- `hyperModeMaxThreads`: Maximum number of threads allowed in hypermode. In other words how many Game Senders can we have active.
+- `hyperModeAtBufferPercentage`: Percentage of buffer usage to trigger hypermode. If action buffer or game container usage is larger then this %, SDK will start spawning extra threads.
+- `hyperModeUpperPercentageBound`: Upper percentage bound for buffer usage in hypermode, at this % usage SDK will have `hyperModeMaxThreads` activated
+- `hyperModeThreadCreationStaggerMilliseconds`: Time interval between creation of consecutive threads (Game senders) in hypermode in milliseconds.
 
 ## Logging
 
