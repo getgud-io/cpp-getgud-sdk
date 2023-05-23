@@ -106,6 +106,44 @@ Make sure to adjust the values in the configuration file according to your appli
 
 ### Description of the Config fields
 
+#### General API connection fields
+- `streamGameURL`: The link to Getgud API which will be used to send actions, chat and reports for live matches.
+- `updatePlayersURL`: The link to Getgud API which will be used to send Player Update events to Getgud
+- `sendReportsURL`: The link to Getgud API which will be used to send Reports for finished Matches.
+- `throttleCheckUrl`: The link to Getgud API which will be used to throttle check each match before sending it's actions, reports and chat to us. It is a way for Getgud to tell SDK if this match is interesting for it or not.
+- `logLevel`: Log level setting, in other words how much you want to log into the log file. 
+  - `FULL`: Log everything
+  - `WARN_AND_ERROR`: Log all errors and warnings
+  - `_ERROR`: Log all errors
+  - `FATAL`: Log only fatal errors
+
+#### Offline Report Sending fields
+- `reportsMaxBufferSizeInBytes`: Maximum size of the reports buffer in bytes for sending reports for finished matches. If the size of report buffer fills to quick all the next reports you send to us will be disregarded.
+- `maxReportsToSendAtOnce`: Maximum number of reports for offline matches that will be sent to Getgud at once.
+
+#### Player Update fields
+- `playersMaxBufferSizeInBytes`: Maximum size of the player updates buffer in bytes for sending player updates. If the size of player updates buffer fills to quick all the next player updates you send to us will be disregarded.
+- `maxPlayerUpdatesToSendAtOnce`: Maximum number of player updates that will be sent to Getgud at once.
+
+#### Live Games and Matches fields
+- `gameSenderSleepIntervalMilliseconds`: Time interval between sending game updates in milliseconds.
+- `apiTimeoutMilliseconds`: API timeout in milliseconds, the maximum time the transfer is allowed to complete.
+- `apiWaitTimeMilliseconds`: API response waiting time in milliseconds, until the connection will be established.
+- `packetMaxSizeInBytes`: Maximum size of a packet in bytes.
+- `actionsBufferMaxSizeInBytes`: Maximum size of the actions buffer in bytes.
+- `gameContainerMaxSizeInBytes`: Maximum size of the game container in bytes.
+- `maxGames`: Maximum number of games allowed.
+- `maxMatchesPerGame`: Maximum number of matches per game
+- `minPacketSizeForSendingInBytes`: Minimum size of a packet required for sending in bytes.
+- `packetTimeoutInMilliseconds`: Packet timeout in milliseconds.
+- `gameCloseGraceAfterMarkEndInMilliseconds`: Grace period in milliseconds after marking a game as ended before closing it.
+- `liveGameTimeoutInMilliseconds`: Live game timeout in milliseconds.
+- `hyperModeFeatureEnabled`: Flag to enable or disable the hyper-mode feature.
+- `hyperModeMaxThreads`: Maximum number of threads allowed in hyper-mode.
+- `hyperModeAtBufferPercentage`: Percentage of buffer usage to trigger hyper-mode.
+- `hyperModeUpperPercentageBound`: Upper percentage bound for buffer usage in hyper-mode.
+- `hyperModeThreadCreationStaggerMilliseconds`: Time interval between creation of consecutive threads in hyper-mode in milliseconds.
+
 ## Logging
 
 ## Usage
@@ -609,4 +647,4 @@ This will release any resources or connections being used by the SDK.
 
 ## Examples
 
-An example of how to use the GetGud C++ SDK can be found in the [test](../test) directory.
+An example of how to use the GetGud C++ SDK can be found in the [examples](../examples) directory.
