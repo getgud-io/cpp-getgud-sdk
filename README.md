@@ -170,7 +170,7 @@ When the live Match is started, you can add Actions, Chat Data and Reports to th
 
 #### Spawn Action
 
-To add a spawn action to a match, use the `SendSpawnAction` function. This marks the Spawn of every `Player` inside the Match.
+To add a Spawn Action to a match, use the `SendSpawnAction` function. This marks the Spawn of every `Player` inside the Match.
 
 ```cpp
 bool SendSpawnAction(std::string matchGuid,
@@ -198,15 +198,15 @@ bool isActionSent = GetGudSdk::SendSpawnAction(
 The `SpawnActionData` uses the following parameters:
 
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
-* `actionTimeEpoch` - epoch time in milliseconds when the action happened
-* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36
-* `characterGuid` - guid of the character from your game, max length is 36
+* `actionTimeEpoch` - epoch time in milliseconds when the action happened.
+* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars.
+* `characterGuid` - guid of the character from your game, max length is 36 chars.
 * `position` - X,Y,Z coordinates of player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 #### Position Action
 
-To add a position action to a match, use the `SendPositionAction` function. This marks the change of `Player` position and view site. You can do this every tick.
+To add a Position Action to a match, use the `SendPositionAction` function. This marks the change of `Player` position and view site. You can do this every tick.
 
 ```cpp
 bool SendPositionAction(std::string matchGuid,
@@ -231,13 +231,13 @@ The `PositionActionData` uses the following parameters:
 
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened
-* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36
+* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars
 * `position` - X,Y,Z coordinates of player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 #### Attack Action
 
-To add an attack action to a match, use the `SendAttackAction()` function:
+To add a Attack Action to a match, use the `SendAttackAction` function. An Attack action is any attempt to attack, for example: fire shot, throwing granade, or any other action that may result in damage. Though Attack action is not bound to damaging anyone, it is an attempt to cause Damage, not the Damage itself.
 
 ```cpp
 bool SendAttackAction(std::string matchGuid,
@@ -246,9 +246,26 @@ bool SendAttackAction(std::string matchGuid,
                       std::string weaponGuid);
 ```
 
+Here is an example:
+```cpp
+bool isActionSent =  GetGudSdk::SendAttackAction(
+          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          1684059337532,  // actionTimeEpoch
+          "player_1", // playerGuid
+          "akm" // weaponGuid
+);
+```
+
+The `AttackActionData` uses the following parameters:
+
+* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
+* `actionTimeEpoch` - epoch time in milliseconds when the action happened
+* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars
+* `weaponGuid` - guid AKA name of the weapon attack was performed with, max length is 3 chars
+
 #### Damage Action
 
-To add a damage action to a match, use the `SendDamageAction()` function:
+To add a Damage Action to a match, use the `SendDamageAction` function. A Damage action is an attack which caused damage to the victim player. Damage can be caused not only by player but by the environment too. If the Damage is caused by the environment you can specify this in a playerGuid.
 
 ```cpp
 bool SendDamageAction(std::string matchGuid,
@@ -259,9 +276,30 @@ bool SendDamageAction(std::string matchGuid,
                       std::string weaponGuid);
 ```
 
+Here is an example:
+```cpp
+bool isActionSent =  GetGudSdk::SendDamageAction(
+          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          1684059337532,  // actionTimeEpoch
+          "player_1", // playerGuid
+          "player_2", // victimPlayerGuid
+          23.0, // damageDone
+          "akm" // weaponGuid
+);
+```
+
+The `DamageActionData` uses the following parameters:
+
+* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
+* `actionTimeEpoch` - epoch time in milliseconds when the action happened
+* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars. This can be marked as an environment
+* `victimPlayerGuid` - guid AKA nickname of the player who is the victim of the Damage action, max length is 36 chars.
+* `damageDone` - How much damage was given
+* `weaponGuid` - guid AKA name of the weapon attack was performed with, max length is 3 chars
+
 #### Heal Action
 
-To add a heal action to a match, use the `SendHealAction()` function:
+To add a heal action to a match, use the `SendHealAction` function. A Heal action causes the player to increase his health while healing.
 
 ```cpp
 bool SendHealAction(std::string matchGuid,
@@ -270,15 +308,48 @@ bool SendHealAction(std::string matchGuid,
                     float healthGained);
 ```
 
+Here is an example:
+```cpp
+bool isActionSent =  GetGudSdk::SendHealAction(
+          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          1684059337532,  // actionTimeEpoch
+          "player_1", // playerGuid
+          55.0, // healthGained
+);
+```
+
+The `HealActionData` uses the following parameters:
+
+* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
+* `actionTimeEpoch` - epoch time in milliseconds when the action happened.
+* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars.
+* `healthGained` - How much health the player gained.
+
 #### Death Action
 
-To add a death action to a match, use the `SendDeathAction()` function:
+To add a death action to a match, use the `SendDeathAction` function. The Death player causes the player to Die, if the player died it should ALWAYS be marked. We do not detect this automatically.
 
 ```cpp
 bool SendDeathAction(std::string matchGuid,
                      long long actionTimeEpoch,
                      std::string playerGuid);
 ```
+
+Here is an example:
+```cpp
+bool isActionSent =  GetGudSdk::SendDeathAction(
+          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          1684059337532,  // actionTimeEpoch
+          "player_1", // playerGuid
+);
+```
+
+The `DeathActionData` uses the following parameters:
+
+* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
+* `actionTimeEpoch` - epoch time in milliseconds when the action happened.
+* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars.
+
 
 All these actions help you record player behaviors during a live match.
 
