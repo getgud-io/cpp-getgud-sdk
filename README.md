@@ -464,6 +464,12 @@ bool isActionsSent = SendAction(action);
 
 ### Adding Chat and Reports to live Match
 
+When your Game is live you can add Chat and Report data to any of the running matches using `matchGuid`. Let's see how you can add Chats and Reports for the live games.
+
+#### Adding Chat Data
+
+#### Adding Report Data
+
 ### Ending Games and Matches
 
 #### MarkEndGame(gameGuid)
@@ -478,36 +484,9 @@ When the Game is marked as ended your Actions, Chat Data and Report Data for ANY
 
 `MarkEndGame` returns true/false depending if the Game was succesfully closed or not.
 
-### Sending Reports to past Matches
+### Sending Reports to finished Matches
 
 ### Sending Player Updates
-
-### Disposing the SDK
-
-### Sending Reports and Actions
-
-To send a report for a specific match while it's live, call `SendInMatchReport()`:
-
-```cpp
-bool inMatchReportAdded = GetGudSdk::SendInMatchReport(reportInfo);
-```
-
-To send a chat message for a specific match while it's live, call `SendChatMessage()`:
-
-```cpp
-bool chatMessageSent = GetGudSdk::SendChatMessage(matchGuid, messageInfo);
-```
-
-There are several action-specific sending functions provided, such as `SendAttackAction()`, `SendDamageAction()`, `SendHealAction()`, `SendSpawnAction()`, `SendDeathAction()`, and `SendPositionAction()`.
-
-They can be sent one by one or in a batch, using `SendActions()` or `SendAction()`:
-
-```cpp
-bool actionsSent = GetGudSdk::SendActions(actions);
-bool actionSent = GetGudSdk::SendAction(action);
-```
-
-### Updating Players
 
 To update player information outside a live match, call `UpdatePlayers()` with the appropriate parameters:
 
