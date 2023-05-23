@@ -186,7 +186,7 @@ bool SendSpawnAction(std::string matchGuid,
 Here is an example:
 ```cpp
 bool isActionSent = GetGudSdk::SendSpawnAction(
-          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
           1684059337532,  // actionTimeEpoch
           "player_1", // playerGuid
           "ttr", // characterGuid
@@ -219,7 +219,7 @@ bool SendPositionAction(std::string matchGuid,
 Here is an example:
 ```cpp
 bool isActionSent =  GetGudSdk::SendPositionAction(
-          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
           1684059337532,  // actionTimeEpoch
           "player_1", // playerGuid
           GetGudSdk::PositionF{1, 2, 3}, // position
@@ -249,7 +249,7 @@ bool SendAttackAction(std::string matchGuid,
 Here is an example:
 ```cpp
 bool isActionSent =  GetGudSdk::SendAttackAction(
-          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
           1684059337532,  // actionTimeEpoch
           "player_1", // playerGuid
           "akm" // weaponGuid
@@ -279,7 +279,7 @@ bool SendDamageAction(std::string matchGuid,
 Here is an example:
 ```cpp
 bool isActionSent =  GetGudSdk::SendDamageAction(
-          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
           1684059337532,  // actionTimeEpoch
           "player_1", // playerGuid
           "player_2", // victimPlayerGuid
@@ -311,7 +311,7 @@ bool SendHealAction(std::string matchGuid,
 Here is an example:
 ```cpp
 bool isActionSent =  GetGudSdk::SendHealAction(
-          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
           1684059337532,  // actionTimeEpoch
           "player_1", // playerGuid
           55.0, // healthGained
@@ -338,7 +338,7 @@ bool SendDeathAction(std::string matchGuid,
 Here is an example:
 ```cpp
 bool isActionSent =  GetGudSdk::SendDeathAction(
-          "28482640-f571-11ed-8460-89c45273f291", //matchGuid
+          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
           1684059337532,  // actionTimeEpoch
           "player_1", // playerGuid
 );
@@ -355,7 +355,7 @@ All these actions help you record player behaviors during a live match.
 
 In addition to the specific action functions mentioned earlier, you can also add actions using these alternative methods:
 
-#### SendActions (Batch)
+#### SendActions(actions)
 
 To add a batch of actions to a match, use the `SendActions` function. This may contain any amount of the actions from our primal 6.
 
@@ -441,7 +441,7 @@ bool isActionsSent = SendActions(actions);
 
 
 
-#### SendAction (Single)
+#### SendAction(action)
 
 To add a single action to a match, use the `SendAction` function the same way we used `SendActions` but this time pass a single action you created directly.
 
@@ -466,9 +466,49 @@ bool isActionsSent = SendAction(action);
 
 When your Game is live you can add Chat and Report data to any of the running matches using `matchGuid`. Let's see how you can add Chats and Reports for the live games.
 
-#### Adding Chat Data
+#### Adding Chat Message
+Here is how you can create a chat message and send it to live Match:
 
-#### Adding Report Data
+```cpp
+GetGudSdk::ChatMessageInfo messageData;
+messageData.message = "Hi from Getgud!";
+messageData.messageTimeEpoch = 1684059337532;
+messageData.playerGuid = "player1";
+GetGudSdk::SendChatMessage(
+  "6a3d1732-8f72-12eb-bdef-56d89392f384", // matchGuid 
+  messageData
+);
+```
+
+#### Adding Report
+
+Here is how you can add Report to the live Match:
+```cpp
+GetGudSdk::ReportInfo reportInfo;
+reportInfo.MatchGuid = "6a3d1732-8f72-12eb-bdef-56d89392f384";
+reportInfo.ReportedTimeEpoch = 1684059337532;
+reportInfo.ReporterName = "player1";
+reportInfo.ReporterSubType = 0;
+reportInfo.ReporterType = 0;
+reportInfo.SuggestedToxicityScore = 100;
+reportInfo.SuspectedPlayerGuid = "player1";
+reportInfo.TbSubType = 0;
+reportInfo.TbTimeEpoch = 1684059337532;
+reportInfo.TbType = 0;
+GetGudSdk::SendInMatchReport(reportInfo);
+```
+
+Here is the description of each report field:
+- MatchGuid: 
+- ReportedTimeEpoch:
+- ReporterName: 
+- ReporterSubType:
+- ReporterType: 
+- SuggestedToxicityScore: 
+- SuspectedPlayerGuid:
+- TbSubType: 
+- TbTimeEpoch: 
+- TbType:
 
 ### Ending Games and Matches
 
