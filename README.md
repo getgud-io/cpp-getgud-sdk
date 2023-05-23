@@ -1,5 +1,5 @@
 # GetGud C++ SDK
-Getgud C++ SDK allows you to integrate the GetGud platform in your application. With the help of Getgud SDK you will be able to send your Game and Match data to Getgud as well as reports and players metadata.
+Getgud C++ SDK allows you to integrate the GetGud platform into your application. With the help of Getgud SDK you will be able to send your Game and Match data to Getgud as well as reports and players metadata.
 
 ## Table of Contents
 
@@ -22,17 +22,17 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
 
 ## Prerequisites
 
-To start, let’s talk about the logical structure of how getgud is built.
+To start, let’s talk about the logical structure of how Getgud is built.
 
 `Client->1->N->Title->1->N->Game->1->N->Match`
 
-* The top entity in getgud is `Client`, it represents a company that uses Getgud. Client is the main container for all other entities. it holds all the company’s PII, permissions, status and as with all entities, an integer primary key, in this case – `clientId`.
+* The top entity in Getgud is `Client`, it represents a company that uses Getgud. Client is the main container for all other entities. it holds all the company’s PII, permissions, status, and as with all entities, an integer primary key, in this case – `clientId`.
 
   ```
   Example of client: Valve 
   ```
 
-* The second top container is `Title`, it represents a literal game’s title, a client can have many titles, for example: a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
+* The second top container is `Title`, which represents a literal game’s title, a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
 
   ```
   Example of Title: CS:GO 
@@ -41,13 +41,13 @@ To start, let’s talk about the logical structure of how getgud is built.
 * Next up is `Game`, it is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is given to you when the `Game` starts. 
 
   ```
-  An example of Game is a CS:GO Game which has 30 rounds inside it.
+  An example of a Game is a CS:GO Game which has 30 rounds inside it.
   ```
 
 * `Match` represents the actual play time; the game stream we collect and analyze.  Like `Game`, `Match` also has a GUID `matchGuid` and like `Game`, `Match` holds a bunch of statistics about itself.
 
   ```
-  An example of Match is a single CS:GO round inside the game.
+  An example of a Match is a single CS:GO round inside the game.
   ```
 
 Now that the basic structure is set and we understand the main containers, we should talk about the `Player` entity, although it is not part of the main chain, it’s not less important than any entity in the chain.
@@ -58,19 +58,19 @@ Now that the basic structure is set and we understand the main containers, we sh
 
 ## How SDK works
 
-In order to effectively control the SDK it is important to understand how it works behind the scenes. 
+To effectively control the SDK it is important to understand how it works behind the scenes. 
 
 ![plot](./img/getgud_schema.png)
 
-On the graph we show the high level idea of what happens when you call any of the SDK commands. The functionality of SDK can be divided into 3 main components which are completely separated from one another.
+In the graph, we show a high-level idea of what happens when you call any of the SDK commands. The functionality of SDK can be divided into 3 main components which are completely separated from one another.
 - Sending live Game Data (Actions, Reports, Chat for live Matches)
 - Send Reports for finished Games
 - Send Player Update events
 
 Each of those 3 components has a similar structure to what we showed on the graph. 
-When you call the command in Getgud sdk the command is then passed to the "Buffer" and one the Sender threads on the other side pick the command and accumulate it forming the JSON packets that will be at some time point sent to Getgud.
+When you call the command in Getgud SDK the command is then passed to the "Buffer" and one of the Sender threads on the other side picks the command and accumulates it forming the JSON packets that will be at some time point sent to Getgud.
 
-Sending live Game Data is much more consuming process then Sending Reports and Players, there will be not many these events you will send to us, unlike sending live Game Data. With live Game Data you will send us THOUSANDS of updates per tick. That is why we allow to spawn more than 1 sender only for sending Live Game data, you will see this reflected in the config file.
+Sending live Game Data is a much more consuming process than Sending Reports and Players, there will be not many events you will send to us, unlike sending live Game Data. With live Game Data, you will send us THOUSANDS of updates per tick. That is why we allow to spawn more than 1 sender only for sending Live Game data, you will see this reflected in the config file.
 
 ## Getting Started
 
@@ -123,46 +123,46 @@ Make sure to adjust the values in the configuration file according to your appli
 ### Description of the Config fields
 
 #### General API connection fields
-- `streamGameURL`: The link to Getgud API which will be used to send actions, chat and reports for live matches.
+- `streamGameURL`: The link to Getgud API which will be used to send actions, chat, and reports for live matches.
 - `updatePlayersURL`: The link to Getgud API which will be used to send Player Update events to Getgud.
 - `sendReportsURL`: The link to Getgud API which will be used to send Reports for finished Matches.
-- `throttleCheckUrl`: The link to Getgud API which will be used to throttle check each match before sending it's actions, reports and chat to us. It is a way for Getgud to tell SDK if this match is interesting for it or not.
-- `logLevel`: Log level setting, in other words how much you want to log into the log file. 
+- `throttleCheckUrl`: The link to Getgud API which will be used to throttle check each match before sending its actions, reports, and chat to us. It is a way for Getgud to tell SDK if this match is interesting for it or not.
+- `logLevel`: Log level setting, in other words, how much you want to log into the log file. 
   - `FULL`: Log everything
   - `WARN_AND_ERROR`: Log all errors and warnings
   - `_ERROR`: Log all errors
   - `FATAL`: Log only fatal errors
 
 #### Offline Report Sending fields
-- `reportsMaxBufferSizeInBytes`: Maximum size of the reports buffer in bytes for sending reports for finished matches. If the size of report buffer fills to quick all the next reports you send to us will be disregarded. `(0, 10000000)` bytes.
+- `reportsMaxBufferSizeInBytes`: Maximum size of the reports buffer in bytes for sending reports for finished matches. If the size of Report buffer fills too quickly all the next reports you send to us will be disregarded. `(0, 10000000)` bytes.
 - `maxReportsToSendAtOnce`: Maximum number of reports for offline matches that will be sent to Getgud at once. `(0, 100)` reports.
 
 #### Player Update fields
-- `playersMaxBufferSizeInBytes`: Maximum size of the player updates buffer in bytes for sending player updates. If the size of player updates buffer fills to quick all the next player updates you send to us will be disregarded. `(0, 10000000)` bytes.
+- `playersMaxBufferSizeInBytes`: Maximum size of the player updates buffer in bytes for sending player updates. If the size of Player Update buffer fills too quickly all the next player updates you send to us will be disregarded. `(0, 10000000)` bytes.
 - `maxPlayerUpdatesToSendAtOnce`: Maximum number of player updates that will be sent to Getgud at once. `(0, 100)` reports.
 
 #### Live Games and Matches fields
 - `gameSenderSleepIntervalMilliseconds`: Sleep time of every Game Sender. `(0, 5000)` milliseconds.
 - `apiTimeoutMilliseconds`: API timeout in milliseconds, the maximum time the data transfer is allowed to complete. `(0, 20000)` milliseconds.
-- `apiWaitTimeMilliseconds`: The SDK will be trying to send the game packet for this time frame. So it will do K attempts to send packet, each attempt will have a timeout of `apiTimeoutMilliseconds`, and when it fails it will try to send again until wait time is over. `(0, 20000)` milliseconds.
+- `apiWaitTimeMilliseconds`: The SDK will be trying to send the game packet for this time frame. So it will do K attempts to send the packet, each attempt will have a timeout of `apiTimeoutMilliseconds`, and when it fails it will try to send again until the wait time is over. `(0, 20000)` milliseconds.
 - `packetMaxSizeInBytes`: Maximum size of a game packet in bytes to send to Getgud. `(0, 2000000)` bytes.
-- `actionsBufferMaxSizeInBytes`: Maximum size of the actions buffer in bytes. We use action buffer to transfer actions from GetGudSdk to one of the Game Senders. `(500, 100000000)` bytes.
+- `actionsBufferMaxSizeInBytes`: Maximum size of the actions buffer in bytes. We use Action Buffer to transfer actions from GetGudSdk to one of the Game Senders. `(500, 100000000)` bytes.
 - `gameContainerMaxSizeInBytes`: Maximum size of the game container in bytes. We use Game Container to transfer metadata of Games and Matches to one of the Game Senders. `(500, 500000000)` bytes.
 - `maxGames`: Maximum number of live Games allowed at once. `(1, 100)` games.
 - `maxMatchesPerGame`: Maximum number of live Matches per live Game. `(1, 100)` matches.
 - `minPacketSizeForSendingInBytes`: Minimum size of a packet required for sending to Getgud in bytes. `(500, 1500000)` bytes.
-- `packetTimeoutInMilliseconds`: If a live Game is not getting any action in this time frame, the game packet to Getgud will be sent even though its size is less then `minPacketSizeForSendingInBytes`. `(500, 10000)` milliseconds.
+- `packetTimeoutInMilliseconds`: If a live Game is not getting any action in this time frame, the game packet to Getgud will be sent even though its size is less than `minPacketSizeForSendingInBytes`. `(500, 10000)` milliseconds.
 - `gameCloseGraceAfterMarkEndInMilliseconds`: Grace period in milliseconds after marking a game as ended before closing it. This is done to accumulate some actions which may still not be in the game packet. `(0, 200000)` milliseconds.
-- `liveGameTimeoutInMilliseconds`: If the live game didn't receive any actions for this time in millliseconds we will close it. `(0, 300000)` milliseconds.
-- `hyperModeFeatureEnabled`: Flag to enable or disable the hypermode feature. Hyper mode allows to spawn more than 1 Game Sender threads in case Action Buffer or Game Container become too large. `true, false`
+- `liveGameTimeoutInMilliseconds`: If the live game didn't receive any actions for this time in milliseconds we will close it. `(0, 300000)` milliseconds.
+- `hyperModeFeatureEnabled`: Flag to enable or disable the hypermode feature. Hyper mode allows spawning more than 1 Game Sender thread in case the Action Buffer or Game Container becomes too large. `true, false`
 - `hyperModeMaxThreads`: Maximum number of threads allowed in hypermode. In other words how many Game Senders can we have active. `(1, 20)` threads.
-- `hyperModeAtBufferPercentage`: Percentage of buffer usage to trigger hypermode. If action buffer or game container usage is larger then this %, SDK will start spawning extra threads. `(10, 90)` %.
+- `hyperModeAtBufferPercentage`: Percentage of buffer usage to trigger hypermode. If action buffer or game container usage is larger than this %, SDK will start spawning extra threads. `(10, 90)` %.
 - `hyperModeUpperPercentageBound`: Upper percentage bound for buffer usage in hypermode, at this % usage SDK will have `hyperModeMaxThreads` activated. `(30, 90)` %.
-- `hyperModeThreadCreationStaggerMilliseconds`: Time interval between creation of consecutive threads (Game senders) in hypermode in milliseconds. `(0, 10000)` milliseconds.
+- `hyperModeThreadCreationStaggerMilliseconds`: Time interval between the creation of consecutive threads (Game senders) in hypermode in milliseconds. `(0, 10000)` milliseconds.
 
 ## Logging
 
-SDK will log all its actions depending on what `logLevel` you set up in the config file. You should also set up env variable `LOG_FILE_PATH` with the path to file where SDK will log data, otherwise the logging will not work.
+SDK will log all its actions depending on what `logLevel` you set up in the config file. You should also set up env variable `LOG_FILE_PATH` with the path to the file where SDK will log data, otherwise, the logging will not work.
 
 ## Usage
 
@@ -176,7 +176,7 @@ Before using the GetGud SDK, you must initialize it:
 GetGudSdk::Init();
 ```
 
-This sets up internal components, such as memory management, network connections, loads config file, starts Logger and prepares the SDK for use.
+This sets up internal components, such as memory management, and network connections, loads config file, starts Logger, and prepares the SDK for use.
 
 ### Starting Games and Matches
 
@@ -198,7 +198,7 @@ This will start a new live Game which will accumulate live Matches and once has 
 
 #### StartGame(serverName, gameMode)
 
-You can also start a live Game using environment variables `TITLE_ID` and `PRIVATE_KEY`, in this case you do not have to specify `titleId` and `privateKey` as function arguments:
+You can also start a live Game using environment variables `TITLE_ID` and `PRIVATE_KEY`, in this case, you do not have to specify `titleId` and `privateKey` as function arguments:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
@@ -213,16 +213,16 @@ To start a new match for an existing game, call `StartMatch()`:
 std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 ```
 
-When you start a new live Match you get a `matchGuid`, you will need to use it when you add Actions, Chat Data and Report Data to this live Match.
+When you start a new live Match you get a `matchGuid`, you will need to use it when you add Actions, Chat Data, and Report Data to this live Match.
 
-A live Match is where you are going to accumulate actions, chat data and reports for this live Match entity. Remember a single live Game will have one or more live Matches, each match will contain it's own actions, chat and reports.
+A live Match is where you are going to accumulate actions, chat data, and reports for this live Match entity. Remember a single live Game will have one or more live Matches, each match will contain its actions, chat, and reports.
 
 You do not have to Stop the match manually, this is done for you automatically when you `MarkEndGame`
 
 
 ### Adding Actions to live Match
 
-When the live Match is started, you can add Actions, Chat Data and Reports to this match. There are 6 Action types you can add to the Match. We call them the primal 6 actions. Let's dive into each Action Type.
+When the live Match is started, you can add Actions, Chat Data, and Reports to this match. There are 6 Action types you can add to the Match. We call them the primal 6 actions. Let's dive into each Action Type.
 
 #### Spawn Action
 
@@ -257,7 +257,7 @@ The `SpawnActionData` uses the following parameters:
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened.
 * `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars.
 * `characterGuid` - guid of the character from your game, max length is 36 chars.
-* `position` - X,Y,Z coordinates of player at the moment of action.
+* `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 #### Position Action
@@ -288,12 +288,12 @@ The `PositionActionData` uses the following parameters:
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened
 * `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars
-* `position` - X,Y,Z coordinates of player at the moment of action.
+* `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 #### Attack Action
 
-To add a Attack Action to a match, use the `SendAttackAction` function. An Attack action is any attempt to attack, for example: fire shot, throwing granade, or any other action that may result in damage. Though Attack action is not bound to damaging anyone, it is an attempt to cause Damage, not the Damage itself.
+To add a Attack Action to a match, use the `SendAttackAction` function. An Attack action is any attempt to attack, for example, firing a shot, throwing a grenade, or any other action that may result in damage. Though Attack action is not bound to damage anyone, it is an attempt to cause Damage, not the Damage itself.
 
 ```cpp
 bool SendAttackAction(std::string matchGuid,
@@ -321,7 +321,7 @@ The `AttackActionData` uses the following parameters:
 
 #### Damage Action
 
-To add a Damage Action to a match, use the `SendDamageAction` function. A Damage action is an attack which caused damage to the victim player. Damage can be caused not only by player but by the environment too. If the Damage is caused by the environment you can specify this in a playerGuid.
+To add a Damage Action to a match, use the `SendDamageAction` function. A Damage action is an attack that caused damage to the victim player. Damage can be caused not only by the player but by the environment too. If the Damage is caused by the environment you can specify this in a playerGuid.
 
 ```cpp
 bool SendDamageAction(std::string matchGuid,
@@ -555,18 +555,18 @@ GetGudSdk::SendInMatchReport(reportInfo);
 ```
 
 Here is the description of each report field:
-- `MatchGuid`: guid of the live Match you are sending report for
-- `ReportedTimeEpoch`: epoch time in milliseconds of when report was sent
+- `MatchGuid`: guid of the live Match you are sending a report for
+- `ReportedTimeEpoch`: epoch time in milliseconds of when the report was sent
 - `ReporterName`: Name of the entity that created the report
 - `ReporterType`: Id of the entity type that created the report, it could be "anticheat", "in-match report" and others
-- `ReporterSubType`:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat and others"
-- `SuggestedToxicityScore`: 0-100 toxicty score, in other words how much do you suspect the player
+- `ReporterSubType`:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat, and others"
+- `SuggestedToxicityScore`: 0-100 toxicity score, in other words, how much do you suspect the player
 - `SuspectedPlayerGuid`: guid of the suspected player 
-- `TbType`:: Id of the toxic behavior type, for example Aimbot
-- `TbSubType`: Id of the toxic behavior subtype, for example Spinbot
+- `TbType`:: Id of the toxic behavior type, for example, Aimbot
+- `TbSubType`: Id of the toxic behavior subtype, for example, Spinbot
 - `TbTimeEpoch`: Epoch time in milliseconds when toxic behavior event happened
 
-Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud in order to determine the correct mapping to Ids
+Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids
 
 ### Ending Games and Matches
 
@@ -578,13 +578,13 @@ When the live Game ends, you should mark it as finished for Getgud. To mark a ga
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
 
-When the Game is marked as ended your Actions, Chat Data and Report Data for ANY of the Game's Matches will not be added anymore.
+When the Game is marked as ended your Actions, Chat Data, and Report Data for ANY of the Game's Matches will not be added anymore.
 
-`MarkEndGame` returns true/false depending if the Game was succesfully closed or not.
+`MarkEndGame` returns true/false depending if the Game was successfully closed or not.
 
 ### Sending Reports to finished Matches
 
-If the Match and its corresponding Game finished you still can send a report to the Match. 
+If the Match and its corresponding Game are finished you still can send a report to the Match. 
 
 Here is an example of how you can do this:
 
@@ -610,7 +610,7 @@ GetGudSdk::SendReports(
 );
 ```
 
-Here we use a deque of reports to which we add reports and then send to Getgud. You can also use SendReports function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
+Here we use a deque of reports to which we add reports and then send them to Getgud. You can also use SendReports function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
 ```cpp
 GetGudSdk::SendReports(
@@ -638,7 +638,7 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
 );
 ```
 
-As you see similary to SendReports we use a deque of PlayerInfo objects to send it to Getgud SDK.
+As you see similarly to SendReports we use a deque of PlayerInfo objects to send it to Getgud SDK.
 
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
@@ -647,7 +647,7 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(players);
 ```
 
 Here is the description of each player field:
-- `PlayerGuid`: Guid of the player, identifies this player in every title Game, is unique for the title.
+- `PlayerGuid`: Guid of the player, identifies this player in every title Game, and is unique for the title.
 - `PlayerNickname`: Nickname of the player
 - `PlayerEmail`: Email of the player 
 - `PlayerRank`: Integer rank of the player 
