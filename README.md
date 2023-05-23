@@ -357,7 +357,7 @@ In addition to the specific action functions mentioned earlier, you can also add
 
 #### SendActions (Batch)
 
-To add a batch of actions to a match, use the `SendActions()` function:
+To add a batch of actions to a match, use the `SendActions` function. This may contain any amount of the actions from our primal 6.
 
 ```cpp
 bool SendActions(std::deque<BaseActionData*> actions);
@@ -365,9 +365,85 @@ bool SendActions(std::deque<BaseActionData*> actions);
 
 This function accepts a deque of actions, where `BaseActionData` type actions can be any of the primal 6 actions (Spawn, Position, Attack, Damage, Heal, or Death actions). This method is useful when you want to send multiple actions at once.
 
+Here is how you can create all 6 of the primal action types:
+
+* Spawn Action:
+```cpp
+GetGudSdk::BaseActionData* action = new GetGudSdk::SpawnActionData(
+                     std::string matchGuid,
+                     long long actionTimeEpoch,
+                     std::string playerGuid,
+                     std::string characterGuid,
+                     int teamId,
+                     float initialHealth,
+                     PositionF position,
+                     RotationF rotation
+);
+```
+
+* Position Action:
+```cpp
+GetGudSdk::BaseActionData* action = new GetGudSdk::PositionActionData(
+                     std::string matchGuid,
+                     long long actionTimeEpoch,
+                     std::string playerGuid,
+                     PositionF position,
+                     RotationF rotation
+);
+```
+
+* Attack Action:
+```cpp
+GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
+                     std::string matchGuid,
+                     long long actionTimeEpoch,
+                     std::string playerGuid,
+);
+```
+
+* Damage Action:
+```cpp
+GetGudSdk::BaseActionData* action = new GetGudSdk::DamageActionData(
+                     std::string matchGuid,
+                     long long actionTimeEpoch,
+                     std::string playerGuid,
+                     std::string victimPlayerGuid,
+                     float damageDone,
+                     std::string weaponGuid
+);
+```
+
+* Heal Action:
+```cpp
+GetGudSdk::BaseActionData* action = new GetGudSdk::HealActionData(
+                     std::string matchGuid,
+                     long long actionTimeEpoch,
+                     std::string playerGuid,
+                     float healthGained
+);
+```
+
+* Death Action:
+```cpp
+GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(
+                     std::string matchGuid,
+                     long long actionTimeEpoch,
+                     std::string playerGuid
+);
+```
+
+Once you have created the amount of actions you need push them to `std::deque<BaseActionData*>` and pass it to `SendActions`
+
+Here is an example:
+```cpp
+bool isActionsSent = SendActions(actions);
+```
+
+
+
 #### SendAction (Single)
 
-To add a single action to a match, use the `SendAction()` function:
+To add a single action to a match, use the `SendAction` function the same way we used `SendActions` but this time pass a single action you created directly.
 
 ```cpp
 bool SendAction(BaseActionData* action);
@@ -375,7 +451,15 @@ bool SendAction(BaseActionData* action);
 
 This function accepts any action derived from `BaseActionData` type, including any of the primal 6 actions. This method is useful when you want to send a single action without specifying its type explicitly.
 
-These alternative methods provide more flexibility in the way you add actions to live Matches.
+Here is an example:
+```cpp
+GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
+                     std::string matchGuid,
+                     long long actionTimeEpoch,
+                     std::string playerGuid,
+);
+bool isActionsSent = SendAction(action);
+```
 
 
 ### Adding Chat and Reports to live Match
