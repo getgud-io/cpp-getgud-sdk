@@ -3,10 +3,11 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
 
 ## Table of Contents
 
-- Getting Started
-- Configuration
-- Logging
-- Usage
+- 1. Getting Started
+- 2. Configuration
+    - Description of the Config fields
+- 3. Logging
+- 4. Usage
     - Initialization
     - Starting Games and Matches
     - Adding Actions, Reports and Chat data to live Matches
@@ -14,9 +15,9 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
     - Sending Reports to past Matches
     - Sending Player Updates
     - Disposing the SDK
-- Examples
+- 5. Examples
 
-## Getting Started
+## 1. Getting Started
 
 To use the GetGud SDK, you will need to include the required header file:
 
@@ -27,16 +28,9 @@ To use the GetGud SDK, you will need to include the required header file:
 Ensure you compile and link with the provided GetGud library.
 
 
-## Configuration
+## 2. Configuration
 
-To load the SDK configuration, create a `Config` object:
-
-```cpp
-GetGudSdk::Config sdkConfig;
-```
-
-You can set configuration settings by calling the `LoadSettings()` method on the `Config` object. Configuration settings can be loaded from a file. The file should have keys corresponding to the required settings.
-
+The Config file is loaded during `GetGudSdk::Init();` operation using `CONFIG_PATH` env variable.
 Example configuration file:
 
 ```json
@@ -70,20 +64,14 @@ Example configuration file:
 }
 ```
 
-### Loading the config file
-
-To load a configuration file, set the `CONFIG_PATH` environment variable to the path and filename of the configuration file, respectively.
-
-```cpp
-sdkConfig.LoadSettings();
-```
-
 Please note that SDK will not function properly if `CONFIG_PATH` is not set.
 Make sure to adjust the values in the configuration file according to your application's requirements.
 
-## Logging
+### Description of the Config fields
 
-## Usage
+## 3. Logging
+
+## 4. Usage
 
 ### Initialization
 
@@ -192,6 +180,6 @@ GetGudSdk::Dispose();
 
 This will release any resources or connections being used by the SDK.
 
-## Example
+## 5. Example
 
 An example of how to use the GetGud C++ SDK can be found in the [test](../test) directory.
