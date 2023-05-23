@@ -4,6 +4,7 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
 ## Table of Contents
 
 - Prerequsites
+- How SDK works
 - Getting Started
 - Configuration
     - Description of the Config fields
@@ -55,6 +56,21 @@ Now that the basic structure is set and we understand the main containers, we sh
 
 * A `TB Type` (AKA toxic behavior type) and its child `TB Subtype` are entities that represent toxic behaviors (cheating as well as griefing). For example, one TB-Type might represent the Aimbot cheat and one of its child TB-Subtypes would be Spinbot. You are going to use this when sending your `Reports` to Getgud.
 
+## How SDK works
+
+In order to effectively control the SDK it is important to understand how it works behind the scenes. 
+
+![plot](./img/getgud_schema.png)
+
+On the graph we show the high level idea of what happens when you call any of the SDK commands. The functionality of SDK can be divided into 3 main components which are completely separated from one another.
+- Sending live Game Data (Actions, Reports, Chat for live Matches)
+- Send Reports for finished Games
+- Send Player Update events
+
+Each of those 3 components has a similar structure to what we showed on the graph. 
+When you call the command in Getgud sdk the command is then passed to the "Buffer" and one the Sender threads on the other side pick the command and accumulate it forming the JSON packets that will be at some time point sent to Getgud.
+
+Sending live Game Data is much more consuming process then Sending Reports and Players, there will be not many these events you will send to us, unlike sending live Game Data. With live Game Data you will send us THOUSANDS of updates per tick. That is why we allow to spawn more than 1 sender only for sending Live Game data, you will see this reflected in the config file.
 
 ## Getting Started
 
