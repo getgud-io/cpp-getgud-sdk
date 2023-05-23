@@ -1,19 +1,20 @@
-# GetGud C++ SDK Documentation 
-
-This C++ SDK allows you to integrate the GetGud platform in your application for toxicity protection and analytics purposes.
+# GetGud C++ SDK
+Getgud C++ SDK allows you to integrate the GetGud platform in your application. With the help of Getgud SDK you will be able to send your Game and Match data to Getgud as well as reports and players metadata.
 
 ## Table of Contents
 
 - Getting Started
 - Configuration
+- Logging
 - Usage
     - Initialization
-    - Starting and Ending Games
-    - Match Management
-    - Sending Reports and Actions
-    - Updating Players
+    - Starting Games and Matches
+    - Adding Actions, Reports and Chat data to live Matches
+    - Ending Games and Matches
+    - Sending Reports to past Matches
+    - Sending Player Updates
     - Disposing the SDK
-- Example
+- Examples
 
 ## Getting Started
 
@@ -38,7 +39,7 @@ You can set configuration settings by calling the `LoadSettings()` method on the
 
 Example configuration file:
 
-```ini
+```json
 {
   "streamGameURL": "test_link",
   "updatePlayersURL": "test_link",
@@ -71,15 +72,16 @@ Example configuration file:
 
 ### Loading the config file
 
-To load a configuration file, set the `CONFIG_PATH` and `CONFIG_FILENAME` environment variables to the path and filename of the configuration file, respectively.
+To load a configuration file, set the `CONFIG_PATH` environment variable to the path and filename of the configuration file, respectively.
 
 ```cpp
 sdkConfig.LoadSettings();
 ```
 
-Please note that error logs will be generated if `CONFIG_PATH` and `CONFIG_FILENAME` are not set.
-
+Please note that SDK will not function properly if `CONFIG_PATH` is not set.
 Make sure to adjust the values in the configuration file according to your application's requirements.
+
+## Logging
 
 ## Usage
 
@@ -95,7 +97,7 @@ GetGudSdk::Init();
 
 This sets up internal components, such as memory management and network connections, and prepares the SDK for use.
 
-### Starting and Ending Games
+### Starting Games and Matches
 
 #### StartGame(titleId, privateKey, serverName, gameMode)
 
@@ -125,13 +127,23 @@ When the game ends, you should mark it as finished for Getgud. To mark a game as
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
 
-### Match Management
+### Adding Actions, Reports and Chat data to live Matches
 
 To start a new match for an existing game, call `StartMatch()`:
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 ```
+
+### Ending Games and Matches
+
+### Sending Reports to past Matches
+
+### Sending Reports to past Matches
+
+### Sending Player Updates
+
+### Disposing the SDK
 
 ### Sending Reports and Actions
 
