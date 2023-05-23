@@ -499,16 +499,18 @@ GetGudSdk::SendInMatchReport(reportInfo);
 ```
 
 Here is the description of each report field:
-- MatchGuid: 
-- ReportedTimeEpoch:
-- ReporterName: 
-- ReporterSubType:
-- ReporterType: 
-- SuggestedToxicityScore: 
-- SuspectedPlayerGuid:
-- TbSubType: 
-- TbTimeEpoch: 
-- TbType:
+- MatchGuid: guid of the live Match you are sending report for
+- ReportedTimeEpoch: epoch time in milliseconds of when report was sent
+- ReporterName: Name of the entity that created the report
+- ReporterType: Id of the entity type that created the report, it could be "anticheat", "in-match report" and others
+- ReporterSubType:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat and others"
+- SuggestedToxicityScore: 0-100 toxicty score, in other words how much do you suspect the player
+- SuspectedPlayerGuid: guid of the suspected player 
+- TbType:: Id of the toxic behavior type, for example Aimbot
+- TbSubType: Id of the toxic behavior subtype, for example Spinbot
+- TbTimeEpoch: Epoch time in milliseconds when toxic behavior event happened
+
+Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud in order to determine the correct mapping to Ids
 
 ### Ending Games and Matches
 
