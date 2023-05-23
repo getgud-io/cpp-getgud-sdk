@@ -124,7 +124,7 @@ Make sure to adjust the values in the configuration file according to your appli
 
 #### General API connection fields
 - `streamGameURL`: The link to Getgud API which will be used to send actions, chat and reports for live matches.
-- `updatePlayersURL`: The link to Getgud API which will be used to send Player Update events to Getgud
+- `updatePlayersURL`: The link to Getgud API which will be used to send Player Update events to Getgud.
 - `sendReportsURL`: The link to Getgud API which will be used to send Reports for finished Matches.
 - `throttleCheckUrl`: The link to Getgud API which will be used to throttle check each match before sending it's actions, reports and chat to us. It is a way for Getgud to tell SDK if this match is interesting for it or not.
 - `logLevel`: Log level setting, in other words how much you want to log into the log file. 
@@ -134,31 +134,31 @@ Make sure to adjust the values in the configuration file according to your appli
   - `FATAL`: Log only fatal errors
 
 #### Offline Report Sending fields
-- `reportsMaxBufferSizeInBytes`: Maximum size of the reports buffer in bytes for sending reports for finished matches. If the size of report buffer fills to quick all the next reports you send to us will be disregarded.
-- `maxReportsToSendAtOnce`: Maximum number of reports for offline matches that will be sent to Getgud at once.
+- `reportsMaxBufferSizeInBytes`: Maximum size of the reports buffer in bytes for sending reports for finished matches. If the size of report buffer fills to quick all the next reports you send to us will be disregarded. Min Config Value: `0`, Max Config Value: `10000000`
+- `maxReportsToSendAtOnce`: Maximum number of reports for offline matches that will be sent to Getgud at once. Min Config Value: `0`, Max Config Value: `100`
 
 #### Player Update fields
-- `playersMaxBufferSizeInBytes`: Maximum size of the player updates buffer in bytes for sending player updates. If the size of player updates buffer fills to quick all the next player updates you send to us will be disregarded.
-- `maxPlayerUpdatesToSendAtOnce`: Maximum number of player updates that will be sent to Getgud at once.
+- `playersMaxBufferSizeInBytes`: Maximum size of the player updates buffer in bytes for sending player updates. If the size of player updates buffer fills to quick all the next player updates you send to us will be disregarded. Min Config Value: `0`, Max Config Value: `10000000`
+- `maxPlayerUpdatesToSendAtOnce`: Maximum number of player updates that will be sent to Getgud at once. Min Config Value: `0`, Max Config Value: `100`
 
 #### Live Games and Matches fields
-- `gameSenderSleepIntervalMilliseconds`: Sleep time of every Game Sender
-- `apiTimeoutMilliseconds`: API timeout in milliseconds, the maximum time the data transfer is allowed to complete.
-- `apiWaitTimeMilliseconds`: The SDK will be trying to send the game packet for this time frame. So it will do K attempts to send packet, each attempt will have a timeout of `apiTimeoutMilliseconds`, and when it fails it will try to send again until wait time is over.
-- `packetMaxSizeInBytes`: Maximum size of a game packet in bytes to send to Getgud.
-- `actionsBufferMaxSizeInBytes`: Maximum size of the actions buffer in bytes. We use action buffer to transfer actions from GetGudSdk to one of the Game Senders
-- `gameContainerMaxSizeInBytes`: Maximum size of the game container in bytes. We use Game Container to transfer metadata of Games and Matches to one of the Game Senders
-- `maxGames`: Maximum number of live Games allowed at once.
-- `maxMatchesPerGame`: Maximum number of live Matches per live Game.
-- `minPacketSizeForSendingInBytes`: Minimum size of a packet required for sending to Getgud in bytes.
-- `packetTimeoutInMilliseconds`: If a live Game is not getting any action in this time frame, the game packet to Getgud will be sent even though its size is less then `minPacketSizeForSendingInBytes`.
-- `gameCloseGraceAfterMarkEndInMilliseconds`: Grace period in milliseconds after marking a game as ended before closing it. This is done to accumulate some actions which may still not be in the game packet.
-- `liveGameTimeoutInMilliseconds`: If the live game didn't receive any actions for this time in millliseconds we will close it.
+- `gameSenderSleepIntervalMilliseconds`: Sleep time of every Game Sender. Min Config Value: `0`, Max Config Value: `5000`
+- `apiTimeoutMilliseconds`: API timeout in milliseconds, the maximum time the data transfer is allowed to complete. Min Config Value: `0`, Max Config Value: `20000`
+- `apiWaitTimeMilliseconds`: The SDK will be trying to send the game packet for this time frame. So it will do K attempts to send packet, each attempt will have a timeout of `apiTimeoutMilliseconds`, and when it fails it will try to send again until wait time is over. Min Config Value: `0`, Max Config Value: `20000`
+- `packetMaxSizeInBytes`: Maximum size of a game packet in bytes to send to Getgud. Min Config Value: `0`, Max Config Value: `2000000`
+- `actionsBufferMaxSizeInBytes`: Maximum size of the actions buffer in bytes. We use action buffer to transfer actions from GetGudSdk to one of the Game Senders. Min Config Value: `500`, Max Config Value: `100000000`
+- `gameContainerMaxSizeInBytes`: Maximum size of the game container in bytes. We use Game Container to transfer metadata of Games and Matches to one of the Game Senders. Min Config Value: `500`, Max Config Value: `500000000`
+- `maxGames`: Maximum number of live Games allowed at once. Min Config Value: `1`, Max Config Value: `100`
+- `maxMatchesPerGame`: Maximum number of live Matches per live Game. Min Config Value: `1`, Max Config Value: `100`
+- `minPacketSizeForSendingInBytes`: Minimum size of a packet required for sending to Getgud in bytes. Min Config Value: `500`, Max Config Value: `1500000`
+- `packetTimeoutInMilliseconds`: If a live Game is not getting any action in this time frame, the game packet to Getgud will be sent even though its size is less then `minPacketSizeForSendingInBytes`. Min Config Value: `500`, Max Config Value: `10000`
+- `gameCloseGraceAfterMarkEndInMilliseconds`: Grace period in milliseconds after marking a game as ended before closing it. This is done to accumulate some actions which may still not be in the game packet. Min Config Value: `0`, Max Config Value: `200000`
+- `liveGameTimeoutInMilliseconds`: If the live game didn't receive any actions for this time in millliseconds we will close it. Min Config Value: `0`, Max Config Value: `300000`
 - `hyperModeFeatureEnabled`: Flag to enable or disable the hypermode feature. Hyper mode allows to spawn more than 1 Game Sender threads in case Action Buffer or Game Container become too large.
-- `hyperModeMaxThreads`: Maximum number of threads allowed in hypermode. In other words how many Game Senders can we have active.
-- `hyperModeAtBufferPercentage`: Percentage of buffer usage to trigger hypermode. If action buffer or game container usage is larger then this %, SDK will start spawning extra threads.
-- `hyperModeUpperPercentageBound`: Upper percentage bound for buffer usage in hypermode, at this % usage SDK will have `hyperModeMaxThreads` activated
-- `hyperModeThreadCreationStaggerMilliseconds`: Time interval between creation of consecutive threads (Game senders) in hypermode in milliseconds.
+- `hyperModeMaxThreads`: Maximum number of threads allowed in hypermode. In other words how many Game Senders can we have active. Min Config Value: `1`, Max Config Value: `20`
+- `hyperModeAtBufferPercentage`: Percentage of buffer usage to trigger hypermode. If action buffer or game container usage is larger then this %, SDK will start spawning extra threads. Min Config Value: `10`, Max Config Value: `90`
+- `hyperModeUpperPercentageBound`: Upper percentage bound for buffer usage in hypermode, at this % usage SDK will have `hyperModeMaxThreads` activated. Min Config Value: `30`, Max Config Value: `90`
+- `hyperModeThreadCreationStaggerMilliseconds`: Time interval between creation of consecutive threads (Game senders) in hypermode in milliseconds. Min Config Value: `0`, Max Config Value: `10000`
 
 ## Logging
 
