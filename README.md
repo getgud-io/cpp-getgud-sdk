@@ -499,16 +499,16 @@ GetGudSdk::SendInMatchReport(reportInfo);
 ```
 
 Here is the description of each report field:
-- MatchGuid: guid of the live Match you are sending report for
-- ReportedTimeEpoch: epoch time in milliseconds of when report was sent
-- ReporterName: Name of the entity that created the report
-- ReporterType: Id of the entity type that created the report, it could be "anticheat", "in-match report" and others
-- ReporterSubType:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat and others"
-- SuggestedToxicityScore: 0-100 toxicty score, in other words how much do you suspect the player
-- SuspectedPlayerGuid: guid of the suspected player 
-- TbType:: Id of the toxic behavior type, for example Aimbot
-- TbSubType: Id of the toxic behavior subtype, for example Spinbot
-- TbTimeEpoch: Epoch time in milliseconds when toxic behavior event happened
+- `MatchGuid`: guid of the live Match you are sending report for
+- `ReportedTimeEpoch`: epoch time in milliseconds of when report was sent
+- `ReporterName`: Name of the entity that created the report
+- `ReporterType`: Id of the entity type that created the report, it could be "anticheat", "in-match report" and others
+- `ReporterSubType`:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat and others"
+- `SuggestedToxicityScore`: 0-100 toxicty score, in other words how much do you suspect the player
+- `SuspectedPlayerGuid`: guid of the suspected player 
+- `TbType`:: Id of the toxic behavior type, for example Aimbot
+- `TbSubType`: Id of the toxic behavior subtype, for example Spinbot
+- `TbTimeEpoch`: Epoch time in milliseconds when toxic behavior event happened
 
 Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud in order to determine the correct mapping to Ids
 
@@ -528,19 +528,74 @@ When the Game is marked as ended your Actions, Chat Data and Report Data for ANY
 
 ### Sending Reports to finished Matches
 
-### Sending Player Updates
+If the Match and its corresponding Game finished you still can send a report to the Match. 
 
-To update player information outside a live match, call `UpdatePlayers()` with the appropriate parameters:
+Here is an example of how you can do this:
 
 ```cpp
-bool playersUpdated = GetGudSdk::UpdatePlayers(titleId, privateKey, players);
+std::deque<GetGudSdk::ReportInfo> reports;
+GetGudSdk::ReportInfo reportInfo;
+reportInfo.MatchGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
+reportInfo.ReportedTimeEpoch = 1684059337532;
+reportInfo.ReporterName = "player1";
+reportInfo.ReporterSubType = 0;
+reportInfo.ReporterType = 0;
+reportInfo.SuggestedToxicityScore = 100;
+reportInfo.SuspectedPlayerGuid = "player1";
+reportInfo.TbSubType = 0;
+reportInfo.TbTimeEpoch = 1684059337532;
+reportInfo.TbType = 0;
+reports.push_back(reportInfo);
+
+GetGudSdk::SendReports(
+  28, // titleId
+  "6a3d1732-8f72-12eb-bdef-56d89392f384",  // privateKey
+  reports
+);
 ```
 
-You can use the `UpdatePlayers()` function with environment variables for `titleId` and `privateKey`:
+Here we use a deque of reports to which we add reports and then send to Getgud. You can also use SendReports function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
+
+```cpp
+GetGudSdk::SendReports(
+  reports
+);
+```
+
+### Sending Player Updates
+
+To update player information outside a live Match, you can call `UpdatePlayers` like this:
+
+```cpp
+std::deque<GetGudSdk::PlayerInfo> playerInfos;
+GetGudSdk::PlayerInfo playerInfo;
+playerInfo.PlayerGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
+playerInfo.PlayerNickname = "test";
+playerInfo.PlayerEmail = "test@test.com";
+playerInfo.PlayerRank = 10;
+playerInfo.PlayerJoinDateEpoch = 1684059337532;
+playerInfos.push_back(playerInfo);
+bool playersUpdated = GetGudSdk::UpdatePlayers(
+  28, //titleId
+  "6a3d1732-8f72-12eb-bdef-56d89392f384", // privateKet
+  players
+);
+```
+
+As you see similary to SendReports we use a deque of PlayerInfo objects to send it to Getgud SDK.
+
+You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
 ```cpp
 bool playersUpdated = GetGudSdk::UpdatePlayers(players);
 ```
+
+Here is the description of each player field:
+- `PlayerGuid`: Guid of the player, identifies this player in every title Game, is unique for the title.
+- `PlayerNickname`: Nickname of the player
+- `PlayerEmail`: Email of the player 
+- `PlayerRank`: Integer rank of the player 
+- `PlayerJoinDateEpoch`:  Date when the player joined
 
 ### Disposing the SDK
 
@@ -552,6 +607,6 @@ GetGudSdk::Dispose();
 
 This will release any resources or connections being used by the SDK.
 
-## Example
+## Examples
 
 An example of how to use the GetGud C++ SDK can be found in the [test](../test) directory.
