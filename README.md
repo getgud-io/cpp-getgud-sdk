@@ -4,21 +4,21 @@ Getgud C++ SDK allows you to integrate the GetGud platform in your application. 
 ## Table of Contents
 
 - [Prerequsites](https://github.com/getgud-io/cpp-getgud-sdk#prerequisites)
-- How SDK works
-- Getting Started
-- Configuration
-    - Description of the Config fields
-- Logging
-- Usage
-    - Initialization
-    - Starting Games and Matches
-    - Adding Actions to live Match
-    - Adding Chat messages and Reports to live Match
-    - Ending Games and Matches
-    - Adding Reports to past Matches
-    - Sending Player Updates
-    - Disposing the SDK
-- Examples
+- [How SDK works](https://github.com/getgud-io/cpp-getgud-sdk#how-sdk-works)
+- [Getting Started](https://github.com/getgud-io/cpp-getgud-sdk#getting-started)
+- [Configuration](https://github.com/getgud-io/cpp-getgud-sdk#configuration)
+    - [Description of the Config fields](https://github.com/getgud-io/cpp-getgud-sdk#description-of-the-config-fields)
+- [Logging](https://github.com/getgud-io/cpp-getgud-sdk#logging)
+- [Usage](https://github.com/getgud-io/cpp-getgud-sdk#usage)
+    - [Initialization](https://github.com/getgud-io/cpp-getgud-sdk#initialization)
+    - [Starting Games and Matches](https://github.com/getgud-io/cpp-getgud-sdk#starting-games-and-matches)
+    - [Adding Actions to live Match](https://github.com/getgud-io/cpp-getgud-sdk#adding-actions-to-live-match)
+    - [Adding Chat messages and Reports to live Match](https://github.com/getgud-io/cpp-getgud-sdk#adding-chat-and-reports-to-live-match)
+    - [Ending Games and Matches](https://github.com/getgud-io/cpp-getgud-sdk#ending-games-and-matches)
+    - [Sending Reports to past Matches](https://github.com/getgud-io/cpp-getgud-sdk#sending-reports-to-finished-matches)
+    - [Sending Player Updates](https://github.com/getgud-io/cpp-getgud-sdk#sending-player-updates)
+    - [Disposing the SDK](https://github.com/getgud-io/cpp-getgud-sdk#disposing-the-sdk)
+- [Examples](https://github.com/getgud-io/cpp-getgud-sdk#examples)
 
 ## Prerequisites
 
