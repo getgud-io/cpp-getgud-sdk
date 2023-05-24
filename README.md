@@ -80,7 +80,16 @@ To use the GetGud SDK, you will need to include the required header file:
 #include "../include/GetGudSdk.h"
 ```
 
-First things first you need to start a Game, you can do it like this:
+First things first, you need to Init SDK in your code. To do this type:
+
+```cpp
+GetGudSdk::Init();
+```
+
+This will load default Config and set up SDK for working. Note that in order
+to customize how SDK works you will need to use your own `config.json` file.
+
+Next you need to start a Game, you can do it like this:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(
@@ -144,6 +153,11 @@ Great, it is time to stop the Game now. To do it just specify what Game you need
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
 
+In the end, just dispose SDK when you do not need it anymore.
+
+```cpp
+GetGudSdk::Dispose();
+```
 
 ## Configuration
 
