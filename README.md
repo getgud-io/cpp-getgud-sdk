@@ -547,7 +547,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::DamageActionData(
 );
 ```
 
-* Heal Action:
+**Heal Action:**
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::HealActionData(
                      std::string matchGuid,
