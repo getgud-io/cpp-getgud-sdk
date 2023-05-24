@@ -24,15 +24,10 @@ Getgud C++ SDK allows you to integrate the GetGud platform into your application
 
 To start, let’s talk about the logical structure of how Getgud is built.
 
-`Client->1->N->Title->1->N->Game->1->N->Match`
+`Title->1->N->Game->1->N->Match`
 
-* The top entity in Getgud is `Client`, it represents a company that uses Getgud. Client is the main container for all other entities. it holds all the company’s PII, permissions, status, and as with all entities, an integer primary key, in this case – `clientId`.
 
-  ```
-  Example of client: Valve 
-  ```
-
-* The second top container is `Title`, which represents a literal game’s title, a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
+* The top container in Getgud is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
 
   ```
   Example of Title: CS:GO 
