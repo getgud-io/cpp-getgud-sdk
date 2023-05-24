@@ -80,6 +80,70 @@ To use the GetGud SDK, you will need to include the required header file:
 #include "../include/GetGudSdk.h"
 ```
 
+First things first you need to start a Game, you can do it like this:
+
+```cpp
+std::string gameGuid = GetGudSdk::StartGame(
+  1, //titleId
+  "6a3d1732-8f72-12eb-bdef-56d89392f384", //privateKey
+  "us-west-1", // serverGuid
+  "deathmatch" // gameMode
+);
+```
+
+Once the Game is started you get the Game guid and you can start the Match using your gameGuid.
+
+```cpp
+std::string matchGuid = GetGudSdk::StartMatch(
+  gameGuid, 
+  "deathmatch", // matchMode
+  "de-dust" // mapName
+);
+```
+
+When you start the Match you get its matchGuid. Now you can push Action, Chat Data and Reports to the Match. Let's push a Spawn Action to this match.
+
+```cpp
+bool isActionSent = GetGudSdk::SendSpawnAction(
+          matchGuid,
+          1684059337532,  // actionTimeEpoch
+          "player_1", // playerGuid
+          "ttr", // characterGuid
+          GetGudSdk::PositionF{1, 2, 3}, // position
+          GetGudSdk::RotationF{10, 20} // rotation
+);
+```
+
+Let's also create one more match and push a report.
+
+```cpp
+std::string matchGuid = GetGudSdk::StartMatch(
+  gameGuid, 
+  "deathmatch", // matchMode
+  "de-mirage" // mapName
+);
+
+GetGudSdk::ReportInfo reportInfo;
+reportInfo.MatchGuid = "6a3d1732-8f72-12eb-bdef-56d89392f384";
+reportInfo.ReportedTimeEpoch = 1684059337532;
+reportInfo.ReporterName = "player1";
+reportInfo.ReporterSubType = 0;
+reportInfo.ReporterType = 0;
+reportInfo.SuggestedToxicityScore = 100;
+reportInfo.SuspectedPlayerGuid = "player1";
+reportInfo.TbSubType = 0;
+reportInfo.TbTimeEpoch = 1684059337532;
+reportInfo.TbType = 0;
+GetGudSdk::SendInMatchReport(reportInfo);
+
+```
+
+Great, it is time to stop the Game now. To do it just specify what Game you need to stop, all the Matches inside this Game will be stopped automatically.
+
+```cpp
+bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
+```
+
 
 ## Configuration
 
@@ -321,7 +385,7 @@ The `AttackActionData` uses the following parameters:
 
 #### Damage Action
 
-To add a Damage Action to a match, use the `SendDamageAction` function. A Damage action is an attack that caused damage to the victim player. Damage can be caused not only by the player but by the environment too. If the Damage is caused by the environment you can specify this in a playerGuid.
+To add a Damage Action to a match, use the `SendDamageAction` function. A Damage action is an attack that caused damage to the victim player. Damage can be caused not only by the player but by the environment too. If the Damage is caused by the environment you can specify this in a playerGuid using predefined variable `GetGudSdk::Values::Environment`
 
 ```cpp
 bool SendDamageAction(std::string matchGuid,
