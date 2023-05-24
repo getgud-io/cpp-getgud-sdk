@@ -86,10 +86,9 @@ First things first, you need to Init SDK in your code. To do this type:
 GetGudSdk::Init();
 ```
 
-This will load default Config and set up SDK for working. Note that in order
-to customize how SDK works you will need to use your own `config.json` file.
+This will load the default Config and set up SDK for working. Note that to customize how SDK works you will need to use your own `config.json` file.
 
-Next you need to start a Game, you can do it like this:
+Next, you need to start a Game, you can do it like this:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(
@@ -110,7 +109,7 @@ std::string matchGuid = GetGudSdk::StartMatch(
 );
 ```
 
-When you start the Match you get its matchGuid. Now you can push Action, Chat Data and Reports to the Match. Let's push a Spawn Action to this match.
+When you start the Match you get its matchGuid. Now you can push Action, Chat Data, and Reports to the Match. Let's push a Spawn Action to this match.
 
 ```cpp
 bool isActionSent = GetGudSdk::SendSpawnAction(
