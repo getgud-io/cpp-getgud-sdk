@@ -501,7 +501,7 @@ This function accepts a deque of actions, where `BaseActionData` type actions ca
 
 Here is how you can create all 6 of the primal action types:
 
-* Spawn Action:
+**Spawn Action:**
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::SpawnActionData(
                      std::string matchGuid,
@@ -515,7 +515,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::SpawnActionData(
 );
 ```
 
-* Position Action:
+**Position Action:**
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::PositionActionData(
                      std::string matchGuid,
@@ -526,7 +526,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::PositionActionData(
 );
 ```
 
-* Attack Action:
+**Attack Action:**
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
                      std::string matchGuid,
@@ -535,7 +535,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
 );
 ```
 
-* Damage Action:
+**Damage Action:**
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::DamageActionData(
                      std::string matchGuid,
@@ -557,7 +557,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::HealActionData(
 );
 ```
 
-* Death Action:
+**Death Action:**
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(
                      std::string matchGuid,
