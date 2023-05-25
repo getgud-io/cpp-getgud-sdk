@@ -39,7 +39,7 @@ To start, let’s talk about the logical structure of how Getgud is built.
   An example of a Game is a CS:GO Game which has 30 macthes (AKA rounds) inside it.
   ```
 
-* `Match` represents the actual play time; the game stream we collect and analyze.  Like `Game`, `Match` also has a GUID `matchGuid` and like `Game`, `Match` holds a bunch of statistics about itself.
+* `Match` represents the actual play time that is streamed for analysis.  Like `Game`, `Match` also has a GUID which will be provided to you once you start a new match
 
   ```
   An example of a Match is a single CS:GO round inside the game.
