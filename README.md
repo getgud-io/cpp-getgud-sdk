@@ -36,7 +36,7 @@ To start, let’s talk about the logical structure of how Getgud is built.
 * Next up is `Game`, it is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is given to you when the `Game` starts. 
 
   ```
-  An example of a Game is a CS:GO Game which has 30 rounds inside it.
+  An example of a Game is a CS:GO Game which has 30 macthes (AKA rounds) inside it.
   ```
 
 * `Match` represents the actual play time; the game stream we collect and analyze.  Like `Game`, `Match` also has a GUID `matchGuid` and like `Game`, `Match` holds a bunch of statistics about itself.
