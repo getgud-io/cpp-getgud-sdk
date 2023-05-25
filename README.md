@@ -27,7 +27,7 @@ To start, let’s talk about the logical structure of how Getgud is built.
 `Title->1->N->Game->1->N->Match`
 
 
-* The top container in Getgud is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
+* The top container in Getgud's SDK is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
 
   ```
   Example of Title: CS:GO 
