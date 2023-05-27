@@ -1,5 +1,5 @@
 # GetGud C++ SDK
-Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once integrated, you will be able to stream your matches to Getgud's cloud, as well as to send reports and update players data.
+Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once integrated, you will be able to stream your matches to Getgud's cloud, as well as to send reports and update player's data.
 
 ## Table of Contents
 
@@ -158,32 +158,36 @@ Example of configuration file `config.json`:
 
 ```json
 {
-  "streamGameURL": "test_link",
-  "updatePlayersURL": "test_link",
-  "sendReportsURL": "test_link",
-  "throttleCheckUrl": "test_link",
+  "streamGameURL": "http://44.204.78.198:3000/api/game_stream/send_game_packet",
+  "updatePlayersURL": "http://44.204.78.198:3000/api/player_data/update_players",
+  "sendReportsURL": "http://44.204.78.198:3000/api/report_data/send_reports",
+  "throttleCheckUrl": "http://44.204.78.198:3000/api/game_stream/throttle_match_check",
+  "logToFile": true,
+  "logFileSizeInBytes": 2000000,
+  "circularLogFile": true,
   "reportsMaxBufferSizeInBytes": 100000,
   "maxReportsToSendAtOnce": 100,
+  "maxChatMessagesToSendAtOnce": 100,
   "playersMaxBufferSizeInBytes": 100000,
   "maxPlayerUpdatesToSendAtOnce": 100,
   "gameSenderSleepIntervalMilliseconds": 100,
-  "apiTimeoutMilliseconds": 400,
+  "apiTimeoutMilliseconds": 600,
   "apiWaitTimeMilliseconds": 100,
   "packetMaxSizeInBytes": 2000000,
-  "actionsBufferMaxSizeInBytes": 1000000,
+  "actionsBufferMaxSizeInBytes": 10000000,
   "gameContainerMaxSizeInBytes": 50000000,
-  "maxGames": 50,
-  "maxMatchesPerGame": 50,
+  "maxGames": 25,
+  "maxMatchesPerGame": 10,
   "minPacketSizeForSendingInBytes": 1000000,
-  "packetTimeoutInMilliseconds": 1000,
-  "gameCloseGraceAfterMarkEndInMilliseconds": 1000,
-  "liveGameTimeoutInMilliseconds": 20000,
+  "packetTimeoutInMilliseconds": 100000,
+  "gameCloseGraceAfterMarkEndInMilliseconds": 20000,
+  "liveGameTimeoutInMilliseconds": 100000,
   "hyperModeFeatureEnabled": true,
   "hyperModeMaxThreads": 10,
   "hyperModeAtBufferPercentage": 10,
   "hyperModeUpperPercentageBound": 90,
   "hyperModeThreadCreationStaggerMilliseconds": 100,
-  "logLevel": "WARN_AND_ERROR"
+  "logLevel": "FULL"
 }
 ```
 
@@ -203,6 +207,10 @@ Make sure to adjust the values in the configuration file according to your appli
   - `_ERROR`: Log all errors
   - `FATAL`: Log only fatal errors
 
+- `logToFile`: Weather SDK should write the logs to file or no
+- `logFileSizeInBytes`: Maximum log file size in bytes `(0, 100000000)` bytes
+- `circularLogFile`: In case this is set to true and the log file size exceeds the limit the SDK will start removing the first lines of the file to push more logs to the end of the log file
+
 #### Offline Report Sending fields
 - `reportsMaxBufferSizeInBytes`: Maximum size of the reports buffer in bytes for sending reports for finished matches. If the size of Report buffer fills too quickly all the next reports you send to us will be disregarded. `(0, 10000000)` bytes.
 - `maxReportsToSendAtOnce`: Maximum number of reports for offline matches that will be sent to Getgud at once. `(0, 100)` reports.
@@ -210,6 +218,10 @@ Make sure to adjust the values in the configuration file according to your appli
 #### Player Update fields
 - `playersMaxBufferSizeInBytes`: Maximum size of the player updates buffer in bytes for sending player updates. If the size of Player Update buffer fills too quickly all the next player updates you send to us will be disregarded. `(0, 10000000)` bytes.
 - `maxPlayerUpdatesToSendAtOnce`: Maximum number of player updates that will be sent to Getgud at once. `(0, 100)` reports.
+
+#### Chat messages
+- `maxChatMessagesToSendAtOnce`: Maximum amount of chat messages to send at once with game packet. `(0,100)` chat messages.
+
 
 #### Live Games and Matches fields
 - `gameSenderSleepIntervalMilliseconds`: Sleep time of every Game Sender. `(0, 5000)` milliseconds.
@@ -233,6 +245,15 @@ Make sure to adjust the values in the configuration file according to your appli
 ## Logging
 
 SDK will log all its actions depending on what `logLevel` you set up in the config file. You should also set up env variable `LOG_FILE_PATH` with the path to the file where SDK will log data, otherwise, the logging will not work.
+
+In order to control how you log use the following config parameters:
+```json
+"logToFile": true,
+"logFileSizeInBytes": 2000000,
+"circularLogFile": true,
+```
+
+This will allow you to control how much you log and what to do if the log file exceeds the memory limit.
 
 ## Usage
 
