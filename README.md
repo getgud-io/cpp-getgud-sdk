@@ -729,6 +729,7 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
 );
 ```
 
+Note, that `PlayerNickname`, `PlayerEmail`, `PlayerRank` and `PlayerJoinDateEpoch` fields are optional!
 As you see similarly to SendReports we use a deque of PlayerInfo objects to send it to Getgud SDK.
 
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
@@ -739,10 +740,10 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(players);
 
 Here is the description of each player field:
 - `PlayerGuid`: Guid of the player, identifies this player in every title Game, and is unique for the title.
-- `PlayerNickname`: Nickname of the player
-- `PlayerEmail`: Email of the player 
-- `PlayerRank`: Integer rank of the player 
-- `PlayerJoinDateEpoch`:  Date when the player joined
+- `PlayerNickname`: Nickname of the player (optional field)
+- `PlayerEmail`: Email of the player (optional field)
+- `PlayerRank`: Integer rank of the player (optional field)
+- `PlayerJoinDateEpoch`:  Date when the player joined (optional field)
 
 ### Disposing the SDK
 
