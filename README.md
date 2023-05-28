@@ -647,15 +647,15 @@ GetGudSdk::SendInMatchReport(reportInfo);
 
 Here is the description of each report field. Note that most of the fields are optional!
 - `MatchGuid`: guid of the live Match you are sending a report for
-- `ReportedTimeEpoch`: epoch time in milliseconds of when the report was sent (optional field)
-- `ReporterName`: Name of the entity that created the report (optional field)
-- `ReporterType`: Id of the entity type that created the report, it could be "anticheat", "in-match report" and others (optional field)
-- `ReporterSubType`:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat, and others" (optional field)
-- `SuggestedToxicityScore`: 0-100 toxicity score, in other words, how much do you suspect the player (optional field)
-- `SuspectedPlayerGuid`: guid of the suspected player (optional field)
-- `TbType`:: Id of the toxic behavior type, for example, Aimbot (optional field)
-- `TbSubType`: Id of the toxic behavior subtype, for example, Spinbot (optional field)
-- `TbTimeEpoch`: Epoch time in milliseconds when toxic behavior event happened (optional field)
+- `ReportedTimeEpoch`: epoch time in milliseconds of when the report was sent **(optional field)**
+- `ReporterName`: Name of the entity that created the report **(optional field)**
+- `ReporterType`: Id of the entity type that created the report, it could be "anticheat", "in-match report" and others **(optional field)**
+- `ReporterSubType`:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat, and others" **(optional field)**
+- `SuggestedToxicityScore`: 0-100 toxicity score, in other words, how much do you suspect the player **(optional field)**
+- `SuspectedPlayerGuid`: guid of the suspected player **(optional field)**
+- `TbType`:: Id of the toxic behavior type, for example, Aimbot **(optional field)**
+- `TbSubType`: Id of the toxic behavior subtype, for example, Spinbot **(optional field)**
+- `TbTimeEpoch`: Epoch time in milliseconds when toxic behavior event happened **(optional field)**
 
 Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids
 
@@ -740,10 +740,10 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(players);
 
 Here is the description of each player field:
 - `PlayerGuid`: Guid of the player, identifies this player in every title Game, and is unique for the title.
-- `PlayerNickname`: Nickname of the player (optional field)
-- `PlayerEmail`: Email of the player (optional field)
-- `PlayerRank`: Integer rank of the player (optional field)
-- `PlayerJoinDateEpoch`:  Date when the player joined (optional field)
+- `PlayerNickname`: Nickname of the player **(optional field)**
+- `PlayerEmail`: Email of the player **(optional field)**
+- `PlayerRank`: Integer rank of the player **(optional field)**
+- `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 
 ### Disposing the SDK
 
