@@ -59,7 +59,7 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
   ```
   
 
-## What Does The SDK Help You accomplish
+## What Does The SDK Allow You to Do
 
 - Send live Game data (In-match Actions, In-match Reports, In-match Chat messages)
 - Send Reports about historical matches
@@ -69,7 +69,7 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
 
 ## Getting Started
 
-Get Your Title Id and Private Key from Getgud.io and insert them to the following environment variables:
+insert your Title Id and Private Key that you recieved from Getgud.io to the following environment variables:
 
 ```
 EXAMPLE
@@ -78,7 +78,7 @@ EXAMPLE
 For multiple title support on the same machine - Link. (TODO)
 
 
-To use the GetGud SDK, include the required header file:
+To use the GetGud SDK, you'll need to include the follwing header file:
 
 ```cpp
 #include "../include/GetGudSdk.h"
@@ -94,8 +94,6 @@ Next, start a Game:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(
-  1, //titleId
-  "6a3d1732-8f72-12eb-bdef-56d89392f384", //privateKey
   "us-west-1", // serverGuid
   "deathmatch" // gameMode
 );
@@ -107,7 +105,7 @@ Now you can start a Match:
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(
   gameGuid, 
-  "deathmatch", // matchMode
+  "Knives-only", // matchMode
   "de-dust" // mapName
 );
 ```
@@ -162,6 +160,9 @@ To start a new game, call `StartGame()` with the following parameters, yhis will
 std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
 ```
 
+`StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
+
+
 #### StartGame(titleId, privateKey, serverName, gameMode)
 
 You can also call the `StartGame()` method with titleId and privateKey that you pass (supporting multiple titles on the same machine)
@@ -176,7 +177,6 @@ std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gam
 
 
 
-`StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
 
 
 
