@@ -57,21 +57,37 @@ To start, let’s talk about the logical structure of how the Getgud SDK is buil
   An example of a Match is a single CS:GO round inside the game.
   ```
 
+
+## What Does The SDK Helps You Do
+
+- Send live Game data (In-match Actions, In-match Reports, In-match Chat messages)
+- Send Reports about historical matches
+- Send or update player information 
+
 ## Getting Started
 
-To use the GetGud SDK, you will need to include the required header file:
+Get Your Title Id and Private Key from Getgud.io and insert them to the following environment variables:
+
+```
+EXAMPLE
+```
+
+For multiple title support on the same machine - Link. (TODO)
+
+
+To use the GetGud SDK, include the required header file:
 
 ```cpp
 #include "../include/GetGudSdk.h"
 ```
 
-Init SDK in your code. To do this type:
+First, initialize the SDK:
 
 ```cpp
 GetGudSdk::Init();
 ```
 
-Next, you need to start a Game, you can do this like so:
+Next, start a Game:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(
@@ -82,7 +98,8 @@ std::string gameGuid = GetGudSdk::StartGame(
 );
 ```
 
-Once the Game is started, you'll recieve the Game's guid. Now you can start a Match using, your game's guid.
+Once the Game starts, you'll recieve the Game's guid.
+Now you can start a Match:
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(
@@ -92,83 +109,51 @@ std::string matchGuid = GetGudSdk::StartMatch(
 );
 ```
 
-Similar to Game, when you start the Match you recieve its guid. Now you can push Actions, Chats and Reports to the Match.
-Let's push a vector of Spawn Action to this match:
+Once you have a match, you can send Actions to it.
+Let's create a vector of Actions and send it to the match:
 
 ```cpp
-bool isActionSent = GetGudSdk::SendSpawnAction(
-          matchGuid,
-          1684059337532,  // actionTimeEpoch
-          "player_1", // playerGuid
-          "ttr", // characterGuid
-          GetGudSdk::PositionF{1, 2, 3}, // position
-          GetGudSdk::RotationF{10, 20} // rotation
+EXAMPLE
 );
 ```
 
-Let's also create one more match and push a report:
+Let's send a report to this match:
 
 ```cpp
-std::string matchGuid = GetGudSdk::StartMatch(
-  gameGuid, 
-  "deathmatch", // matchMode
-  "de-mirage" // mapName
+EXAMPLE
 );
-
-GetGudSdk::ReportInfo reportInfo;
-reportInfo.MatchGuid = "6a3d1732-8f72-12eb-bdef-56d89392f384";
-reportInfo.ReportedTimeEpoch = 1684059337532;
-reportInfo.ReporterName = "player1";
-reportInfo.ReporterSubType = 0;
-reportInfo.ReporterType = 0;
-reportInfo.SuggestedToxicityScore = 100;
-reportInfo.SuspectedPlayerGuid = "player1";
-reportInfo.TbSubType = 0;
-reportInfo.TbTimeEpoch = 1684059337532;
-reportInfo.TbType = 0;
-GetGudSdk::SendInMatchReport(reportInfo);
-
 ```
 
-Great, it is time to stop the Game now. To do it just specify what Game you need to stop, all the Matches inside this Game will be stopped automatically.
+Let's also send a chat massge to this match:
+
+```cpp
+EXAMPLE
+);
+```
+
+To indicate when a Game ends, use the below code. All Game's Matches will close as well.
 
 ```cpp
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
 
-In the end, just dispose SDK when you do not need it anymore.
+Closing and disposing the SDK:
 
 ```cpp
 GetGudSdk::Dispose();
 ```
 
-## How Does The SDK work
-
-To effectively control the SDK it is important to understand how it works. 
-
-![plot](./img/getgud_schema.png)
-
-In the image, you can see a high-level diagram of what happens when you call any of the SDK commands. The functionality of SDK can be divided into 3 main components which are completely separated from one another.
-- Sending live Game Data (Actions, Reports, Chat for live Matches)
-- Send Reports for finished Games
-- Send Player Update events
-
-Each of those 3 components has a similar structure to what we showed on the graph. 
-When you call the command in Getgud SDK the command is then passed to the "Buffer" and one of the Sender threads on the other side picks the command and accumulates it forming the JSON packets that will be at some time point sent to Getgud.
-
-Sending live Game Data is a much more consuming process than Sending Reports and Players, there will be not many events you will send to us, unlike sending live Game Data. With live Game Data, you will send us THOUSANDS of updates per tick. That is why we allow to spawn more than 1 sender only for sending Live Game data, you will see this reflected in the config file.
-
 ## Configuration
 
-The Config JSON file is loaded during `GetGudSdk::Init();` operation using `CONFIG_PATH` env variable.
+The default Config file is loaded during `GetGudSdk::Init();` and is located in the same dir as the SDK files.
 Example of configuration file `config.json`:
 
 ```json
 {
-  "streamGameURL": "http://44.204.78.198:3000/api/game_stream/send_game_packet",
-  "updatePlayersURL": "http://44.204.78.198:3000/api/player_data/update_players",
-  "sendReportsURL": "http://44.204.78.198:3000/api/report_data/send_reports",
-  "throttleCheckUrl": "http://44.204.78.198:3000/api/game_stream/throttle_match_check",
+  "throttleCheckUrl": "https://www.getgud.io/api/game_stream/throttle_match_check",
+  "streamGameURL": "https://www.getgud.io/api/game_stream/send_game_packet",
+  "updatePlayersURL": "https://www.getgud.io/api/player_data/update_players",
+  "sendReportsURL": "https://www.getgud.io/api/report_data/send_reports",
   "logToFile": true,
   "logFileSizeInBytes": 2000000,
   "circularLogFile": true,
