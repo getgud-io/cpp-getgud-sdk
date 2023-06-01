@@ -530,14 +530,14 @@ reportInfo.TbType = 0;
 GetGudSdk::SendInMatchReport(reportInfo);
 ```
 
-Here is the description of each report field. Note that most of the fields are optional!
+Here is the description of each report field. Note that all of the fields are optional exept suspected player guid.
 - `MatchGuid`: guid of the live Match you are sending a report for
 - `ReportedTimeEpoch`: epoch time in milliseconds of when the report was sent **(optional field)**
 - `ReporterName`: Name of the entity that created the report **(optional field)**
 - `ReporterType`: Id of the entity type that created the report, it could be "anticheat", "in-match report" and others **(optional field)**
 - `ReporterSubType`:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat, and others" **(optional field)**
 - `SuggestedToxicityScore`: 0-100 toxicity score, in other words, how much do you suspect the player **(optional field)**
-- `SuspectedPlayerGuid`: guid of the suspected player **(optional field)**
+- `SuspectedPlayerGuid`: guid of the suspected player **(Mandatory field)**
 - `TbType`:: Id of the toxic behavior type, for example, Aimbot **(optional field)**
 - `TbSubType`: Id of the toxic behavior subtype, for example, Spinbot **(optional field)**
 - `TbTimeEpoch`: Epoch time in milliseconds when toxic behavior event happened **(optional field)**
