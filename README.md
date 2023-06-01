@@ -24,7 +24,7 @@ Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once 
 
 To start, let’s talk about the logical structure of how the Getgud SDK is built.
 
-**Titles->1->N->Games->1->N->Matches**
+**Titles->1->N->Games->1->N->Matches->1->N->Actions**
 
 
 * The top container in Getgud's SDK is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
@@ -45,7 +45,17 @@ To start, let’s talk about the logical structure of how the Getgud SDK is buil
   An example of a Match is a single CS:GO round inside the game.
   ```
 
-* The `Player` entity represents a literal player and holds the player’s stats. A Player belongs to a `Title`. Player also has a GUID that is provided by you (your player id).
+* `Action` represents an in-match activity. We collect six different action types which are common to all first person shooter gamnes, these are:
+1. Spwan - Whenever a player appears or reappears in-match, on the map.
+2. Death - A death of a player.
+3. Position - player position change (including looking direction). 124 tick sensitive.
+4. Attack - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword.
+5. Damage - Whenever a player recieves any damage, from players or the environment.
+6. Heal - Whenever is player is healed.
+
+  ```
+  An example of a Match is a single CS:GO round inside the game.
+  ```
 
 ## Getting Started
 
@@ -55,15 +65,13 @@ To use the GetGud SDK, you will need to include the required header file:
 #include "../include/GetGudSdk.h"
 ```
 
-First things first, you need to Init SDK in your code. To do this type:
+Init SDK in your code. To do this type:
 
 ```cpp
 GetGudSdk::Init();
 ```
 
-This will load the default Config and set up SDK for working. Note that to customize how SDK works you will need to use your own `config.json` file.
-
-Next, you need to start a Game, you can do it like this:
+Next, you need to start a Game, you can do this like so:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(
@@ -74,7 +82,7 @@ std::string gameGuid = GetGudSdk::StartGame(
 );
 ```
 
-Once the Game is started you get the Game guid and you can start the Match using your gameGuid.
+Once the Game is started, you'll recieve the Game's guid. Now you can start a Match using, your game's guid.
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(
@@ -84,7 +92,8 @@ std::string matchGuid = GetGudSdk::StartMatch(
 );
 ```
 
-When you start the Match you get its matchGuid. Now you can push Action, Chat Data, and Reports to the Match. Let's push a Spawn Action to this match.
+Similar to Game, when you start the Match you recieve its guid. Now you can push Actions, Chats and Reports to the Match.
+Let's push a vector of Spawn Action to this match:
 
 ```cpp
 bool isActionSent = GetGudSdk::SendSpawnAction(
@@ -97,7 +106,7 @@ bool isActionSent = GetGudSdk::SendSpawnAction(
 );
 ```
 
-Let's also create one more match and push a report.
+Let's also create one more match and push a report:
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(
