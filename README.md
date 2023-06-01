@@ -22,9 +22,9 @@ Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once 
 
 ## Prerequisites
 
-To start, let’s talk about the logical structure of how Getgud is built.
+To start, let’s talk about the logical structure of how the Getgud SDK is built.
 
-`Title->1->N->Game->1->N->Match`
+**Titles->1->N->Games->1->N->Matches**
 
 
 * The top container in Getgud's SDK is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
@@ -33,37 +33,19 @@ To start, let’s talk about the logical structure of how Getgud is built.
   Example of Title: CS:GO 
   ```
 
-* Next up is `Game`, it is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is given to you when the `Game` starts. 
+* Next up is `Game`, it is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is provided to you once the `Game` starts. 
 
   ```
   An example of a Game is a CS:GO Game which has 30 macthes (AKA rounds) inside it.
   ```
 
-* `Match` represents the actual play time that is streamed for analysis.  Like `Game`, `Match` also has a GUID which will be provided to you once you start a new match
+* `Match` represents the actual play time that is streamed for analysis.  Like `Game`, `Match` also has a GUID which will be provided to you once you start a new match.
 
   ```
   An example of a Match is a single CS:GO round inside the game.
   ```
 
-* The `Player` entity represents a literal player and holds the player’s PII. A Player belongs to a `Title`. Player also has a GUID, which should be unique to the `titleId`. A player has an interesting relationship with `Match`, it’s a N:N relationship; a match holds many players and a player plays in many matches.
-
-* A `TB Type` (AKA toxic behavior type) and its child `TB Subtype` are entities that represent toxic behaviors (cheating as well as griefing). For example, one TB-Type might represent the Aimbot cheat and one of its child TB-Subtypes would be Spinbot. You are going to use this when sending your `Reports` to Getgud.
-
-## How SDK works
-
-To effectively control the SDK it is important to understand how it works behind the scenes. 
-
-![plot](./img/getgud_schema.png)
-
-In the graph, we show a high-level idea of what happens when you call any of the SDK commands. The functionality of SDK can be divided into 3 main components which are completely separated from one another.
-- Sending live Game Data (Actions, Reports, Chat for live Matches)
-- Send Reports for finished Games
-- Send Player Update events
-
-Each of those 3 components has a similar structure to what we showed on the graph. 
-When you call the command in Getgud SDK the command is then passed to the "Buffer" and one of the Sender threads on the other side picks the command and accumulates it forming the JSON packets that will be at some time point sent to Getgud.
-
-Sending live Game Data is a much more consuming process than Sending Reports and Players, there will be not many events you will send to us, unlike sending live Game Data. With live Game Data, you will send us THOUSANDS of updates per tick. That is why we allow to spawn more than 1 sender only for sending Live Game data, you will see this reflected in the config file.
+* The `Player` entity represents a literal player and holds the player’s stats. A Player belongs to a `Title`. Player also has a GUID that is provided by you (your player id).
 
 ## Getting Started
 
@@ -150,6 +132,22 @@ In the end, just dispose SDK when you do not need it anymore.
 ```cpp
 GetGudSdk::Dispose();
 ```
+
+## How Does The SDK work
+
+To effectively control the SDK it is important to understand how it works. 
+
+![plot](./img/getgud_schema.png)
+
+In the image, you can see a high-level diagram of what happens when you call any of the SDK commands. The functionality of SDK can be divided into 3 main components which are completely separated from one another.
+- Sending live Game Data (Actions, Reports, Chat for live Matches)
+- Send Reports for finished Games
+- Send Player Update events
+
+Each of those 3 components has a similar structure to what we showed on the graph. 
+When you call the command in Getgud SDK the command is then passed to the "Buffer" and one of the Sender threads on the other side picks the command and accumulates it forming the JSON packets that will be at some time point sent to Getgud.
+
+Sending live Game Data is a much more consuming process than Sending Reports and Players, there will be not many events you will send to us, unlike sending live Game Data. With live Game Data, you will send us THOUSANDS of updates per tick. That is why we allow to spawn more than 1 sender only for sending Live Game data, you will see this reflected in the config file.
 
 ## Configuration
 
