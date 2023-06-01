@@ -59,7 +59,7 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
   ```
   
 
-## What Does The SDK Allow You to Do
+## What Does The SDK Allows You to Do
 
 - Send live Game data (In-match Actions, In-match Reports, In-match Chat messages)
 - Send Reports about historical matches
