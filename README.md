@@ -22,10 +22,9 @@ Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once 
 
 ## Prerequisites
 
-To start, let’s talk about the logical structure of how the Getgud SDK is built.
+To start, we should understand the basic hierarchy Getgud's SDK uses to understand an FPS: 
 
 **Titles->1->N->Games->1->N->Matches->1->N->Actions**
-
 
 * The top container in Getgud's SDK is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
 
