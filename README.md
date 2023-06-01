@@ -150,8 +150,6 @@ GetGudSdk::Dispose();
 
 ### StartGame(serverName, gameMode)
 
-Start a new live Game which contains live Matches.
-
 To start a new game, call `StartGame()` with the following parameters, yhis will use the environment variables `TITLE_ID` and `PRIVATE_KEY`.
 * serverName : the name of your game server - String, Alphanumeric, 36 chars max.
 * gameMode : the mode of your the game - String, Alphanumeric, 36 chars max.
@@ -180,9 +178,9 @@ std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gam
 
 
 
-#### StartMatch(gameGuid, matchMode, mapName)
+### StartMatch(gameGuid, matchMode, mapName)
 
-When you have started a live Game you can now attach Matches to the Game.
+Once you have started a live Game, you can now attach Matches to that Game.
 To start a new match for an existing game, call `StartMatch()`:
 
 ```cpp
@@ -191,14 +189,9 @@ std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 
 When you start a new live Match you get a `matchGuid`, you will need to use it when you add Actions, Chat Data, and Report Data to this live Match.
 
-A live Match is where you are going to accumulate actions, chat data, and reports for this live Match entity. Remember a single live Game will have one or more live Matches, each match will contain its actions, chat, and reports.
-
-You do not have to Stop the match manually, this is done for you automatically when you `MarkEndGame`
-
-
 ### Adding Actions to live Match
 
-When the live Match is started, you can add Actions, Chat Data, and Reports to this match. There are 6 Action types you can add to the Match. We call them the primal 6 actions. Let's dive into each Action Type.
+When the live Match starts, you can add Actions, Chat Data, and Reports to it. There are 6 Action types you can add to the Match. We call them the primal 6. Let's dive into each Action Type.
 
 #### Spawn Action
 
@@ -230,9 +223,9 @@ bool isActionSent = GetGudSdk::SendSpawnAction(
 The `SpawnActionData` uses the following parameters:
 
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
-* `actionTimeEpoch` - epoch time in milliseconds when the action happened.
-* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars.
-* `characterGuid` - guid of the character from your game, max length is 36 chars.
+* `actionTimeEpoch` - epoch time in milliseconds of when the action happened.
+* `playerGuid` - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
+* `characterGuid` - guid of the spwaned character from your game, max length is 10 chars.
 * `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
@@ -263,13 +256,13 @@ The `PositionActionData` uses the following parameters:
 
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened
-* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars
+* `playerGuid` - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
 * `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 #### Attack Action
 
-To add a Attack Action to a match, use the `SendAttackAction` function. An Attack action is any attempt to attack, for example, firing a shot, throwing a grenade, or any other action that may result in damage. Though Attack action is not bound to damage anyone, it is an attempt to cause Damage, not the Damage itself.
+To add a Attack Action to a match, use the `SendAttackAction` function. An Attack action is any attempt to attack, for example, firing a shot, swinging a sword, placing a bomb, throwing a grenade, or any other action that may result in damage, now or in the future. Note that the Attack action is not bound to damage, it is an attempt to cause Damage, not the Damage event itself.
 
 ```cpp
 bool SendAttackAction(std::string matchGuid,
@@ -292,12 +285,12 @@ The `AttackActionData` uses the following parameters:
 
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened
-* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars
+* `playerGuid` - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
 * `weaponGuid` - guid AKA name of the weapon attack was performed with, max length is 3 chars
 
 #### Damage Action
 
-To add a Damage Action to a match, use the `SendDamageAction` function. A Damage action is an attack that caused damage to the victim player. Damage can be caused not only by the player but by the environment too. If the Damage is caused by the environment you can specify this in a playerGuid using predefined variable `GetGudSdk::Values::Environment`
+To add a Damage Action to a match, use the `SendDamageAction` function. A Damage action is when a player if hit and loses health, both PVP and PVE. If the Damage is caused by the environment you can specify this in a playerGuid using a predefined variable `GetGudSdk::Values::Environment`
 
 ```cpp
 bool SendDamageAction(std::string matchGuid,
@@ -324,7 +317,7 @@ The `DamageActionData` uses the following parameters:
 
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened
-* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars. This can be marked as an environment
+* `playerGuid`  - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
 * `victimPlayerGuid` - guid AKA nickname of the player who is the victim of the Damage action, max length is 36 chars.
 * `damageDone` - How much damage was given
 * `weaponGuid` - guid AKA name of the weapon attack was performed with, max length is 3 chars
@@ -354,7 +347,7 @@ The `HealActionData` uses the following parameters:
 
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened.
-* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars.
+* `playerGuid`  - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
 * `healthGained` - How much health the player gained.
 
 #### Death Action
