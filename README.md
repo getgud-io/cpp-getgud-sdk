@@ -20,6 +20,8 @@ Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once 
     - [Disposing the SDK](https://github.com/getgud-io/cpp-getgud-sdk#disposing-the-sdk)
 - [Examples](https://github.com/getgud-io/cpp-getgud-sdk#examples)
 
+
+
 ## Prerequisites
 
 To start, we should understand the basic hierarchy Getgud's SDK uses to understand an FPS: 
@@ -55,13 +57,15 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
   ```
   An example of a Match is a single CS:GO round inside the game.
   ```
+  
 
-
-## What Does The SDK Helps You Do
+## What Does The SDK Help You accomplish
 
 - Send live Game data (In-match Actions, In-match Reports, In-match Chat messages)
 - Send Reports about historical matches
 - Send or update player information 
+
+
 
 ## Getting Started
 
@@ -142,149 +146,39 @@ Closing and disposing the SDK:
 GetGudSdk::Dispose();
 ```
 
-## Configuration
-
-The default Config file is loaded during `GetGudSdk::Init();` and is located in the same dir as the SDK files.
-Example of configuration file `config.json`:
-
-```json
-{
-  "throttleCheckUrl": "https://www.getgud.io/api/game_stream/throttle_match_check",
-  "streamGameURL": "https://www.getgud.io/api/game_stream/send_game_packet",
-  "updatePlayersURL": "https://www.getgud.io/api/player_data/update_players",
-  "sendReportsURL": "https://www.getgud.io/api/report_data/send_reports",
-  "logToFile": true,
-  "logFileSizeInBytes": 2000000,
-  "circularLogFile": true,
-  "reportsMaxBufferSizeInBytes": 100000,
-  "maxReportsToSendAtOnce": 100,
-  "maxChatMessagesToSendAtOnce": 100,
-  "playersMaxBufferSizeInBytes": 100000,
-  "maxPlayerUpdatesToSendAtOnce": 100,
-  "gameSenderSleepIntervalMilliseconds": 100,
-  "apiTimeoutMilliseconds": 600,
-  "apiWaitTimeMilliseconds": 100,
-  "packetMaxSizeInBytes": 2000000,
-  "actionsBufferMaxSizeInBytes": 10000000,
-  "gameContainerMaxSizeInBytes": 50000000,
-  "maxGames": 25,
-  "maxMatchesPerGame": 10,
-  "minPacketSizeForSendingInBytes": 1000000,
-  "packetTimeoutInMilliseconds": 100000,
-  "gameCloseGraceAfterMarkEndInMilliseconds": 20000,
-  "liveGameTimeoutInMilliseconds": 100000,
-  "hyperModeFeatureEnabled": true,
-  "hyperModeMaxThreads": 10,
-  "hyperModeAtBufferPercentage": 10,
-  "hyperModeUpperPercentageBound": 90,
-  "hyperModeThreadCreationStaggerMilliseconds": 100,
-  "logLevel": "FULL"
-}
-```
-
-Please note that SDK will not start if `CONFIG_PATH` is not set.
-Make sure to adjust the values in the configuration file according to your application's requirements.
-
-### Description of the Config fields
-
-#### General API connection fields
-- `streamGameURL`: The link to Getgud API which will be used to send actions, chat, and reports for live matches.
-- `updatePlayersURL`: The link to Getgud API which will be used to send Player Update events to Getgud.
-- `sendReportsURL`: The link to Getgud API which will be used to send Reports for finished Matches.
-- `throttleCheckUrl`: The link to Getgud API which will be used to throttle check each match before sending its actions, reports, and chat to us. It is a way for Getgud to tell SDK if this match is interesting for it or not.
-- `logLevel`: Log level setting, in other words, how much you want to log into the log file. 
-  - `FULL`: Log everything
-  - `WARN_AND_ERROR`: Log all errors and warnings
-  - `_ERROR`: Log all errors
-  - `FATAL`: Log only fatal errors
-
-- `logToFile`: Weather SDK should write the logs to file or no
-- `logFileSizeInBytes`: Maximum log file size in bytes `(0, 100000000)` bytes
-- `circularLogFile`: In case this is set to true and the log file size exceeds the limit the SDK will start removing the first lines of the file to push more logs to the end of the log file
-
-#### Offline Report Sending fields
-- `reportsMaxBufferSizeInBytes`: Maximum size of the reports buffer in bytes for sending reports for finished matches. If the size of Report buffer fills too quickly all the next reports you send to us will be disregarded. `(0, 10000000)` bytes.
-- `maxReportsToSendAtOnce`: Maximum number of reports for offline matches that will be sent to Getgud at once. `(0, 100)` reports.
-
-#### Player Update fields
-- `playersMaxBufferSizeInBytes`: Maximum size of the player updates buffer in bytes for sending player updates. If the size of Player Update buffer fills too quickly all the next player updates you send to us will be disregarded. `(0, 10000000)` bytes.
-- `maxPlayerUpdatesToSendAtOnce`: Maximum number of player updates that will be sent to Getgud at once. `(0, 100)` reports.
-
-#### Chat messages
-- `maxChatMessagesToSendAtOnce`: Maximum amount of chat messages to send at once with game packet. `(0,100)` chat messages.
 
 
-#### Live Games and Matches fields
-- `gameSenderSleepIntervalMilliseconds`: Sleep time of every Game Sender. `(0, 5000)` milliseconds.
-- `apiTimeoutMilliseconds`: API timeout in milliseconds, the maximum time the data transfer is allowed to complete. `(0, 20000)` milliseconds.
-- `apiWaitTimeMilliseconds`: The SDK will be trying to send the game packet for this time frame. So it will do K attempts to send the packet, each attempt will have a timeout of `apiTimeoutMilliseconds`, and when it fails it will try to send again until the wait time is over. `(0, 20000)` milliseconds.
-- `packetMaxSizeInBytes`: Maximum size of a game packet in bytes to send to Getgud. `(0, 2000000)` bytes.
-- `actionsBufferMaxSizeInBytes`: Maximum size of the actions buffer in bytes. We use Action Buffer to transfer actions from GetGudSdk to one of the Game Senders. `(500, 100000000)` bytes.
-- `gameContainerMaxSizeInBytes`: Maximum size of the game container in bytes. We use Game Container to transfer metadata of Games and Matches to one of the Game Senders. `(500, 500000000)` bytes.
-- `maxGames`: Maximum number of live Games allowed at once. `(1, 100)` games.
-- `maxMatchesPerGame`: Maximum number of live Matches per live Game. `(1, 100)` matches.
-- `minPacketSizeForSendingInBytes`: Minimum size of a packet required for sending to Getgud in bytes. `(500, 1500000)` bytes.
-- `packetTimeoutInMilliseconds`: If a live Game is not getting any action in this time frame, the game packet to Getgud will be sent even though its size is less than `minPacketSizeForSendingInBytes`. `(500, 100000)` milliseconds.
-- `gameCloseGraceAfterMarkEndInMilliseconds`: Grace period in milliseconds after marking a game as ended before closing it. This is done to accumulate some actions which may still not be in the game packet. `(0, 200000)` milliseconds.
-- `liveGameTimeoutInMilliseconds`: If the live game didn't receive any actions for this time in milliseconds we will close it. `(0, 300000)` milliseconds.
-- `hyperModeFeatureEnabled`: Flag to enable or disable the hypermode feature. Hyper mode allows spawning more than 1 Game Sender thread in case the Action Buffer or Game Container becomes too large. `true, false`
-- `hyperModeMaxThreads`: Maximum number of threads allowed in hypermode. In other words how many Game Senders can we have active. `(1, 20)` threads.
-- `hyperModeAtBufferPercentage`: Percentage of buffer usage to trigger hypermode. If action buffer or game container usage is larger than this %, SDK will start spawning extra threads. `(10, 90)` %.
-- `hyperModeUpperPercentageBound`: Upper percentage bound for buffer usage in hypermode, at this % usage SDK will have `hyperModeMaxThreads` activated. `(30, 90)` %.
-- `hyperModeThreadCreationStaggerMilliseconds`: Time interval between the creation of consecutive threads (Game senders) in hypermode in milliseconds. `(0, 10000)` milliseconds.
+## Methods Documentation
 
-## Logging
+### StartGame(serverName, gameMode)
 
-SDK will log all its actions depending on what `logLevel` you set up in the config file. You should also set up env variable `LOG_FILE_PATH` with the path to the file where SDK will log data, otherwise, the logging will not work.
+Start a new live Game which contains live Matches.
 
-In order to control how you log use the following config parameters:
-```json
-"logToFile": true,
-"logFileSizeInBytes": 2000000,
-"circularLogFile": true,
-```
-
-This will allow you to control how much you log and what to do if the log file exceeds the memory limit.
-
-## Usage
-
-### Initialization
-
-#### Init()
-
-Before using the GetGud SDK, you must initialize it:
+To start a new game, call `StartGame()` with the following parameters, yhis will use the environment variables `TITLE_ID` and `PRIVATE_KEY`.
+* serverName : the name of your game server - String, Alphanumeric, 36 chars max.
+* gameMode : the mode of your the game - String, Alphanumeric, 36 chars max.
 
 ```cpp
-GetGudSdk::Init();
+std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
 ```
-
-This sets up internal components, such as memory management, and network connections, loads config file, starts Logger, and prepares the SDK for use.
-
-### Starting Games and Matches
 
 #### StartGame(titleId, privateKey, serverName, gameMode)
 
-To start a new game, call `StartGame()` with the following parameters:
-* titleId : internal titleId from Getgud, provided when you create a new title in Getgud
-* privateKey : private key, provided along with the titleId after creating a new title in Getgud
-* serverName : name of your game server
-* gameMode : mode of the game you are about to start
+You can also call the `StartGame()` method with titleId and privateKey that you pass (supporting multiple titles on the same machine)
+* titleId : the you recieved from Getgud, provided when you create a new title - Int.
+* privateKey : private key, Provided alongside titleId - String.
+* serverName : the name of your game server - String, Alphanumeric, 36 chars max.
+* gameMode : the mode of your the game - String, Alphanumeric, 36 chars max.
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gameMode);
 ```
 
-This will start a new live Game which will accumulate live Matches and once has enough data will send a request to Getgud.
+
 
 `StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
 
-#### StartGame(serverName, gameMode)
 
-You can also start a live Game using environment variables `TITLE_ID` and `PRIVATE_KEY`, in this case, you do not have to specify `titleId` and `privateKey` as function arguments:
-
-```cpp
-std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
-```
 
 #### StartMatch(gameGuid, matchMode, mapName)
 
@@ -736,15 +630,47 @@ Here is the description of each player field:
 - `PlayerRank`: Integer rank of the player **(optional field)**
 - `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 
-### Disposing the SDK
 
-To properly clean up the SDK before exiting your application, call `Dispose()`:
+## Configuration
 
-```cpp
-GetGudSdk::Dispose();
+The default Config file is loaded during `GetGudSdk::Init();` and is located in the same dir as the SDK files.
+Example of configuration file `config.json`:
+
+```json
+{
+  "throttleCheckUrl": "https://www.getgud.io/api/game_stream/throttle_match_check",
+  "streamGameURL": "https://www.getgud.io/api/game_stream/send_game_packet",
+  "updatePlayersURL": "https://www.getgud.io/api/player_data/update_players",
+  "sendReportsURL": "https://www.getgud.io/api/report_data/send_reports",
+  "logToFile": true,
+  "logFileSizeInBytes": 2000000,
+  "circularLogFile": true,
+  "reportsMaxBufferSizeInBytes": 100000,
+  "maxReportsToSendAtOnce": 100,
+  "maxChatMessagesToSendAtOnce": 100,
+  "playersMaxBufferSizeInBytes": 100000,
+  "maxPlayerUpdatesToSendAtOnce": 100,
+  "gameSenderSleepIntervalMilliseconds": 100,
+  "apiTimeoutMilliseconds": 600,
+  "apiWaitTimeMilliseconds": 100,
+  "packetMaxSizeInBytes": 2000000,
+  "actionsBufferMaxSizeInBytes": 10000000,
+  "gameContainerMaxSizeInBytes": 50000000,
+  "maxGames": 25,
+  "maxMatchesPerGame": 10,
+  "minPacketSizeForSendingInBytes": 1000000,
+  "packetTimeoutInMilliseconds": 100000,
+  "gameCloseGraceAfterMarkEndInMilliseconds": 20000,
+  "liveGameTimeoutInMilliseconds": 100000,
+  "hyperModeFeatureEnabled": true,
+  "hyperModeMaxThreads": 10,
+  "hyperModeAtBufferPercentage": 10,
+  "hyperModeUpperPercentageBound": 90,
+  "hyperModeThreadCreationStaggerMilliseconds": 100,
+  "logLevel": "FULL"
+}
 ```
 
-This will release any resources or connections being used by the SDK.
 
 ## Examples
 
