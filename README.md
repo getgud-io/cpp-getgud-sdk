@@ -148,7 +148,7 @@ GetGudSdk::Dispose();
 
 
 
-## Methods Documentation
+## SDK Methods
 
 ### StartGame(serverName, gameMode)
 
