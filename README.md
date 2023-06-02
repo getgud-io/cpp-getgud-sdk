@@ -131,7 +131,7 @@ End a game (All Game's Matches will close as well):
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
 
-Closing and disposing the SDK:
+Close and Dispose of the SDK:
 
 ```cpp
 GetGudSdk::Dispose();
