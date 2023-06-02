@@ -21,6 +21,11 @@ Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once 
 - [Examples](https://github.com/getgud-io/cpp-getgud-sdk#examples)
 
 
+## What Can You Do With Getgud's SDK:
+
+- Send live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
+- Send Reports about historical matches
+- Send or update your player information to Getgud
 
 ## Prerequisites
 
@@ -53,14 +58,6 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword.
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
 6. `Heal` - Whenever is player is healed.
-
-
-## What Does The SDK Allows You to Do
-
-- Send live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
-- Send Reports about historical matches
-- Send or update your player information to Getgud
-
 
 
 ## Getting Started
