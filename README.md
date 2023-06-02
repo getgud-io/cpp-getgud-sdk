@@ -61,9 +61,9 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
 
 ## What Does The SDK Allows You to Do
 
-- Send live Game data (In-match Actions, In-match Reports, In-match Chat messages)
+- Send live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
 - Send Reports about historical matches
-- Send or update player information 
+- Send or update your player information to Getgud
 
 
 
