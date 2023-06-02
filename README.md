@@ -199,10 +199,12 @@ There are 6 Action types you can add to the Match, all derived from base action 
 
 ### Base Action
 
-`BaseAction` is the base class of all actions and cannot be instansiated
+`BaseAction` is the base class that all actions derive from and holds common information to all action.
 
 ```cpp
-BaseAction(std::string matchGuid, long long actionTimeEpoch, std::string playerGuid)
+BaseAction(std::string matchGuid,
+        long long actionTimeEpoch,
+        std::string playerGuid)
 ```
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened
@@ -302,22 +304,7 @@ bool SendHealAction(std::string matchGuid,
                     std::string playerGuid,
                     float healthGained);
 ```
-
-Here is an example:
-```cpp
-bool isActionSent =  GetGudSdk::SendHealAction(
-          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
-          1684059337532,  // actionTimeEpoch
-          "player_1", // playerGuid
-          55.0, // healthGained
-);
-```
-
-The `HealActionData` uses the following parameters:
-
-* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
-* `actionTimeEpoch` - epoch time in milliseconds when the action happened.
-* `playerGuid`  - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
+* `BaseAction` - See BaseAction
 * `healthGained` - How much health the player gained.
 
 #### Death Action
