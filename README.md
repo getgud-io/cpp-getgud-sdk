@@ -128,8 +128,8 @@ GetGudSdk::Dispose();
 
 ### StartGame(serverName, gameMode)
 
-To start a new game, call `StartGame()` with the following parameters, yhis will use the environment variables `TITLE_ID` and `PRIVATE_KEY`.
-* serverName : the name of your game server - String, Alphanumeric, 36 chars max.
+To start a new game, call `StartGame()`, this will use the environment variables `TITLE_ID` and `PRIVATE_KEY`.
+* serverName : a qunique name of your game server - String, Alphanumeric, 36 chars max.
 * gameMode : the mode of your the game - String, Alphanumeric, 36 chars max.
 
 ```cpp
