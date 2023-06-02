@@ -51,7 +51,8 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
   An example of a Match is a single CS:GO round inside the game.
   ```
 
-* `Action` represents an in-match activity. We collect six different action types which are common to all first person shooter gamnes, these are:
+* `Action` represents an in-match activity that is associated with a player. We collect six different action types which are common to all first person shooter gamnes:
+
 1. `Spwan` - Whenever a player appears or reappears in-match, on the map.
 2. `Death` - A death of a player.
 3. `Position` - player position change (including looking direction). 128 tick sensitive.
@@ -205,7 +206,7 @@ BaseAction(std::string matchGuid, long long actionTimeEpoch, std::string playerG
 ```
 * `matchGuid` - TODO
 * `actionTimeEpoch` - TODO
-* `playerGuid` - TODO
+* `playerGuid` - The player Id that relatyes to that action 
 
 ### Spawn Action
 
@@ -226,7 +227,17 @@ SpawnActionData(BaseAction::baseAction,
 * `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
-#### Position Action
+Usage Example:
+```cpp
+new SpawnActionData = GetGudSdk::SpawnActionData(
+          baseAction, // the base action for this action 
+          "terrorist-1", // characterGuid
+          GetGudSdk::PositionF{1, 2, 3}, // position
+          GetGudSdk::RotationF{10, 20} // rotation
+);
+```
+
+### Position Action
 
 To add a Position Action to a match, use the `SendPositionAction` function.
 This action marks the change of `Player` position and view site. You can send this every tick, up to 128 ticks.
@@ -236,45 +247,36 @@ PositionActionData(BaseAction::baseAction,
                     PositionF position,
                     RotationF rotation);
 ```
+* `baseAction` - See BaseAction
 * `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
-Here is an example:
+Usage example:
 ```cpp
 bool isActionSent =  GetGudSdk::SendPositionAction(
-          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
-          1684059337532,  // actionTimeEpoch
-          "player_1", // playerGuid
+          BaseAction::baseAction, // holds base action values
           GetGudSdk::PositionF{1, 2, 3}, // position
           GetGudSdk::RotationF{10, 20} // rotation
 );
 ```
 
-The `PositionActionData` uses the following parameters:
+### Attack Action
 
-* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
-* `actionTimeEpoch` - epoch time in milliseconds when the action happened
-* `playerGuid` - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
-* `position` - X,Y,Z coordinates of the player at the moment of action.
-* `rotation` - PITCH, ROLL rotation of player view at the moment of action.
-
-#### Attack Action
-
-To add a Attack Action to a match, use the `SendAttackAction` function. An Attack action is any attempt to attack, for example, firing a shot, swinging a sword, placing a bomb, throwing a grenade, or any other action that may result in damage, now or in the future. Note that the Attack action is not bound to damage, it is an attempt to cause Damage, not the Damage event itself.
+To add a Attack Action to a match, use the `SendAttackAction` function. 
+An Attack action is any attempt to create damage, now or in the future, for example, firing a shot, swinging a sword, placing a bomb, throwing a grenade, or any other action that may result in damage.
+Note that the Attack action is not bound to the `Damage` action, it is an attempt to cause Damage, not the Damage event itself.
 
 ```cpp
-bool SendAttackAction(std::string matchGuid,
-                      long long actionTimeEpoch,
-                      std::string playerGuid,
+bool SendAttackAction(BaseAction::baseAction,
+                      std::string attackerPlayerGuid,
                       std::string weaponGuid);
 ```
 
 Here is an example:
 ```cpp
 bool isActionSent =  GetGudSdk::SendAttackAction(
-          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
-          1684059337532,  // actionTimeEpoch
-          "player_1", // playerGuid
+          BaseAction::baseAction, // holds base action values
+          "player_2", // the attackers player id 
           "akm" // weaponGuid
 );
 ```
