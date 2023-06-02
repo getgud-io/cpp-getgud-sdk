@@ -111,20 +111,6 @@ EXAMPLE
 );
 ```
 
-Let's send a report to this match:
-
-```cpp
-EXAMPLE
-);
-```
-
-Let's also send a chat massge to this match:
-
-```cpp
-EXAMPLE
-);
-```
-
 End a game (All Game's Matches will close as well):
 
 ```cpp
@@ -136,8 +122,6 @@ Close and Dispose of the SDK:
 ```cpp
 GetGudSdk::Dispose();
 ```
-
-
 
 ## SDK Methods
 
@@ -179,14 +163,27 @@ std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 * `serverName` - TODO
 * `gameMode` - TODO
 
-### AddActions(TODO: signature)
+### AddActions(std::deque<BaseActionData*> actions)
 
 Once you've started a Match, you can now send actions to it.
-To send actions to a match, call `AddActions()`:
+To add a batch of actions to a match, use the `SendActions` function.
 
 ```cpp
-TODO: EXAMPLE OF ADD ACTIONS
+bool SendActions(std::deque<BaseActionData*> actions);
 ```
+* `actions` - deque of `BaseActionData` objects, where `BaseActionData` is the base calss of all the primal 6 actions (Spawn, Position, Attack, Damage, Heal and Death).
+
+#### AddAction(BaseActionData* action)
+
+You can also send single actions when you need to, using the `AddAction()` method
+
+```cpp
+bool SendActions(action);
+```
+* `action` - a `BaseActionData` object that is the base class of all the primal 6 actions (Spawn, Position, Attack, Damage, Heal and Death).
+
+
+
 
 ### MarkEndGame(gameGuid)
 
@@ -196,6 +193,8 @@ Ends a live Game and it's associated matches.
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
 * `gameMode` - TODO
+
+
 
 
 
@@ -498,6 +497,21 @@ bool isActionsSent = SendAction(action);
 
 
 ### Adding Chat and Reports to live Match
+
+
+Let's send a report to this match:
+
+```cpp
+EXAMPLE
+);
+```
+
+Let's also send a chat massge to this match:
+
+```cpp
+EXAMPLE
+);
+```
 
 When your Game is live you can add Chat and Report data to any of the running matches using `matchGuid`. Let's see how you can add Chats and Reports for the live games.
 
