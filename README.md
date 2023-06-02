@@ -198,7 +198,7 @@ bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 
 
 
-## Adding Actions to Live Matches 
+## Creating Actions 
 
 When the live Match starts, you can add Actions, Chat Data, and Reports to it. There are 6 Action types you can add to the Match. We call them the primal 6. Let's dive into each Action Type.
 
