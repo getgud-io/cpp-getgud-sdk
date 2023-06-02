@@ -182,9 +182,6 @@ bool SendActions(action);
 ```
 * `action` - a `BaseActionData` object that is the base class of all the primal 6 actions (Spawn, Position, Attack, Damage, Heal and Death).
 
-
-
-
 ### MarkEndGame(gameGuid)
 
 Ends a live Game and it's associated matches.
@@ -194,17 +191,26 @@ bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
 * `gameMode` - TODO
 
-
-
-
-
 ## Creating Actions 
 
-When the live Match starts, you can add Actions, Chat Data, and Reports to it. There are 6 Action types you can add to the Match. We call them the primal 6. Let's dive into each Action Type.
+When a live Match starts, you can add Actions, Chat Data, and Reports to it. 
+There are 6 Action types you can add to the Match, all derived from base action which holds the actions base properties.
 
-#### Spawn Action
+### Base Action
 
-To add a Spawn Action to a match, use the `SendSpawnAction` function. This marks the Spawn of every `Player` inside the Match.
+`BaseAction` is the base class of all actions and cannot be instansiated
+
+```cpp
+BaseAction(std::string matchGuid, long long actionTimeEpoch, std::string playerGuid)
+```
+* `matchGuid` - TODO
+* `actionTimeEpoch` - TODO
+* `playerGuid` - TODO
+
+
+### Spawn Action
+
+To create a Spawn Action, use the `SendSpawnAction` function. This marks the Spawn of every `Player` inside the Match.
 
 ```cpp
 bool SendSpawnAction(std::string matchGuid,
