@@ -62,7 +62,7 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
 
 ## Getting Started
 
-insert your Title Id and Private Key that you recieved from Getgud.io to the following environment variables:
+Insert the Title Id and Private Key you recieved from Getgud.io to the following environment variables:
 
 ```
 EXAMPLE
@@ -71,19 +71,19 @@ EXAMPLE
 For multiple title support on the same machine - Link. (TODO)
 
 
-To use the GetGud SDK, you'll need to include the follwing header file:
+Include the follwing header file:
 
 ```cpp
 #include "../include/GetGudSdk.h"
 ```
 
-First, initialize the SDK:
+Initialize the SDK:
 
 ```cpp
 GetGudSdk::Init();
 ```
 
-Next, start a Game:
+Start a Game:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(
