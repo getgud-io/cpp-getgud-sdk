@@ -212,7 +212,12 @@ BaseAction(std::string matchGuid, long long actionTimeEpoch, std::string playerG
 To create a Spawn Action, use the `SendSpawnAction` function. This marks the appearance or reappearance of a `Player` inside the Match.
 
 ```cpp
-SpawnAction(BaseAction::baseAction, std::string characterGuid, int teamId, float initialHealth, PositionF position, RotationF rotation);
+SpawnActionData(BaseAction::baseAction,
+        std::string characterGuid,
+        int teamId,
+        float initialHealth,
+        PositionF position,
+        RotationF rotation);
 ```
 * `baseAction` - See BaseAction
 * `characterGuid` - guid of the spwaned character from your game, max length is 10 chars.
@@ -227,12 +232,12 @@ To add a Position Action to a match, use the `SendPositionAction` function.
 This action marks the change of `Player` position and view site. You can send this every tick, up to 128 ticks.
 
 ```cpp
-bool SendPositionAction(std::string matchGuid,
-                        long long actionTimeEpoch,
-                        std::string playerGuid,
-                        PositionF position,
-                        RotationF rotation);
+PositionActionData(BaseAction::baseAction,
+                    PositionF position,
+                    RotationF rotation);
 ```
+* `position` - X,Y,Z coordinates of the player at the moment of action.
+* `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 Here is an example:
 ```cpp
