@@ -125,7 +125,7 @@ EXAMPLE
 );
 ```
 
-To indicate when a Game ends, use the below code. All Game's Matches will close as well.
+End a game (All Game's Matches will close as well):
 
 ```cpp
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
