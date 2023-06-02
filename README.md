@@ -204,9 +204,9 @@ There are 6 Action types you can add to the Match, all derived from base action 
 ```cpp
 BaseAction(std::string matchGuid, long long actionTimeEpoch, std::string playerGuid)
 ```
-* `matchGuid` - TODO
-* `actionTimeEpoch` - TODO
-* `playerGuid` - The player Id that relatyes to that action 
+* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
+* `actionTimeEpoch` - epoch time in milliseconds when the action happened
+* `playerGuid` - A unique name (you player Id) of the p;layer that was enloved in the action 
 
 ### Spawn Action
 
@@ -252,7 +252,6 @@ Note that the Attack action is not bound to the `Damage` action, it is an attemp
 
 ```cpp
 bool SendAttackAction(BaseAction::baseAction,
-                      std::string attackerPlayerGuid,
                       std::string weaponGuid);
 ```
 
@@ -260,51 +259,38 @@ Here is an example:
 ```cpp
 bool isActionSent =  GetGudSdk::SendAttackAction(
           BaseAction::baseAction, // holds base action values
-          "player_2", // the attackers player id 
-          "akm" // weaponGuid
+          "AK-47-slincer" // weaponGuid
 );
 ```
-
-The `AttackActionData` uses the following parameters:
-
-* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
-* `actionTimeEpoch` - epoch time in milliseconds when the action happened
-* `playerGuid` - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
-* `weaponGuid` - guid AKA name of the weapon attack was performed with, max length is 3 chars
+* `BaseAction` - See BaseAction
+* `attackerPlayerGuid` - A unique name (your player id) of the player which created the damage, if the damage was created by the environment, you can singal this by using the 'PvE' symbol as the player guid.
+* `weaponGuid` - A unique name of the weapon that the attack was performed with, max length is 36 chars.
 
 #### Damage Action
 
-To add a Damage Action to a match, use the `SendDamageAction` function. A Damage action is when a player if hit and loses health, both PVP and PVE. If the Damage is caused by the environment you can specify this in a playerGuid using a predefined variable `GetGudSdk::Values::Environment`
+To add a Damage Action to a match, use the `SendDamageAction` method. A Damage should be triggered when a player loses health, both PVP and PVE. If the Damage is caused by the environment you can specify this in a playerGuid using a predefined variable `GetGudSdk::Values::Environment`
 
 ```cpp
 bool SendDamageAction(std::string matchGuid,
-                      long long actionTimeEpoch,
-                      std::string playerGuid,
+                      BaseAction::baseAction, // holds base action values
                       std::string victimPlayerGuid,
                       float damageDone,
                       std::string weaponGuid);
 ```
+* `BaseAction` - See BaseAction
+* `victimPlayerGuid` - guid AKA nickname of the player who is the victim of the Damage action, max length is 36 chars.
+* `damageDone` - How much damage was given
+* `weaponGuid` - A unique name of the weapon that the attack was performed with, max length is 36 chars.
 
 Here is an example:
 ```cpp
 bool isActionSent =  GetGudSdk::SendDamageAction(
-          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
-          1684059337532,  // actionTimeEpoch
-          "player_1", // playerGuid
+          BaseAction::baseAction,
           "player_2", // victimPlayerGuid
           23.0, // damageDone
-          "akm" // weaponGuid
+          "Knife-type-4" // weaponGuid
 );
 ```
-
-The `DamageActionData` uses the following parameters:
-
-* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
-* `actionTimeEpoch` - epoch time in milliseconds when the action happened
-* `playerGuid`  - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
-* `victimPlayerGuid` - guid AKA nickname of the player who is the victim of the Damage action, max length is 36 chars.
-* `damageDone` - How much damage was given
-* `weaponGuid` - guid AKA name of the weapon attack was performed with, max length is 3 chars
 
 #### Heal Action
 
