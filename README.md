@@ -28,7 +28,7 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
 
 **Titles->1->N->Games->1->N->Matches->1->N->Actions**
 
-* The top container in Getgud's SDK is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.  Title holds an Id, PII, permissions, etc. 
+* The top container in Getgud's SDK is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.
 
   ```
   Example of Title: CS:GO 
