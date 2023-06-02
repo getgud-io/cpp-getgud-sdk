@@ -233,13 +233,16 @@ To add a Position Action to a match, use the `SendPositionAction` function.
 This action marks the change of `Player` position and view site. You can send this every tick, up to 128 ticks.
 
 ```cpp
-GetGudSdk::BaseActionData* action = new PositionActionData(BaseAction::baseAction,
-                    PositionF position,
-                    RotationF rotation);
+new SpawnActionData = GetGudSdk::SpawnActionData(
+          baseAction, // the base action for this action 
+          "terrorist-1", // characterGuid
+          GetGudSdk::PositionF{1, 2, 3}, // position
+          GetGudSdk::RotationF{10, 20} // rotation
+);
 ```
-* `baseAction` - See BaseAction
-* `position` - X,Y,Z coordinates of the player at the moment of action.
-* `rotation` - PITCH, ROLL rotation of player view at the moment of action.
+* `BaseAction` - See BaseAction
+* `Position` - X,Y,Z coordinates of the player at the moment of action.
+* `Rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 ### Attack Action
 
