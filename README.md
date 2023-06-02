@@ -212,10 +212,11 @@ BaseAction(std::string matchGuid,
 
 ### Spawn Action
 
-To create a Spawn Action, use the `SendSpawnAction` function. This marks the appearance or reappearance of a `Player` inside the Match.
+To create a Spawn Action, use the `SpawnActionData` class. This action marks the appearance or reappearance of a `Player` inside the Match.
 
 ```cpp
-GetGudSdk::BaseActionData* action = new SpawnActionData(BaseAction::baseAction,
+GetGudSdk::BaseActionData* action = new SpawnActionData(
+        BaseAction::baseAction,
         std::string characterGuid,
         int teamId,
         float initialHealth,
@@ -231,15 +232,14 @@ GetGudSdk::BaseActionData* action = new SpawnActionData(BaseAction::baseAction,
 
 ### Position Action
 
-To add a Position Action to a match, use the `SendPositionAction` function.
+To create a Position Action, use the `PositionActionData` class.
 This action marks the change of `Player` position and view site. You can send this every tick, up to 128 ticks.
 
 ```cpp
-new SpawnActionData = GetGudSdk::SpawnActionData(
-          baseAction, // the base action for this action 
-          "terrorist-1", // characterGuid
-          GetGudSdk::PositionF{1, 2, 3}, // position
-          GetGudSdk::RotationF{10, 20} // rotation
+GetGudSdk::BaseActionData* action = new GetGudSdk::PositionActionData(
+                     BaseAction::baseAction,
+                     PositionF position,
+                     RotationF rotation
 );
 ```
 * `BaseAction` - See BaseAction
@@ -248,203 +248,62 @@ new SpawnActionData = GetGudSdk::SpawnActionData(
 
 ### Attack Action
 
-To add a Attack Action to a match, use the `SendAttackAction` function. 
+To create an Attack Action, use the `AttackActionData` Class.
 An Attack action is any attempt to create damage, now or in the future, for example, firing a shot, swinging a sword, placing a bomb, throwing a grenade, or any other action that may result in damage.
 Note that the Attack action is not bound to the `Damage` action, it is an attempt to cause Damage, not the Damage event itself.
 
 ```cpp
-bool SendAttackAction(BaseAction::baseAction,
-                      std::string weaponGuid);
-```
-
-Here is an example:
-```cpp
-bool isActionSent =  GetGudSdk::SendAttackAction(
-          BaseAction::baseAction, // holds base action values
-          "AK-47-slincer" // weaponGuid
+GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
+                     BaseAction:: baseAction,
+                     std::string attackerPlayerGuid,
+                     std::string weaponGuid,
 );
 ```
 * `BaseAction` - See BaseAction
 * `attackerPlayerGuid` - A unique name (your player id) of the player which created the damage, if the damage was created by the environment, you can singal this by using the 'PvE' symbol as the player guid.
 * `weaponGuid` - A unique name of the weapon that the attack was performed with, max length is 36 chars.
 
-#### Damage Action
+### Damage Action
 
-To add a Damage Action to a match, use the `SendDamageAction` method. A Damage should be triggered when a player loses health, both PVP and PVE. If the Damage is caused by the environment you can specify this in a playerGuid using a predefined variable `GetGudSdk::Values::Environment`
+To create a Damage Action, use the `DamageActionData` class. A Damage should be triggered when a player loses health, both PVP and PVE. If the Damage is caused by the environment you can specify this in a playerGuid using a predefined variable `GetGudSdk::Values::Environment`
 
 ```cpp
-bool SendDamageAction(std::string matchGuid,
-                      BaseAction::baseAction, // holds base action values
-                      std::string victimPlayerGuid,
-                      float damageDone,
-                      std::string weaponGuid);
+GetGudSdk::BaseActionData* action = new GetGudSdk::DamageActionData(
+                     BaseAction:: baseAction,
+                     std::string victimPlayerGuid,
+                     float damageDone,
+                     std::string weaponGuid
+);
 ```
 * `BaseAction` - See BaseAction
 * `victimPlayerGuid` - guid AKA nickname of the player who is the victim of the Damage action, max length is 36 chars.
 * `damageDone` - How much damage was given
 * `weaponGuid` - A unique name of the weapon that the attack was performed with, max length is 36 chars.
 
-Here is an example:
+### Heal Action
+
+To create a heal action, use the `HealActionData` class. A Heal action causes the player to increase his health while healing.
+
 ```cpp
-bool isActionSent =  GetGudSdk::SendDamageAction(
-          BaseAction::baseAction,
-          "player_2", // victimPlayerGuid
-          23.0, // damageDone
-          "Knife-type-4" // weaponGuid
+GetGudSdk::BaseActionData* action = new GetGudSdk::HealActionData(
+                     BaseAction:: baseAction,
+                     float healthGained
 );
-```
-
-#### Heal Action
-
-To add a heal action to a match, use the `SendHealAction` function. A Heal action causes the player to increase his health while healing.
-
-```cpp
-bool SendHealAction(std::string matchGuid,
-                    long long actionTimeEpoch,
-                    std::string playerGuid,
-                    float healthGained);
 ```
 * `BaseAction` - See BaseAction
 * `healthGained` - How much health the player gained.
 
-#### Death Action
+### Death Action
 
-To add a death action to a match, use the `SendDeathAction` function. The Death player causes the player to Die, if the player died it should ALWAYS be marked. We do not detect this automatically.
+To create a death action to a match, use the `DeathActionData` class. The Death player causes the player to Die, if the player died it should ALWAYS be marked. We do not detect this automatically.
 
 ```cpp
-bool SendDeathAction(std::string matchGuid,
-                     long long actionTimeEpoch,
-                     std::string playerGuid);
-```
-
-Here is an example:
-```cpp
-bool isActionSent =  GetGudSdk::SendDeathAction(
-          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
-          1684059337532,  // actionTimeEpoch
-          "player_1", // playerGuid
+GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(BaseAction:: baseAction)
 );
 ```
+* `BaseAction` - See BaseAction
 
-The `DeathActionData` uses the following parameters:
-
-* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
-* `actionTimeEpoch` - epoch time in milliseconds when the action happened.
-* `playerGuid` - guid AKA nickname of the player who is doing this action, max length is 36 chars.
-
-
-All these actions help you record player behaviors during a live match.
-
-In addition to the specific action functions mentioned earlier, you can also add actions using these alternative methods:
-
-#### SendActions(actions)
-
-To add a batch of actions to a match, use the `SendActions` function. This may contain any amount of the actions from our primal 6.
-
-```cpp
-bool SendActions(std::deque<BaseActionData*> actions);
-```
-
-This function accepts a deque of actions, where `BaseActionData` type actions can be any of the primal 6 actions (Spawn, Position, Attack, Damage, Heal, or Death actions). This method is useful when you want to send multiple actions at once.
-
-Here is how you can create all 6 of the primal action types:
-
-**Spawn Action:**
-```cpp
-GetGudSdk::BaseActionData* action = new GetGudSdk::SpawnActionData(
-                     std::string matchGuid,
-                     long long actionTimeEpoch,
-                     std::string playerGuid,
-                     std::string characterGuid,
-                     int teamId,
-                     float initialHealth,
-                     PositionF position,
-                     RotationF rotation
-);
-```
-
-**Position Action:**
-```cpp
-GetGudSdk::BaseActionData* action = new GetGudSdk::PositionActionData(
-                     std::string matchGuid,
-                     long long actionTimeEpoch,
-                     std::string playerGuid,
-                     PositionF position,
-                     RotationF rotation
-);
-```
-
-**Attack Action:**
-```cpp
-GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
-                     std::string matchGuid,
-                     long long actionTimeEpoch,
-                     std::string playerGuid,
-);
-```
-
-**Damage Action:**
-```cpp
-GetGudSdk::BaseActionData* action = new GetGudSdk::DamageActionData(
-                     std::string matchGuid,
-                     long long actionTimeEpoch,
-                     std::string playerGuid,
-                     std::string victimPlayerGuid,
-                     float damageDone,
-                     std::string weaponGuid
-);
-```
-
-**Heal Action:**
-```cpp
-GetGudSdk::BaseActionData* action = new GetGudSdk::HealActionData(
-                     std::string matchGuid,
-                     long long actionTimeEpoch,
-                     std::string playerGuid,
-                     float healthGained
-);
-```
-
-**Death Action:**
-```cpp
-GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(
-                     std::string matchGuid,
-                     long long actionTimeEpoch,
-                     std::string playerGuid
-);
-```
-
-Once you have created the amount of actions you need push them to `std::deque<BaseActionData*>` and pass it to `SendActions`
-
-Here is an example:
-```cpp
-bool isActionsSent = SendActions(actions);
-```
-
-
-
-#### SendAction(action)
-
-To add a single action to a match, use the `SendAction` function the same way we used `SendActions` but this time pass a single action you created directly.
-
-```cpp
-bool SendAction(BaseActionData* action);
-```
-
-This function accepts any action derived from `BaseActionData` type, including any of the primal 6 actions. This method is useful when you want to send a single action without specifying its type explicitly.
-
-Here is an example:
-```cpp
-GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
-                     std::string matchGuid,
-                     long long actionTimeEpoch,
-                     std::string playerGuid,
-);
-bool isActionsSent = SendAction(action);
-```
-
-
-### Adding Chat and Reports to live Match
+## Adding Chat and Reports to live Match
 
 
 Let's send a report to this match:
