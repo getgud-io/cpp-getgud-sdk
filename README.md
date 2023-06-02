@@ -54,7 +54,7 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
 * `Action` represents an in-match activity. We collect six different action types which are common to all first person shooter gamnes, these are:
 1. `Spwan` - Whenever a player appears or reappears in-match, on the map.
 2. `Death` - A death of a player.
-3. `Position` - player position change (including looking direction). 124 tick sensitive.
+3. `Position` - player position change (including looking direction). 128 tick sensitive.
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword.
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
 6. `Heal` - Whenever is player is healed.
@@ -207,46 +207,24 @@ BaseAction(std::string matchGuid, long long actionTimeEpoch, std::string playerG
 * `actionTimeEpoch` - TODO
 * `playerGuid` - TODO
 
-
 ### Spawn Action
 
-To create a Spawn Action, use the `SendSpawnAction` function. This marks the Spawn of every `Player` inside the Match.
+To create a Spawn Action, use the `SendSpawnAction` function. This marks the appearance or reappearance of a `Player` inside the Match.
 
 ```cpp
-bool SendSpawnAction(std::string matchGuid,
-                     long long actionTimeEpoch,
-                     std::string playerGuid,
-                     std::string characterGuid,
-                     int teamId,
-                     float initialHealth,
-                     PositionF position,
-                     RotationF rotation);
+SpawnAction(BaseAction::baseAction, std::string characterGuid, int teamId, float initialHealth, PositionF position, RotationF rotation);
 ```
-
-Here is an example:
-```cpp
-bool isActionSent = GetGudSdk::SendSpawnAction(
-          "6a3d1732-8f72-12eb-bdef-56d89392f384", //matchGuid
-          1684059337532,  // actionTimeEpoch
-          "player_1", // playerGuid
-          "ttr", // characterGuid
-          GetGudSdk::PositionF{1, 2, 3}, // position
-          GetGudSdk::RotationF{10, 20} // rotation
-);
-```
-
-The `SpawnActionData` uses the following parameters:
-
-* `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
-* `actionTimeEpoch` - epoch time in milliseconds of when the action happened.
-* `playerGuid` - player guid which is your player Id that belongs to the player whom is doing this action, max length is 10 chars.
+* `baseAction` - See BaseAction
 * `characterGuid` - guid of the spwaned character from your game, max length is 10 chars.
+* `teamId` - TODO
+* `initialHealth` - TODO
 * `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 #### Position Action
 
-To add a Position Action to a match, use the `SendPositionAction` function. This marks the change of `Player` position and view site. You can do this every tick.
+To add a Position Action to a match, use the `SendPositionAction` function.
+This action marks the change of `Player` position and view site. You can send this every tick, up to 128 ticks.
 
 ```cpp
 bool SendPositionAction(std::string matchGuid,
