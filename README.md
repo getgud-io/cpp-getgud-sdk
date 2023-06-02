@@ -213,7 +213,7 @@ BaseAction(std::string matchGuid, long long actionTimeEpoch, std::string playerG
 To create a Spawn Action, use the `SendSpawnAction` function. This marks the appearance or reappearance of a `Player` inside the Match.
 
 ```cpp
-SpawnActionData(BaseAction::baseAction,
+GetGudSdk::BaseActionData* action = new SpawnActionData(BaseAction::baseAction,
         std::string characterGuid,
         int teamId,
         float initialHealth,
@@ -227,38 +227,19 @@ SpawnActionData(BaseAction::baseAction,
 * `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
-Usage Example:
-```cpp
-new SpawnActionData = GetGudSdk::SpawnActionData(
-          baseAction, // the base action for this action 
-          "terrorist-1", // characterGuid
-          GetGudSdk::PositionF{1, 2, 3}, // position
-          GetGudSdk::RotationF{10, 20} // rotation
-);
-```
-
 ### Position Action
 
 To add a Position Action to a match, use the `SendPositionAction` function.
 This action marks the change of `Player` position and view site. You can send this every tick, up to 128 ticks.
 
 ```cpp
-PositionActionData(BaseAction::baseAction,
+GetGudSdk::BaseActionData* action = new PositionActionData(BaseAction::baseAction,
                     PositionF position,
                     RotationF rotation);
 ```
 * `baseAction` - See BaseAction
 * `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
-
-Usage example:
-```cpp
-bool isActionSent =  GetGudSdk::SendPositionAction(
-          BaseAction::baseAction, // holds base action values
-          GetGudSdk::PositionF{1, 2, 3}, // position
-          GetGudSdk::RotationF{10, 20} // rotation
-);
-```
 
 ### Attack Action
 
