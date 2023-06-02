@@ -47,12 +47,12 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
   ```
 
 * `Action` represents an in-match activity. We collect six different action types which are common to all first person shooter gamnes, these are:
-1. Spwan - Whenever a player appears or reappears in-match, on the map.
-2. Death - A death of a player.
-3. Position - player position change (including looking direction). 124 tick sensitive.
-4. Attack - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword.
-5. Damage - Whenever a player recieves any damage, from players or the environment.
-6. Heal - Whenever is player is healed.
+1. `Spwan` - Whenever a player appears or reappears in-match, on the map.
+2. `Death` - A death of a player.
+3. `Position` - player position change (including looking direction). 124 tick sensitive.
+4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword.
+5. `Damage` - Whenever a player recieves any damage, from players or the environment.
+6. `Heal` - Whenever is player is healed.
 
   ```
   An example of a Match is a single CS:GO round inside the game.
