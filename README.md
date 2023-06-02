@@ -150,39 +150,56 @@ To start a new game, call `StartGame()` with the following parameters, yhis will
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
 ```
+* `serverName` - TODO
+* `gameMode` - TODO
 
 `StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
-
 
 #### StartGame(titleId, privateKey, serverName, gameMode)
 
 You can also call the `StartGame()` method with titleId and privateKey that you pass (supporting multiple titles on the same machine)
-* titleId : the you recieved from Getgud, provided when you create a new title - Int.
-* privateKey : private key, Provided alongside titleId - String.
-* serverName : the name of your game server - String, Alphanumeric, 36 chars max.
-* gameMode : the mode of your the game - String, Alphanumeric, 36 chars max.
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gameMode);
 ```
-
-
-
-
-
+* `titleId` - TODO
+* `privateKey` - TODO
+* `serverName` - TODO
+* `gameMode` - TODO
 
 ### StartMatch(gameGuid, matchMode, mapName)
 
-Once you have started a live Game, you can now attach Matches to that Game.
-To start a new match for an existing game, call `StartMatch()`:
+Once you've started a live Game, you can now attach Matches to that Game.
+When a live Match starts it returns a `matchGuid`, you'll need it to add Actions, Chat, and Reports to that match
+To start a new match for a live game, call `StartMatch()`:
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 ```
+* `serverName` - TODO
+* `gameMode` - TODO
 
-When you start a new live Match you get a `matchGuid`, you will need to use it when you add Actions, Chat Data, and Report Data to this live Match.
+### AddActions(TODO: signature)
 
-### Adding Actions to live Match
+Once you've started a Match, you can now send actions to it.
+To send actions to a match, call `AddActions()`:
+
+```cpp
+TODO: EXAMPLE OF ADD ACTIONS
+```
+
+### MarkEndGame(gameGuid)
+
+Ends a live Game and it's associated matches.
+
+```cpp
+bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
+```
+* `gameMode` - TODO
+
+
+
+## Adding Actions to live Match
 
 When the live Match starts, you can add Actions, Chat Data, and Reports to it. There are 6 Action types you can add to the Match. We call them the primal 6. Let's dive into each Action Type.
 
