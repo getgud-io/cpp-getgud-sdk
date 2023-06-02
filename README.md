@@ -24,8 +24,8 @@ Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once 
 ## What Can You Do With Getgud's SDK:
 
 - Send live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
-- Send Reports about historical matches
-- Send or update your player information to Getgud
+- Send Reports about historical matches to Getgud
+- Send player information to Getgud
 
 ## Prerequisites
 
