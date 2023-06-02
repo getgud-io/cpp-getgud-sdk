@@ -54,10 +54,6 @@ To start, we should understand the basic hierarchy Getgud's SDK uses to understa
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
 6. `Heal` - Whenever is player is healed.
 
-  ```
-  An example of a Match is a single CS:GO round inside the game.
-  ```
-  
 
 ## What Does The SDK Allows You to Do
 
