@@ -36,7 +36,7 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 1. `Spwan` - Whenever a player appears or reappears in-match, on the map.
 2. `Death` - A death of a player.
 3. `Position` - player position change (including looking direction). 128 tick sensitive.
-4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword.
+4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc...
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
 6. `Heal` - Whenever is player is healed.
 
