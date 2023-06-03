@@ -1,35 +1,15 @@
 # GetGud C++ SDK
 Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once integrated, you will be able to stream your matches to Getgud's cloud, as well as to send reports and update player's data.
 
-## Table of Contents
-
-- [Prerequsites](https://github.com/getgud-io/cpp-getgud-sdk#prerequisites)
-- [How SDK works](https://github.com/getgud-io/cpp-getgud-sdk#how-sdk-works)
-- [Getting Started](https://github.com/getgud-io/cpp-getgud-sdk#getting-started)
-- [Configuration](https://github.com/getgud-io/cpp-getgud-sdk#configuration)
-    - [Description of the Config fields](https://github.com/getgud-io/cpp-getgud-sdk#description-of-the-config-fields)
-- [Logging](https://github.com/getgud-io/cpp-getgud-sdk#logging)
-- [Usage](https://github.com/getgud-io/cpp-getgud-sdk#usage)
-    - [Initialization](https://github.com/getgud-io/cpp-getgud-sdk#initialization)
-    - [Starting Games and Matches](https://github.com/getgud-io/cpp-getgud-sdk#starting-games-and-matches)
-    - [Adding Actions to live Match](https://github.com/getgud-io/cpp-getgud-sdk#adding-actions-to-live-match)
-    - [Adding Chat messages and Reports to live Match](https://github.com/getgud-io/cpp-getgud-sdk#adding-chat-and-reports-to-live-match)
-    - [Ending Games and Matches](https://github.com/getgud-io/cpp-getgud-sdk#ending-games-and-matches)
-    - [Sending Reports to past Matches](https://github.com/getgud-io/cpp-getgud-sdk#sending-reports-to-finished-matches)
-    - [Sending Player Updates](https://github.com/getgud-io/cpp-getgud-sdk#sending-player-updates)
-    - [Disposing the SDK](https://github.com/getgud-io/cpp-getgud-sdk#disposing-the-sdk)
-- [Examples](https://github.com/getgud-io/cpp-getgud-sdk#examples)
-
-
 ## What Can You Do With Getgud's SDK:
 
-- Send live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
-- Send Reports about historical matches to Getgud
-- Send player information to Getgud
+- Stream live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
+- Send Reports about historical matches to Getgud.
+- Send (and update) player information to Getgud.
 
 ## Prerequisites
 
-To start, we should understand the basic hierarchy Getgud's SDK uses to understand an FPS: 
+To start, we should understand the basic structure Getgud's SDK uses to understand an FPS: 
 
 **Titles->1->N->Games->1->N->Matches->1->N->Actions**
 
@@ -168,6 +148,7 @@ std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 
 Once you've started a Match, you can now send actions to it.
 To add a batch of actions to a match, use the `SendActions` function.
+This is an async method which will not block the calling thread.
 
 ```cpp
 bool SendActions(std::deque<BaseActionData*> actions);
@@ -176,7 +157,8 @@ bool SendActions(std::deque<BaseActionData*> actions);
 
 #### AddAction(BaseActionData* action)
 
-You can also send single actions when you need to, using the `AddAction()` method
+You can also send single actions when you need to, using the `AddAction()` method.
+This is an async method which will not block the calling thread.
 
 ```cpp
 bool SendActions(action);
@@ -420,7 +402,8 @@ GetGudSdk::SendReports(
 
 ### Sending Player Updates
 
-To update player information outside a live Match, you can call `UpdatePlayers` like this:
+To update player information, you can call `UpdatePlayers` like this:
+This is an async method which will not block the calling thread.
 
 ```cpp
 std::deque<GetGudSdk::PlayerInfo> playerInfos;
