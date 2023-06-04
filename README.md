@@ -1,7 +1,8 @@
 # GetGud C++ SDK
-Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once integrated, you will be able to stream your matches to Getgud's cloud, as well as to send reports and update player's data.
 
 ## What Can You Do With Getgud's SDK:
+
+Getgud's C++ SDK allows you to integrate your game with the GetGud platform. Once integrated, you will be able to:
 
 - Stream live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
 - Send Reports about historical matches to Getgud.
@@ -333,7 +334,7 @@ GetGudSdk::SendInMatchReport(reportInfo);
 
 Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids (TODO: ART: provide thge enums here)
 
-### Sending Reports to finished Matches
+### Sending Reports to Historical Matches
 
 To add a reports to a histotical Match (a match which is not live and already ended):
 
