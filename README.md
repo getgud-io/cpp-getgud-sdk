@@ -49,7 +49,7 @@ Insert the Title Id and Private Key you recieved from Getgud.io to the following
 EXAMPLE
 ```
 
-For multiple title support on the same machine - Link. (TODO)
+For multiple title support on the same machine see method overload 
 
 
 Include the follwing header file:
@@ -109,16 +109,13 @@ GetGudSdk::Dispose();
 ### StartGame(serverName, gameMode)
 
 To start a new game, call `StartGame()`, this will use the environment variables `TITLE_ID` and `PRIVATE_KEY`.
-* serverName : a qunique name of your game server - String, Alphanumeric, 36 chars max.
-* gameMode : the mode of your the game - String, Alphanumeric, 36 chars max.
+`StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
 ```
-* `serverName` - TODO
-* `gameMode` - TODO
-
-`StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
+* `serverName` - a qunique name of your game server - String, Alphanumeric, 36 chars max.
+* `gameMode` - the mode of the game (each mode has a separate AI learning processes) - String, Alphanumeric, 36 chars max.
 
 #### StartGame(titleId, privateKey, serverName, gameMode)
 
@@ -127,10 +124,10 @@ You can also call the `StartGame()` method with titleId and privateKey that you 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gameMode);
 ```
-* `titleId` - TODO
-* `privateKey` - TODO
-* `serverName` - TODO
-* `gameMode` - TODO
+* `titleId` - The title Id you recieved from Getgud.io
+* `privateKey` - The Private Key for the above title you recieved together with it's Title Id
+* `serverName` - a qunique name of your game server - String, Alphanumeric, 36 chars max.
+* `gameMode` - the mode of the game (each mode has an additional AI learning processes) - String, Alphanumeric, 36 chars max.
 
 ### StartMatch(gameGuid, matchMode, mapName)
 
@@ -141,8 +138,9 @@ To start a new match for a live game, call `StartMatch()`:
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 ```
-* `serverName` - TODO
-* `gameMode` - TODO
+* `gameGuid` - The Game guid you recieved when starting a new Game
+* `matchMode` - the mode of the match (each mode has an additional AI learning processes) - String, Alphanumeric, 36 chars max.
+* `mapName` - the unique name of the map - String, Alphanumeric, 36 chars max.
 
 ### AddActions(std::deque<BaseActionData*> actions)
 
@@ -168,11 +166,15 @@ bool SendActions(action);
 ### MarkEndGame(gameGuid)
 
 Ends a live Game and it's associated matches.
+When the live Game ends, you should mark it as finished in order to close it on Getgud's side.
+Once the game is marked as ended, it will not accept new live data.
 
 ```cpp
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
-* `gameMode` - TODO
+* `gameGuid` - The Game guid you recieved when starting a new Game
+
+`MarkEndGame` returns true/false depending if the Game was successfully closed or not.
 
 ## Creating Actions 
 
@@ -349,20 +351,6 @@ Here is the description of each report field. Note that all of the fields are op
 - `TbTimeEpoch`: Epoch time in milliseconds when toxic behavior event happened **(optional field)**
 
 Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids
-
-### Ending Games and Matches
-
-#### MarkEndGame(gameGuid)
-
-When the live Game ends, you should mark it as finished for Getgud. To mark a game as finished, call `MarkEndGame` with the game GUID you received when you started the Game:
-
-```cpp
-bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
-```
-
-When the Game is marked as ended your Actions, Chat Data, and Report Data for ANY of the Game's Matches will not be added anymore.
-
-`MarkEndGame` returns true/false depending if the Game was successfully closed or not.
 
 ### Sending Reports to finished Matches
 
