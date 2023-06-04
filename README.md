@@ -288,7 +288,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(BaseAction:: 
 * `BaseAction` - See BaseAction
 
 ## Adding Chat Messages
-Here is how you can create a chat message and send it to live Match:
+To add a chat massge to a live Match:
 
 ```cpp
 GetGudSdk::ChatMessageInfo messageData;
@@ -303,7 +303,9 @@ GetGudSdk::SendChatMessage(
 
 ## Adding Reports
 
-Here is how you can add Report to the live Match:
+To add a reports to a live Match:
+Note that all of the fields are optional exept `MatchGuid` and `SuspectedPlayerId` (a report must have a valid match and player).
+
 ```cpp
 GetGudSdk::ReportInfo reportInfo;
 reportInfo.MatchGuid = "6a3d1732-8f72-12eb-bdef-56d89392f384";
@@ -318,26 +320,22 @@ reportInfo.TbTimeEpoch = 1684059337532;
 reportInfo.TbType = 0;
 GetGudSdk::SendInMatchReport(reportInfo);
 ```
+* `MatchGuid`- guid of the live Match you are sending a report to **(Mandatory field)**
+* `ReportedTimeEpoch`- epoch time of when the report was created **(optional field)**
+* `ReporterName`- the name of the entity that created the report **(optional field)**
+* `ReporterType`- the type of the entity that created the report **(optional field)** (ART TODO: ADD BELOW THE ENUMS, SAME FOR ALL EMUNS, THEY MUST BE HERE)
+* `ReporterSubType`-   the subtype of the entity that created the report **(optional field)**
+* `SuggestedToxicityScore`- 0-100 toxicity score, ie: how much do you suspect the player **(optional field)**
+* `SuspectedPlayerId`- the player Id of the suspected player **(Mandatory field)**
+* `TbType` - id of the toxic behavior type, for example, Aimbot **(optional field)**
+* `TbSubType` - id of the toxic behavior subtype, for example, Spinbot **(optional field)**
+* `TbTimeEpoch` - epoch time of when the toxic behavior event occured **(optional field)**
 
-Here is the description of each report field. Note that all of the fields are optional exept `MatchGuid` and Suspected player id (a report must have a valid match and player).
-- `MatchGuid`: guid of the live Match you are sending a report for
-- `ReportedTimeEpoch`: epoch time in milliseconds of when the report was sent **(optional field)**
-- `ReporterName`: Name of the entity that created the report **(optional field)**
-- `ReporterType`: Id of the entity type that created the report, it could be "anticheat", "in-match report" and others **(optional field)**
-- `ReporterSubType`:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat, and others" **(optional field)**
-- `SuggestedToxicityScore`: 0-100 toxicity score, in other words, how much do you suspect the player **(optional field)**
-- `SuspectedPlayerId`: guid of the suspected player **(Mandatory field)**
-- `TbType`:: Id of the toxic behavior type, for example, Aimbot **(optional field)**
-- `TbSubType`: Id of the toxic behavior subtype, for example, Spinbot **(optional field)**
-- `TbTimeEpoch`: Epoch time in milliseconds when toxic behavior event happened **(optional field)**
-
-Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids
+Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids (TODO: ART: provide thge enums here)
 
 ### Sending Reports to finished Matches
 
-If the Match and its corresponding Game are finished you still can send a report to the Match. 
-
-Here is an example of how you can do this:
+To add a reports to a histotical Match (a match which is not live and already ended):
 
 ```cpp
 std::deque<GetGudSdk::ReportInfo> reports;
