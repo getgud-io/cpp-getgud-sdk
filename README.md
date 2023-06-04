@@ -336,7 +336,7 @@ Note: for Reporter and Tb types and subtypes you should use reference tables pro
 
 ### Sending Reports to Historical Matches
 
-To add a reports to a histotical Match (a match which is not live and already ended):
+To add a reports to a histotical Match (a match which is not live and has ended):
 
 ```cpp
 std::deque<GetGudSdk::ReportInfo> reports;
@@ -359,8 +359,9 @@ GetGudSdk::SendReports(
   reports
 );
 ```
+You can also use SendReports function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
-Here we use a deque of reports to which we add reports and then send them to Getgud. You can also use SendReports function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
+Deque of reports:
 
 ```cpp
 GetGudSdk::SendReports(
@@ -370,8 +371,7 @@ GetGudSdk::SendReports(
 
 ## Sending Player Updates
 
-To update player information, you can call `UpdatePlayers` like this:
-This is an async method which will not block the calling thread.
+To update player information, you can call `UpdatePlayers`:
 
 ```cpp
 std::deque<GetGudSdk::PlayerInfo> playerInfos;
@@ -380,6 +380,8 @@ playerInfo.PlayerId = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 playerInfo.PlayerNickname = "test";
 playerInfo.PlayerEmail = "test@test.com";
 playerInfo.PlayerRank = 10;
+playerInfo."playerSuspectScore": 12,
+playerInfo."playerReputation": "esteemed",
 playerInfo.PlayerJoinDateEpoch = 1684059337532;
 playerInfos.push_back(playerInfo);
 bool playersUpdated = GetGudSdk::UpdatePlayers(
@@ -388,9 +390,17 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
   players
 );
 ```
+* `PlayerId`- Your player Id - String, 36 chars max.
+* `PlayerNickname`- Nickname of the player **(optional field)**
+* `PlayerEmail`- Email of the player **(optional field)**
+* `PlayerRank`- Integer rank of the player **(optional field)**
+* `playerSuspectScore`- Integer between 1-100 that indicatews how suspicious this player is to you **(optional field)**
+* `playerReputation`- A String represention the reputation of the player, 36 chars max. **(optional field)**
+* `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 
-Note, that fields are optional except player Id
+Note, that all fields are optional except player Id.
 As you see similarly to SendReports we use a deque of PlayerInfo objects to send it to Getgud SDK.
+This is an async method which will not block the calling thread.
 
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
@@ -399,11 +409,7 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(players);
 ```
 
 Here is the description of each player field:
-- `PlayerId`: Your player Id - String, 36 chars max.
-- `PlayerNickname`: Nickname of the player **(optional field)**
-- `PlayerEmail`: Email of the player **(optional field)**
-- `PlayerRank`: Integer rank of the player **(optional field)**
-- `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
+
 
 
 ## Configuration
