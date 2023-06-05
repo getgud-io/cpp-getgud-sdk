@@ -53,11 +53,13 @@ std::string StartGame(int titleId,
                       std::string privateKey,
                       std::string serverGuid,
                       std::string gameMode);
+...
 
 bool SendReports(int titleId,
                  std::string privateKey,
                  std::deque<ReportInfo>& reports);
-		 
+...
+
 bool UpdatePlayers(int titleId,
                    std::string privateKey,
                    std::deque<PlayerInfo>& players);
