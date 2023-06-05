@@ -36,7 +36,7 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 
 1. `Spwan` - Whenever a player appears or reappears in-match, on the map.
 2. `Death` - A death of a player.
-3. `Position` - player position change (including looking direction). 128 tick sensitive.
+3. `Position` - player position change (including looking direction).
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc...
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
 6. `Heal` - Whenever a player is healed.
@@ -98,10 +98,10 @@ std::string matchGuid = GetGudSdk::StartMatch(
 ```
 
 Once you have a match, you can send Actions to it.
-Let's create a vector of Actions and send it to the match:
+Let's create a deque of Actions and send it to the match:
 
 ```cpp
-//Create a vector of Actions
+//Create a deque of Actions
 std::deque<GetGudSdk::BaseActionData*> actionsToSend {
 new GetGudSdk::SpawnActionData(
             matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
@@ -114,12 +114,12 @@ new GetGudSdk::PositionActionData(
 };
 
 //Send it to the SDK
-GetGudSdk::SendActions(actionsVector);
+GetGudSdk::SendActions(actionsToSend);
 
 //Clean up the actions
-for (auto* sentAction : actionsVector)
+for (auto* sentAction : actionsToSend)
     delete sentAction;
-  actionsVector.clear();
+  actionsToSend.clear();
 ```
 
 End a game (All Game's Matches will close as well):
@@ -247,7 +247,7 @@ GetGudSdk::BaseActionData* action = new SpawnActionData(
 ### Position Action
 
 To create a Position Action, use the `PositionActionData` class.
-This action marks the change of `Player` position and view site. You can send this every tick, up to 128 ticks.
+This action marks the change of `Player` position and view site.
 
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::PositionActionData(
@@ -482,4 +482,4 @@ Example of configuration file `config.json`:
 
 ## Examples
 
-An example of how to use the GetGud C++ SDK can be found in the [examples](../examples) directory.
+An example of how to use the GetGud C++ SDK can be found in the [examples](../examples/Starter) directory.
