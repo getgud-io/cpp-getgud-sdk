@@ -66,7 +66,7 @@ bool UpdatePlayers(int titleId,
 Include the follwing header file:
 
 ```cpp
-#include "../include/GetGudSdk.h"
+#include <GetGudSdk.h>
 ```
 
 Initialize the SDK:
