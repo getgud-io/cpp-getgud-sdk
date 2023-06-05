@@ -361,7 +361,7 @@ GetGudSdk::SendInMatchReport(reportInfo);
 
 Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids (TODO: ART: provide thge enums here)
 
-### Sending Reports to Historical Matches
+### Sending Reports On Historical Matches
 
 To add a reports to a histotical Match (a match which is not live and has ended):
 
