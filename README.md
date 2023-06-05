@@ -46,10 +46,26 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 Insert the Title Id and Private Key you recieved from Getgud.io to the following environment variables:
 
 ```
-EXAMPLE
+set CONFIG_PATH=*path*\*config_file_name*
+set LOG_FILEPATH=*path*\*log_file_name*
 ```
 
-For multiple title support on the same machine - Link. (TODO)
+For multiple title support on the same machine you can use the following methods:
+
+```cpp
+std::string StartGame(int titleId,
+                      std::string privateKey,
+                      std::string serverGuid,
+                      std::string gameMode);
+...
+bool SendReports(int titleId,
+                 std::string privateKey,
+                 std::deque<ReportInfo>& reports);
+...
+bool UpdatePlayers(int titleId,
+                   std::string privateKey,
+                   std::deque<PlayerInfo>& players);
+```
 
 
 Include the follwing header file:
@@ -88,8 +104,25 @@ Once you have a match, you can send Actions to it.
 Let's create a vector of Actions and send it to the match:
 
 ```cpp
-EXAMPLE
-);
+//Create a vector of Actions
+std::deque<GetGudSdk::BaseActionData*> actionsToSend {
+new GetGudSdk::SpawnActionData(
+            matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
+            GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20}),
+			
+new GetGudSdk::PositionActionData(
+          matchGuid, curTimeEpoch, "player-5",
+          GetGudSdk::PositionF{20.32000f, 50.001421f, 0.30021f},
+          GetGudSdk::RotationF{10, 20})
+};
+
+//Send it to the SDK
+GetGudSdk::SendActions(actionsVector);
+
+//Clean up the actions
+for (auto* sentAction : actionsVector)
+    delete sentAction;
+  actionsVector.clear();
 ```
 
 End a game (All Game's Matches will close as well):

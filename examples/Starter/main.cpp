@@ -29,7 +29,7 @@ GetGudSdk::BaseActionData* MakeRandomAction(std::string matchGuid,
       break;
     case 3:
       outAction = new GetGudSdk::HealActionData(matchGuid, curTimeEpoch,
-                                                ":plkayer-5", 20.32100F);
+                                                "player-5", 20.32100F);
       break;
     case 4:
       outAction = new GetGudSdk::PositionActionData(
@@ -38,11 +38,22 @@ GetGudSdk::BaseActionData* MakeRandomAction(std::string matchGuid,
           GetGudSdk::RotationF{10, 20});
       break;
     case 5:
-      outAction = new GetGudSdk::SpawnActionData(
-          matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
-          GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20});
+        outAction = new GetGudSdk::SpawnActionData(
+            matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
+            GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20});
       break;
   }
+
+  std::vector < GetGudSdk::BaseActionData*> actionsToSend{
+new GetGudSdk::SpawnActionData(
+            matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
+            GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20}),
+
+new GetGudSdk::PositionActionData(
+          matchGuid, curTimeEpoch, "player-5",
+          GetGudSdk::PositionF{20.32000f, 50.001421f, 0.30021f},
+          GetGudSdk::RotationF{10, 20})
+  };
 
   return outAction;
 }
