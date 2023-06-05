@@ -47,8 +47,13 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 Insert the Title Id and Private Key you recieved from Getgud.io to the following environment variables:
 
 ```
-set CONFIG_PATH=*path*\*config_file_name*
-set LOG_FILEPATH=*path*\*log_file_name*
+//Windows
+setx CONFIG_PATH \path\to\config_file
+setx LOG_FILE_PATH \path\to\log_file
+
+//Linux
+CONFIG_PATH=/path/to/config_file
+LOG_FILE_PATH=/path/to/log_file
 ```
 
 For multiple title support on the same machine you can use the following overloaded methods:
