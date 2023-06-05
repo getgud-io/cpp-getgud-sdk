@@ -236,9 +236,9 @@ GetGudSdk::BaseActionData* action = new SpawnActionData(
         RotationF rotation);
 ```
 * `baseAction` - See BaseAction
-* `characterGuid` - guid of the spwaned character from your game, max length is 10 chars.
-* `teamId` - TODO
-* `initialHealth` - TODO
+* `characterGuid` - Guid of the spwaned character from your game, 36 max length.
+* `teamId` - The identifier number of the player's team
+* `initialHealth` - The initial health of the player
 * `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
@@ -436,8 +436,6 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(players);
 ```
 
 Here is the description of each player field:
-
-
 
 ## Configuration
 
