@@ -407,8 +407,8 @@ playerInfo.PlayerId = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 playerInfo.PlayerNickname = "test";
 playerInfo.PlayerEmail = "test@test.com";
 playerInfo.PlayerRank = 10;
-playerInfo."playerSuspectScore": 12,
-playerInfo."playerReputation": "esteemed",
+playerInfo.playerSuspectScore: 12,
+playerInfo.playerReputation: "esteemed",
 playerInfo.PlayerJoinDateEpoch = 1684059337532;
 playerInfos.push_back(playerInfo);
 bool playersUpdated = GetGudSdk::UpdatePlayers(
