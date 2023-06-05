@@ -481,4 +481,4 @@ Example of configuration file `config.json`:
 
 ## Examples
 
-An example of how to use the GetGud C++ SDK can be found in the [examples](../examples/Starter) directory.
+An example of how to use the GetGud C++ SDK can be found in the [examples](/examples/Starter) directory.
