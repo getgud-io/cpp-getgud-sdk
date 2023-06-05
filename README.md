@@ -1,7 +1,8 @@
 # GetGud C++ SDK
-Getgud C++ SDK allows you to integrate your game with the GetGud platform. Once integrated, you will be able to stream your matches to Getgud's cloud, as well as to send reports and update player's data.
 
 ## What Can You Do With Getgud's SDK:
+
+Getgud's C++ SDK allows you to integrate your game with the GetGud platform. Once integrated, you will be able to:
 
 - Stream live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
 - Send Reports about historical matches to Getgud.
@@ -50,7 +51,7 @@ set CONFIG_PATH=*path*\*config_file_name*
 set LOG_FILEPATH=*path*\*log_file_name*
 ```
 
-For multiple title support on the same machine you can use the following methods:
+For multiple title support on the same machine you can use the following overloaded methods:
 
 ```cpp
 std::string StartGame(int titleId,
@@ -66,7 +67,6 @@ bool UpdatePlayers(int titleId,
                    std::string privateKey,
                    std::deque<PlayerInfo>& players);
 ```
-
 
 Include the follwing header file:
 
@@ -142,16 +142,13 @@ GetGudSdk::Dispose();
 ### StartGame(serverName, gameMode)
 
 To start a new game, call `StartGame()`, this will use the environment variables `TITLE_ID` and `PRIVATE_KEY`.
-* serverName : a qunique name of your game server - String, Alphanumeric, 36 chars max.
-* gameMode : the mode of your the game - String, Alphanumeric, 36 chars max.
+`StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
 ```
-* `serverName` - TODO
-* `gameMode` - TODO
-
-`StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
+* `serverName` - a qunique name of your game server - String, Alphanumeric, 36 chars max.
+* `gameMode` - the mode of the game (each mode has a separate AI learning processes) - String, Alphanumeric, 36 chars max.
 
 #### StartGame(titleId, privateKey, serverName, gameMode)
 
@@ -160,10 +157,10 @@ You can also call the `StartGame()` method with titleId and privateKey that you 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gameMode);
 ```
-* `titleId` - TODO
-* `privateKey` - TODO
-* `serverName` - TODO
-* `gameMode` - TODO
+* `titleId` - The title Id you recieved from Getgud.io
+* `privateKey` - The Private Key for the above title you recieved together with it's Title Id
+* `serverName` - a qunique name of your game server - String, Alphanumeric, 36 chars max.
+* `gameMode` - the mode of the game (each mode has an additional AI learning processes) - String, Alphanumeric, 36 chars max.
 
 ### StartMatch(gameGuid, matchMode, mapName)
 
@@ -174,8 +171,9 @@ To start a new match for a live game, call `StartMatch()`:
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
 ```
-* `serverName` - TODO
-* `gameMode` - TODO
+* `gameGuid` - The Game guid you recieved when starting a new Game
+* `matchMode` - the mode of the match (each mode has an additional AI learning processes) - String, Alphanumeric, 36 chars max.
+* `mapName` - the unique name of the map - String, Alphanumeric, 36 chars max.
 
 ### AddActions(std::deque<BaseActionData*> actions)
 
@@ -201,11 +199,15 @@ bool SendActions(action);
 ### MarkEndGame(gameGuid)
 
 Ends a live Game and it's associated matches.
+When the live Game ends, you should mark it as finished in order to close it on Getgud's side.
+Once the game is marked as ended, it will not accept new live data.
 
 ```cpp
 bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ```
-* `gameMode` - TODO
+* `gameGuid` - The Game guid you recieved when starting a new Game
+
+`MarkEndGame` returns true/false depending if the Game was successfully closed or not.
 
 ## Creating Actions 
 
@@ -219,11 +221,11 @@ There are 6 Action types you can add to the Match, all derived from base action 
 ```cpp
 BaseAction(std::string matchGuid,
         long long actionTimeEpoch,
-        std::string playerGuid)
+        std::string playerId)
 ```
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened
-* `playerGuid` - A unique name (you player Id) of the p;layer that was enloved in the action 
+* `playerId` - your player Id (which will called playerGuid on Getgud's side) 
 
 ### Spawn Action
 
@@ -270,12 +272,12 @@ Note that the Attack action is not bound to the `Damage` action, it is an attemp
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
                      BaseAction:: baseAction,
-                     std::string attackerPlayerGuid,
+                     std::string attackerPlayerId,
                      std::string weaponGuid,
 );
 ```
 * `BaseAction` - See BaseAction
-* `attackerPlayerGuid` - A unique name (your player id) of the player which created the damage, if the damage was created by the environment, you can singal this by using the 'PvE' symbol as the player guid.
+* `attackerPlayerId` - A unique name (your player id) of the player which created the damage, if the damage was created by the environment, you can singal this by using the 'PvE' symbol as the player guid.
 * `weaponGuid` - A unique name of the weapon that the attack was performed with, max length is 36 chars.
 
 ### Damage Action
@@ -318,42 +320,25 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(BaseAction:: 
 ```
 * `BaseAction` - See BaseAction
 
-## Adding Chat and Reports to live Match
-
-
-Let's send a report to this match:
-
-```cpp
-EXAMPLE
-);
-```
-
-Let's also send a chat massge to this match:
-
-```cpp
-EXAMPLE
-);
-```
-
-When your Game is live you can add Chat and Report data to any of the running matches using `matchGuid`. Let's see how you can add Chats and Reports for the live games.
-
-#### Adding Chat Message
-Here is how you can create a chat message and send it to live Match:
+## Adding Chat Messages
+To add a chat massge to a live Match:
 
 ```cpp
 GetGudSdk::ChatMessageInfo messageData;
 messageData.message = "Hi from Getgud!";
 messageData.messageTimeEpoch = 1684059337532;
-messageData.playerGuid = "player1";
+messageData.playerId = "player1";
 GetGudSdk::SendChatMessage(
   "6a3d1732-8f72-12eb-bdef-56d89392f384", // matchGuid 
   messageData
 );
 ```
 
-#### Adding Report
+## Adding Reports
 
-Here is how you can add Report to the live Match:
+To add a reports to a live Match:
+Note that all of the fields are optional exept `MatchGuid` and `SuspectedPlayerId` (a report must have a valid match and player).
+
 ```cpp
 GetGudSdk::ReportInfo reportInfo;
 reportInfo.MatchGuid = "6a3d1732-8f72-12eb-bdef-56d89392f384";
@@ -362,46 +347,28 @@ reportInfo.ReporterName = "player1";
 reportInfo.ReporterSubType = 0;
 reportInfo.ReporterType = 0;
 reportInfo.SuggestedToxicityScore = 100;
-reportInfo.SuspectedPlayerGuid = "player1";
+reportInfo.SuspectedPlayerId = "player1";
 reportInfo.TbSubType = 0;
 reportInfo.TbTimeEpoch = 1684059337532;
 reportInfo.TbType = 0;
 GetGudSdk::SendInMatchReport(reportInfo);
 ```
+* `MatchGuid`- guid of the live Match you are sending a report to **(Mandatory field)**
+* `ReportedTimeEpoch`- epoch time of when the report was created **(optional field)**
+* `ReporterName`- the name of the entity that created the report **(optional field)**
+* `ReporterType`- the type of the entity that created the report **(optional field)** (ART TODO: ADD BELOW THE ENUMS, SAME FOR ALL EMUNS, THEY MUST BE HERE)
+* `ReporterSubType`-   the subtype of the entity that created the report **(optional field)**
+* `SuggestedToxicityScore`- 0-100 toxicity score, ie: how much do you suspect the player **(optional field)**
+* `SuspectedPlayerId`- the player Id of the suspected player **(Mandatory field)**
+* `TbType` - id of the toxic behavior type, for example, Aimbot **(optional field)**
+* `TbSubType` - id of the toxic behavior subtype, for example, Spinbot **(optional field)**
+* `TbTimeEpoch` - epoch time of when the toxic behavior event occured **(optional field)**
 
-Here is the description of each report field. Note that all of the fields are optional exept suspected player guid.
-- `MatchGuid`: guid of the live Match you are sending a report for
-- `ReportedTimeEpoch`: epoch time in milliseconds of when the report was sent **(optional field)**
-- `ReporterName`: Name of the entity that created the report **(optional field)**
-- `ReporterType`: Id of the entity type that created the report, it could be "anticheat", "in-match report" and others **(optional field)**
-- `ReporterSubType`:  If of the subtype of the entity that created the report, for type "anticheat" the subtypes could be "Easy Anticheat", "Internal Anticheat, and others" **(optional field)**
-- `SuggestedToxicityScore`: 0-100 toxicity score, in other words, how much do you suspect the player **(optional field)**
-- `SuspectedPlayerGuid`: guid of the suspected player **(Mandatory field)**
-- `TbType`:: Id of the toxic behavior type, for example, Aimbot **(optional field)**
-- `TbSubType`: Id of the toxic behavior subtype, for example, Spinbot **(optional field)**
-- `TbTimeEpoch`: Epoch time in milliseconds when toxic behavior event happened **(optional field)**
+Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids (TODO: ART: provide thge enums here)
 
-Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids
+### Sending Reports to Historical Matches
 
-### Ending Games and Matches
-
-#### MarkEndGame(gameGuid)
-
-When the live Game ends, you should mark it as finished for Getgud. To mark a game as finished, call `MarkEndGame` with the game GUID you received when you started the Game:
-
-```cpp
-bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
-```
-
-When the Game is marked as ended your Actions, Chat Data, and Report Data for ANY of the Game's Matches will not be added anymore.
-
-`MarkEndGame` returns true/false depending if the Game was successfully closed or not.
-
-### Sending Reports to finished Matches
-
-If the Match and its corresponding Game are finished you still can send a report to the Match. 
-
-Here is an example of how you can do this:
+To add a reports to a histotical Match (a match which is not live and has ended):
 
 ```cpp
 std::deque<GetGudSdk::ReportInfo> reports;
@@ -412,7 +379,7 @@ reportInfo.ReporterName = "player1";
 reportInfo.ReporterSubType = 0;
 reportInfo.ReporterType = 0;
 reportInfo.SuggestedToxicityScore = 100;
-reportInfo.SuspectedPlayerGuid = "player1";
+reportInfo.SuspectedPlayerId = "player1";
 reportInfo.TbSubType = 0;
 reportInfo.TbTimeEpoch = 1684059337532;
 reportInfo.TbType = 0;
@@ -424,8 +391,9 @@ GetGudSdk::SendReports(
   reports
 );
 ```
+You can also use SendReports function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
-Here we use a deque of reports to which we add reports and then send them to Getgud. You can also use SendReports function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
+Deque of reports:
 
 ```cpp
 GetGudSdk::SendReports(
@@ -433,18 +401,19 @@ GetGudSdk::SendReports(
 );
 ```
 
-### Sending Player Updates
+## Sending Player Updates
 
-To update player information, you can call `UpdatePlayers` like this:
-This is an async method which will not block the calling thread.
+To update player information, you can call `UpdatePlayers`:
 
 ```cpp
 std::deque<GetGudSdk::PlayerInfo> playerInfos;
 GetGudSdk::PlayerInfo playerInfo;
-playerInfo.PlayerGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
+playerInfo.PlayerId = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 playerInfo.PlayerNickname = "test";
 playerInfo.PlayerEmail = "test@test.com";
 playerInfo.PlayerRank = 10;
+playerInfo."playerSuspectScore": 12,
+playerInfo."playerReputation": "esteemed",
 playerInfo.PlayerJoinDateEpoch = 1684059337532;
 playerInfos.push_back(playerInfo);
 bool playersUpdated = GetGudSdk::UpdatePlayers(
@@ -453,9 +422,17 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
   players
 );
 ```
+* `PlayerId`- Your player Id - String, 36 chars max.
+* `PlayerNickname`- Nickname of the player **(optional field)**
+* `PlayerEmail`- Email of the player **(optional field)**
+* `PlayerRank`- Integer rank of the player **(optional field)**
+* `playerSuspectScore`- Integer between 1-100 that indicatews how suspicious this player is to you **(optional field)**
+* `playerReputation`- A String represention the reputation of the player, 36 chars max. **(optional field)**
+* `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 
-Note, that `PlayerNickname`, `PlayerEmail`, `PlayerRank` and `PlayerJoinDateEpoch` fields are optional!
+Note, that all fields are optional except player Id.
 As you see similarly to SendReports we use a deque of PlayerInfo objects to send it to Getgud SDK.
+This is an async method which will not block the calling thread.
 
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
@@ -464,11 +441,7 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(players);
 ```
 
 Here is the description of each player field:
-- `PlayerGuid`: Guid of the player, identifies this player in every title Game, and is unique for the title.
-- `PlayerNickname`: Nickname of the player **(optional field)**
-- `PlayerEmail`: Email of the player **(optional field)**
-- `PlayerRank`: Integer rank of the player **(optional field)**
-- `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
+
 
 
 ## Configuration
@@ -496,8 +469,8 @@ Example of configuration file `config.json`:
   "packetMaxSizeInBytes": 2000000,
   "actionsBufferMaxSizeInBytes": 10000000,
   "gameContainerMaxSizeInBytes": 50000000,
-  "maxGames": 25,
-  "maxMatchesPerGame": 10,
+  "maxConcurrentGames": 100,
+  "maxMatchesPerGame": 30,
   "minPacketSizeForSendingInBytes": 1000000,
   "packetTimeoutInMilliseconds": 100000,
   "gameCloseGraceAfterMarkEndInMilliseconds": 20000,
@@ -507,7 +480,7 @@ Example of configuration file `config.json`:
   "hyperModeAtBufferPercentage": 10,
   "hyperModeUpperPercentageBound": 90,
   "hyperModeThreadCreationStaggerMilliseconds": 100,
-  "logLevel": "FULL"
+  "logLevel": "warn"
 }
 ```
 
