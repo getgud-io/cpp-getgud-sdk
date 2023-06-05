@@ -335,19 +335,19 @@ GetGudSdk::SendChatMessage(
 
 To add a reports to a live Match:
 Note that all of the fields are optional exept `MatchGuid` and `SuspectedPlayerId` (a report must have a valid match and player).
+To fill `ReporterType`, `ReporterSubType` and `TbType` fields you can use enums exposed to you by our SDK.
 
 ```cpp
 GetGudSdk::ReportInfo reportInfo;
-reportInfo.MatchGuid = "6a3d1732-8f72-12eb-bdef-56d89392f384";
+reportInfo.MatchGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 reportInfo.ReportedTimeEpoch = 1684059337532;
 reportInfo.ReporterName = "player1";
-reportInfo.ReporterSubType = 0;
-reportInfo.ReporterType = 0;
+reportInfo.ReporterSubType = GetGudSdk::Values::ReporterSubtype.QA;
+reportInfo.ReporterType = GetGudSdk::Values::ReporterSubtype.Moderator;
 reportInfo.SuggestedToxicityScore = 100;
 reportInfo.SuspectedPlayerId = "player1";
-reportInfo.TbSubType = 0;
 reportInfo.TbTimeEpoch = 1684059337532;
-reportInfo.TbType = 0;
+reportInfo.TbType = GetGudSdk::Values::ReporterSubtype.Wallhack;
 GetGudSdk::SendInMatchReport(reportInfo);
 ```
 * `MatchGuid`- guid of the live Match you are sending a report to **(Mandatory field)**
@@ -373,13 +373,12 @@ GetGudSdk::ReportInfo reportInfo;
 reportInfo.MatchGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 reportInfo.ReportedTimeEpoch = 1684059337532;
 reportInfo.ReporterName = "player1";
-reportInfo.ReporterSubType = 0;
-reportInfo.ReporterType = 0;
+reportInfo.ReporterSubType = GetGudSdk::Values::ReporterSubtype.QA;
+reportInfo.ReporterType = GetGudSdk::Values::ReporterSubtype.Moderator;
 reportInfo.SuggestedToxicityScore = 100;
 reportInfo.SuspectedPlayerId = "player1";
-reportInfo.TbSubType = 0;
 reportInfo.TbTimeEpoch = 1684059337532;
-reportInfo.TbType = 0;
+reportInfo.TbType = GetGudSdk::Values::ReporterSubtype.Wallhack;
 reports.push_back(reportInfo);
 
 GetGudSdk::SendReports(
