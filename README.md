@@ -218,7 +218,7 @@ There are 6 Action types you can add to the Match, all derived from base action 
 ```cpp
 BaseAction(std::string matchGuid,
         long long actionTimeEpoch,
-        std::string playerId)
+        std::string playerId);
 ```
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened
@@ -334,7 +334,7 @@ GetGudSdk::SendChatMessage(
 ## Adding Reports
 
 To add a reports to a live Match:
-Note that all of the fields are optional exept `MatchGuid` and `SuspectedPlayerId` (a report must have a valid match and player).
+Note that all of the fields are optional exept `MatchGuid` and `SuspectedPlayerId` (a report must have a valid match and player).<br> 
 To fill `ReporterType`, `ReporterSubType` and `TbType` fields you can use enums exposed to you by our SDK.
 
 ```cpp
@@ -353,7 +353,7 @@ GetGudSdk::SendInMatchReport(reportInfo);
 * `MatchGuid`- guid of the live Match you are sending a report to **(Mandatory field)**
 * `ReportedTimeEpoch`- epoch time of when the report was created **(optional field)**
 * `ReporterName`- the name of the entity that created the report **(optional field)**
-* `ReporterType`- the type of the entity that created the report **(optional field)** (ART TODO: ADD BELOW THE ENUMS, SAME FOR ALL EMUNS, THEY MUST BE HERE)
+* `ReporterType`- the type of the entity that created the report **(optional field)**
 * `ReporterSubType`-   the subtype of the entity that created the report **(optional field)**
 * `SuggestedToxicityScore`- 0-100 toxicity score, ie: how much do you suspect the player **(optional field)**
 * `SuspectedPlayerId`- the player Id of the suspected player **(Mandatory field)**
@@ -361,7 +361,7 @@ GetGudSdk::SendInMatchReport(reportInfo);
 * `TbSubType` - id of the toxic behavior subtype, for example, Spinbot **(optional field)**
 * `TbTimeEpoch` - epoch time of when the toxic behavior event occured **(optional field)**
 
-Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids (TODO: ART: provide thge enums here)
+Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids.
 
 ### Sending Reports On Historical Matches
 
