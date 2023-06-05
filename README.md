@@ -44,7 +44,6 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 
 ## Getting Started
 
-Insert Config Path and Log file path to the environment variables `CONFIG_PATH` and `LOG_FILE_PATH`.
 Insert the Title Id and Private Key you recieved from Getgud.io to the `TITLE_ID` and `PRIVATE_KEY` environment variables, or use them as arguments for StartGame.
 
 For multiple title support on the same machine you can use the following overloaded methods:
