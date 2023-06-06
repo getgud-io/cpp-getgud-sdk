@@ -17,13 +17,13 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 * The top container in Getgud's SDK is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.
 
   ```
-  Example of Title: CS:GO 
+  An example of a Title: CS:GO 
   ```
 
 * Next up is `Game`, it is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is provided to you once the `Game` starts. 
 
   ```
-  An example of a Game is a CS:GO Game which has 30 macthes (AKA rounds) inside it.
+  An example of a Game is a CS:GO game which has 30 macthes (AKA rounds) inside it.
   ```
 
 * `Match` represents the actual play time that is streamed for analysis.  Like `Game`, `Match` also has a GUID which will be provided to you once you start a new match.
@@ -44,26 +44,7 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 
 ## Getting Started
 
-Insert the Title Id and Private Key you recieved from Getgud.io to the `TITLE_ID` and `PRIVATE_KEY` environment variables, or use them as arguments for StartGame.
-
-For multiple title support on the same machine you can use the following overloaded methods:
-
-```cpp
-std::string StartGame(int titleId,
-                      std::string privateKey,
-                      std::string serverGuid,
-                      std::string gameMode);
-...
-
-bool SendReports(int titleId,
-                 std::string privateKey,
-                 std::deque<ReportInfo>& reports);
-...
-
-bool UpdatePlayers(int titleId,
-                   std::string privateKey,
-                   std::deque<PlayerInfo>& players);
-```
+Insert the Title Id and Private Key you recieved from Getgud.io to the `GETGUD_TITLE_ID ` and `GETGUD_PRIVATE_KEY` environment variables, or use them as arguments for StartGame. (multiple title support available below)
 
 Include the follwing header file:
 
@@ -86,8 +67,7 @@ std::string gameGuid = GetGudSdk::StartGame(
 );
 ```
 
-Once the Game starts, you'll recieve the Game's guid.
-Now you can start a Match:
+Once the Game starts, you'll recieve the Game's guid, now you can start a Match:
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(
@@ -97,7 +77,7 @@ std::string matchGuid = GetGudSdk::StartMatch(
 );
 ```
 
-Once you have a match, you can send Actions to it.
+Once you create a match, you can send Actions to it.
 Let's create a deque of Actions and send it to the match:
 
 ```cpp
