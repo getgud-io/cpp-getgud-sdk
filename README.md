@@ -342,8 +342,6 @@ GetGudSdk::SendInMatchReport(reportInfo);
 * `TbSubType` - id of the toxic behavior subtype, for example, Spinbot **(optional field)**
 * `TbTimeEpoch` - epoch time of when the toxic behavior event occured **(optional field)**
 
-Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids.
-
 ### Sending Reports On Historical Matches
 
 To add a reports to a histotical Match (a match which is not live and has ended):
