@@ -27,7 +27,7 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
   ```
 
 * `Match` represents the actual play time that is streamed for analysis.
-The `Match` is the containr of the actions that occured in the match's timespan.
+A `Match` is the containr of actions that occured in the match's timespan.
 Like `Game`, `Match` also has a GUID which will be provided to you once you start a new match.
 
   ```
