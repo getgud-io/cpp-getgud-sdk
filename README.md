@@ -20,7 +20,7 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
   An example of a Title: CS:GO 
   ```
 
-* Next up is `Game`, it is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is provided to you once the `Game` starts. 
+* Next up is `Game`, a `Game` is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is provided to you once the `Game` starts. 
 
   ```
   An example of a Game is a CS:GO game which has 30 macthes (AKA rounds) inside it.
@@ -33,11 +33,10 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
   ```
 
 * `Action` represents an in-match activity that is associated with a player. We collect six different action types which are common to all first person shooter gamnes:
-
 1. `Spwan` - Whenever a player appears or reappears in-match, on the map.
 2. `Death` - A death of a player.
 3. `Position` - player position change (including looking direction).
-4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc...
+4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
 6. `Heal` - Whenever a player is healed.
 
