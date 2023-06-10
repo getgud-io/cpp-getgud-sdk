@@ -322,12 +322,12 @@ GetGudSdk::ReportInfo reportInfo;
 reportInfo.MatchGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 reportInfo.ReportedTimeEpoch = 1684059337532;
 reportInfo.ReporterName = "player1";
-reportInfo.ReporterSubType = GetGudSdk::Values::ReporterSubtype.QA;
 reportInfo.ReporterType = GetGudSdk::Values::ReporterSubtype.Moderator;
+reportInfo.ReporterSubType = GetGudSdk::Values::ReporterSubtype.QA;
 reportInfo.SuggestedToxicityScore = 100;
 reportInfo.SuspectedPlayerId = "player1";
 reportInfo.TbTimeEpoch = 1684059337532;
-reportInfo.TbType = GetGudSdk::Values::ReporterSubtype.Wallhack;
+reportInfo.TbType = GetGudSdk::Values::TBType.Wallhack;
 GetGudSdk::SendInMatchReport(reportInfo);
 ```
 * `MatchGuid`- guid of the live Match you are sending a report to **(Mandatory field)**
