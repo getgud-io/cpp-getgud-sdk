@@ -316,6 +316,7 @@ GetGudSdk::SendChatMessage(
 To add a reports to a live Match:
 Note that all of the fields are optional exept `MatchGuid` and `SuspectedPlayerId` (a report must have a valid match and player).<br> 
 To fill `ReporterType`, `ReporterSubType` and `TbType` fields you can use enums exposed to you by our SDK.
+This is an async method which will not block the calling thread.
 
 ```cpp
 GetGudSdk::ReportInfo reportInfo;
@@ -380,6 +381,9 @@ GetGudSdk::SendReports(
 ## Sending Player Updates
 
 To update player information, you can call `UpdatePlayers`:
+All fields are optional except player Id.
+Use a deque of PlayerInfo objects to send to Getgud SDK.
+This is an async method which will not block the calling thread.
 
 ```cpp
 std::deque<GetGudSdk::PlayerInfo> playerInfos;
@@ -406,17 +410,11 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
 * `playerReputation`- A String represention the reputation of the player, 36 chars max. **(optional field)**
 * `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 
-Note, that all fields are optional except player Id.
-As you see similarly to SendReports we use a deque of PlayerInfo objects to send it to Getgud SDK.
-This is an async method which will not block the calling thread.
-
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
 ```cpp
 bool playersUpdated = GetGudSdk::UpdatePlayers(players);
 ```
-
-Here is the description of each player field:
 
 ## Configuration
 
