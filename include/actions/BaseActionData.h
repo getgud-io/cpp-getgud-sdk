@@ -1,5 +1,15 @@
 #pragma once
 
+#if defined(__cplusplus) && defined(_WIN32)
+#ifndef GETGUDSDK_EXPORTS
+#define GETGUDSDK_API __declspec(dllexport)
+#else
+#define GETGUDSDK_API __declspec(dllimport)
+#endif
+#else
+#define GETGUDSDK_API
+#endif
+
 #include <map>
 #include <string>
 
@@ -17,13 +27,13 @@ class BaseActionData {
   bool m_isEmpty = false;
 
  public:
-  BaseActionData(BaseData data, bool _isEmpty = false);
-  BaseActionData(const BaseActionData& data);
-  BaseActionData() = delete;
-  virtual ~BaseActionData();
-  virtual bool IsValid();
-  virtual std::string ToString();
-  virtual std::string ToStringMeta();
-  virtual BaseActionData* Clone();
+  GETGUDSDK_API BaseActionData(BaseData data, bool _isEmpty = false);
+  GETGUDSDK_API BaseActionData(const BaseActionData& data);
+  GETGUDSDK_API BaseActionData() = delete;
+  GETGUDSDK_API virtual ~BaseActionData();
+  GETGUDSDK_API virtual bool IsValid();
+  GETGUDSDK_API virtual std::string ToString();
+  GETGUDSDK_API virtual std::string ToStringMeta();
+  GETGUDSDK_API virtual BaseActionData* Clone();
 };
 }  // namespace GetGudSdk

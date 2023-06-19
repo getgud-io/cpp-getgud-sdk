@@ -1,26 +1,36 @@
 #pragma once
 #include "BaseActionData.h"
 
+#if defined(__cplusplus) && defined(_WIN32)
+#ifndef GETGUDSDK_EXPORTS
+#define GETGUDSDK_API __declspec(dllexport)
+#else
+#define GETGUDSDK_API __declspec(dllimport)
+#endif
+#else
+#define GETGUDSDK_API
+#endif
+
 namespace GetGudSdk {
 unsigned int GetPositionActionSize();
-
 class PositionActionData : public BaseActionData {
-  PositionF m_position;
-  RotationF m_rotation;
+private:
+  Orientation m_orientation;
   unsigned int m_size = 0;
 
  public:
-  PositionActionData(std::string matchGuid,
+   GETGUDSDK_API PositionActionData(std::string matchGuid,
                      long long actionTimeEpoch,
                      std::string playerGuid,
                      PositionF position,
                      RotationF rotation);
-  PositionActionData(const PositionActionData& data);
-  PositionActionData() = delete;
-  ~PositionActionData() override;
-  bool IsValid() override;
-  std::string ToString() override;
-  std::string ToStringMeta() override;
-  PositionActionData* Clone() override;
+  GETGUDSDK_API PositionActionData(const PositionActionData& data);
+  GETGUDSDK_API PositionActionData() = delete;
+  GETGUDSDK_API ~PositionActionData() override;
+  GETGUDSDK_API bool IsValid() override;
+  GETGUDSDK_API std::string ToString() override;
+  GETGUDSDK_API std::string ToStringMeta() override;
+  GETGUDSDK_API PositionActionData* Clone() override;
+  GETGUDSDK_API Orientation& getOrientation();
 };
 }  // namespace GetGudSdk

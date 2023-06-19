@@ -1,5 +1,15 @@
 #pragma once
 
+#if defined(__cplusplus) && defined(_WIN32)
+#ifndef GETGUDSDK_EXPORTS
+#define GETGUDSDK_API __declspec(dllexport)
+#else
+#define GETGUDSDK_API __declspec(dllimport)
+#endif
+#else // not win32
+#define GETGUDSDK_API
+#endif
+
 #include "actions/AttackActionData.h"
 #include "actions/DamageActionData.h"
 #include "actions/DeathActionData.h"
@@ -12,35 +22,35 @@
 
 namespace GetGudSdk {
 
-void Init();
-std::string StartGame(int titleId,
+GETGUDSDK_API bool Init();
+GETGUDSDK_API std::string StartGame(int titleId,
                       std::string privateKey,
                       std::string serverGuid,
                       std::string gameMode);
-std::string StartGame(std::string serverGuid, std::string gameMode);
-std::string StartMatch(std::string gameGuid,
+GETGUDSDK_API std::string StartGame(std::string serverGuid, std::string gameMode);
+GETGUDSDK_API std::string StartMatch(std::string gameGuid,
                        std::string matchMode,
                        std::string mapName);
-bool MarkEndGame(std::string gameGuid);
-bool SendInMatchReport(ReportInfo reportInfo);
-bool SendChatMessage(std::string matchGuid, ChatMessageInfo messageInfo);
-bool SendActions(std::deque<BaseActionData*> actions);
-bool SendAction(BaseActionData* action);
-bool SendAttackAction(std::string matchGuid,
+GETGUDSDK_API bool MarkEndGame(std::string gameGuid);
+GETGUDSDK_API bool SendInMatchReport(ReportInfo reportInfo);
+GETGUDSDK_API bool SendChatMessage(std::string matchGuid, ChatMessageInfo messageInfo);
+GETGUDSDK_API bool SendActions(std::deque<BaseActionData*> actions);
+GETGUDSDK_API bool SendAction(BaseActionData* action);
+GETGUDSDK_API bool SendAttackAction(std::string matchGuid,
                       long long actionTimeEpoch,
                       std::string playerGuid,
                       std::string weaponGuid);
-bool SendDamageAction(std::string matchGuid,
+GETGUDSDK_API bool SendDamageAction(std::string matchGuid,
                       long long actionTimeEpoch,
                       std::string playerGuid,
                       std::string victimPlayerGuid,
                       float damageDone,
                       std::string weaponGuid);
-bool SendHealAction(std::string matchGuid,
+GETGUDSDK_API bool SendHealAction(std::string matchGuid,
                     long long actionTimeEpoch,
                     std::string playerGuid,
                     float healthGained);
-bool SendSpawnAction(std::string matchGuid,
+GETGUDSDK_API bool SendSpawnAction(std::string matchGuid,
                      long long actionTimeEpoch,
                      std::string playerGuid,
                      std::string characterGuid,
@@ -48,23 +58,23 @@ bool SendSpawnAction(std::string matchGuid,
                      float initialHealth,
                      PositionF position,
                      RotationF rotation);
-bool SendDeathAction(std::string matchGuid,
+GETGUDSDK_API bool SendDeathAction(std::string matchGuid,
                      long long actionTimeEpoch,
                      std::string playerGuid);
-bool SendPositionAction(std::string matchGuid,
+GETGUDSDK_API bool SendPositionAction(std::string matchGuid,
                         long long actionTimeEpoch,
                         std::string playerGuid,
                         PositionF position,
                         RotationF rotation);
 
-bool SendReports(int titleId,
+GETGUDSDK_API bool SendReports(int titleId,
                  std::string privateKey,
                  std::deque<ReportInfo>& reports);
-bool SendReports(std::deque<ReportInfo>& reports);
-bool UpdatePlayers(int titleId,
+GETGUDSDK_API bool SendReports(std::deque<ReportInfo>& reports);
+GETGUDSDK_API bool UpdatePlayers(int titleId,
                    std::string privateKey,
                    std::deque<PlayerInfo>& players);
-bool UpdatePlayers(std::deque<PlayerInfo>& players);
-void Dispose();
+GETGUDSDK_API bool UpdatePlayers(std::deque<PlayerInfo>& players);
+GETGUDSDK_API void Dispose();
 
 }  // namespace GetGudSdk

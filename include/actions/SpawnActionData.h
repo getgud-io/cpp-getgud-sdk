@@ -3,6 +3,17 @@
 
 #include <vector>
 
+#if defined(__cplusplus) && defined(_WIN32)
+#ifndef GETGUDSDK_EXPORTS
+#define GETGUDSDK_API __declspec(dllexport)
+#else
+#define GETGUDSDK_API __declspec(dllimport)
+#endif
+#else
+#define GETGUDSDK_API
+#endif
+
+
 namespace GetGudSdk {
 class SpawnActionData : public BaseActionData {
   PositionF m_position;
@@ -12,7 +23,7 @@ class SpawnActionData : public BaseActionData {
   std::string m_characterGuid;
 
  public:
-  SpawnActionData(std::string matchGuid,
+  GETGUDSDK_API SpawnActionData(std::string matchGuid,
                   long long actionTimeEpoch,
                   std::string playerGuid,
                   std::string characterGuid,
@@ -20,12 +31,12 @@ class SpawnActionData : public BaseActionData {
                   float initialHealth,
                   PositionF position,
                   RotationF rotation);
-  SpawnActionData(const SpawnActionData& data);
-  SpawnActionData() = delete;
-  ~SpawnActionData() override;
-  bool IsValid() override;
-  std::string ToString() override;
-  std::string ToStringMeta() override;
-  SpawnActionData* Clone() override;
+  GETGUDSDK_API SpawnActionData(const SpawnActionData& data);
+  GETGUDSDK_API SpawnActionData() = delete;
+  GETGUDSDK_API ~SpawnActionData() override;
+  GETGUDSDK_API bool IsValid() override;
+  GETGUDSDK_API std::string ToString() override;
+  GETGUDSDK_API std::string ToStringMeta() override;
+  GETGUDSDK_API SpawnActionData* Clone() override;
 };
 }  // namespace GetGudSdk

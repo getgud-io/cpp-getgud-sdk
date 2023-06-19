@@ -4,7 +4,7 @@
 #else
 #define GETGUDSDK_API __declspec(dllimport)
 #endif
-#else
+#else // not win32
 #define GETGUDSDK_API
 #endif
 
@@ -17,6 +17,7 @@ struct PositionF {
 };
 
 struct RotationF {
+  float Yaw;
   float Pitch;
   float Roll;
 };
@@ -87,7 +88,7 @@ struct ReportInfo {
 extern "C" {
 #endif
 
-GETGUDSDK_API void init();
+GETGUDSDK_API int init();
 GETGUDSDK_API int StartGame(struct StartGameInfo gameInfo, char* gameGuidOut);
 GETGUDSDK_API int StartMatch(struct StartMatchInfo matchInfo, char* matchGuidOut);
 GETGUDSDK_API int MarkEndGame(char* gameGuid, int guidSize);
