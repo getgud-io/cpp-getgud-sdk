@@ -17,66 +17,40 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 * The top container in Getgud's SDK is `Title`, which represents a literal game’s title, you as a client can have many titles, for example, a `Title` named CS:GO represents the CS:GO video game.
 
   ```
-  Example of Title: CS:GO 
+  An example of a Title: CS:GO 
   ```
 
-* Next up is `Game`, it is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is provided to you once the `Game` starts. 
+* Next up is `Game`, a `Game` is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is provided to you once the `Game` starts. 
 
   ```
-  An example of a Game is a CS:GO Game which has 30 macthes (AKA rounds) inside it.
+  An example of a Game is a CS:GO game which has 30 macthes (AKA rounds) inside it.
   ```
 
-* `Match` represents the actual play time that is streamed for analysis.  Like `Game`, `Match` also has a GUID which will be provided to you once you start a new match.
+* `Match` represents the actual play time that is streamed for analysis.
+A `Match` is the containr of actions that occured in the match's timespan.
+Like `Game`, `Match` also has a GUID which will be provided to you once you start a new match.
 
   ```
   An example of a Match is a single CS:GO round inside the game.
   ```
 
 * `Action` represents an in-match activity that is associated with a player. We collect six different action types which are common to all first person shooter gamnes:
-
 1. `Spwan` - Whenever a player appears or reappears in-match, on the map.
 2. `Death` - A death of a player.
-3. `Position` - player position change (including looking direction). 128 tick sensitive.
-4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc...
+3. `Position` - player position change (including looking direction).
+4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
 6. `Heal` - Whenever a player is healed.
 
 
 ## Getting Started
 
-Insert the Title Id and Private Key you recieved from Getgud.io to the following environment variables:
-
-```
-//Windows
-setx CONFIG_PATH \path\to\config_file
-setx LOG_FILE_PATH \path\to\log_file
-
-//Linux
-CONFIG_PATH=/path/to/config_file
-LOG_FILE_PATH=/path/to/log_file
-```
-
-For multiple title support on the same machine you can use the following overloaded methods:
-
-```cpp
-std::string StartGame(int titleId,
-                      std::string privateKey,
-                      std::string serverGuid,
-                      std::string gameMode);
-...
-bool SendReports(int titleId,
-                 std::string privateKey,
-                 std::deque<ReportInfo>& reports);
-...
-bool UpdatePlayers(int titleId,
-                   std::string privateKey,
-                   std::deque<PlayerInfo>& players);
-```
+Insert the Title Id and Private Key you recieved from Getgud.io to the `GETGUD_TITLE_ID ` and `GETGUD_PRIVATE_KEY` environment variables, or use them as arguments for StartGame. (multiple title support available below)
 
 Include the follwing header file:
 
 ```cpp
-#include "../include/GetGudSdk.h"
+#include <GetGudSdk.h>
 ```
 
 Initialize the SDK:
@@ -94,8 +68,7 @@ std::string gameGuid = GetGudSdk::StartGame(
 );
 ```
 
-Once the Game starts, you'll recieve the Game's guid.
-Now you can start a Match:
+Once the Game starts, you'll recieve the Game's guid, now you can start a Match:
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(
@@ -105,11 +78,11 @@ std::string matchGuid = GetGudSdk::StartMatch(
 );
 ```
 
-Once you have a match, you can send Actions to it.
-Let's create a vector of Actions and send it to the match:
+Once you create a match, you can send Actions to it.
+Let's create a deque of Actions and send it to the match:
 
 ```cpp
-//Create a vector of Actions
+//Create a deque of Actions
 std::deque<GetGudSdk::BaseActionData*> actionsToSend {
 new GetGudSdk::SpawnActionData(
             matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
@@ -122,12 +95,12 @@ new GetGudSdk::PositionActionData(
 };
 
 //Send it to the SDK
-GetGudSdk::SendActions(actionsVector);
+GetGudSdk::SendActions(actionsToSend);
 
 //Clean up the actions
-for (auto* sentAction : actionsVector)
+for (auto* sentAction : actionsToSend)
     delete sentAction;
-  actionsVector.clear();
+  actionsToSend.clear();
 ```
 
 End a game (All Game's Matches will close as well):
@@ -226,7 +199,7 @@ There are 6 Action types you can add to the Match, all derived from base action 
 ```cpp
 BaseAction(std::string matchGuid,
         long long actionTimeEpoch,
-        std::string playerId)
+        std::string playerId);
 ```
 * `matchGuid` - guid of the live Match where the action happened, is given to you when `StartMatch` is called.
 * `actionTimeEpoch` - epoch time in milliseconds when the action happened
@@ -246,16 +219,16 @@ GetGudSdk::BaseActionData* action = new SpawnActionData(
         RotationF rotation);
 ```
 * `baseAction` - See BaseAction
-* `characterGuid` - guid of the spwaned character from your game, max length is 10 chars.
-* `teamId` - TODO
-* `initialHealth` - TODO
+* `characterGuid` - Guid of the spwaned character from your game, 36 max length.
+* `teamId` - The identifier number of the player's team
+* `initialHealth` - The initial health of the player
 * `position` - X,Y,Z coordinates of the player at the moment of action.
 * `rotation` - PITCH, ROLL rotation of player view at the moment of action.
 
 ### Position Action
 
 To create a Position Action, use the `PositionActionData` class.
-This action marks the change of `Player` position and view site. You can send this every tick, up to 128 ticks.
+This action marks the change of `Player` position and view site.
 
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::PositionActionData(
@@ -342,26 +315,27 @@ GetGudSdk::SendChatMessage(
 ## Adding Reports
 
 To add a reports to a live Match:
-Note that all of the fields are optional exept `MatchGuid` and `SuspectedPlayerId` (a report must have a valid match and player).
+Note that all of the fields are optional exept `MatchGuid` and `SuspectedPlayerId` (a report must have a valid match and player).<br> 
+To fill `ReporterType`, `ReporterSubType` and `TbType` fields you can use enums exposed to you by our SDK.
+This is an async method which will not block the calling thread.
 
 ```cpp
 GetGudSdk::ReportInfo reportInfo;
-reportInfo.MatchGuid = "6a3d1732-8f72-12eb-bdef-56d89392f384";
+reportInfo.MatchGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 reportInfo.ReportedTimeEpoch = 1684059337532;
 reportInfo.ReporterName = "player1";
-reportInfo.ReporterSubType = 0;
-reportInfo.ReporterType = 0;
+reportInfo.ReporterType = GetGudSdk::Values::ReporterSubtype.Moderator;
+reportInfo.ReporterSubType = GetGudSdk::Values::ReporterSubtype.QA;
 reportInfo.SuggestedToxicityScore = 100;
 reportInfo.SuspectedPlayerId = "player1";
-reportInfo.TbSubType = 0;
 reportInfo.TbTimeEpoch = 1684059337532;
-reportInfo.TbType = 0;
+reportInfo.TbType = GetGudSdk::Values::TBType.Wallhack;
 GetGudSdk::SendInMatchReport(reportInfo);
 ```
 * `MatchGuid`- guid of the live Match you are sending a report to **(Mandatory field)**
 * `ReportedTimeEpoch`- epoch time of when the report was created **(optional field)**
 * `ReporterName`- the name of the entity that created the report **(optional field)**
-* `ReporterType`- the type of the entity that created the report **(optional field)** (ART TODO: ADD BELOW THE ENUMS, SAME FOR ALL EMUNS, THEY MUST BE HERE)
+* `ReporterType`- the type of the entity that created the report **(optional field)**
 * `ReporterSubType`-   the subtype of the entity that created the report **(optional field)**
 * `SuggestedToxicityScore`- 0-100 toxicity score, ie: how much do you suspect the player **(optional field)**
 * `SuspectedPlayerId`- the player Id of the suspected player **(Mandatory field)**
@@ -369,9 +343,7 @@ GetGudSdk::SendInMatchReport(reportInfo);
 * `TbSubType` - id of the toxic behavior subtype, for example, Spinbot **(optional field)**
 * `TbTimeEpoch` - epoch time of when the toxic behavior event occured **(optional field)**
 
-Note: for Reporter and Tb types and subtypes you should use reference tables provided to you by Getgud to determine the correct mapping to Ids (TODO: ART: provide thge enums here)
-
-### Sending Reports to Historical Matches
+### Sending Reports On Historical Matches
 
 To add a reports to a histotical Match (a match which is not live and has ended):
 
@@ -381,13 +353,12 @@ GetGudSdk::ReportInfo reportInfo;
 reportInfo.MatchGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 reportInfo.ReportedTimeEpoch = 1684059337532;
 reportInfo.ReporterName = "player1";
-reportInfo.ReporterSubType = 0;
-reportInfo.ReporterType = 0;
+reportInfo.ReporterSubType = GetGudSdk::Values::ReporterSubtype.QA;
+reportInfo.ReporterType = GetGudSdk::Values::ReporterSubtype.Moderator;
 reportInfo.SuggestedToxicityScore = 100;
 reportInfo.SuspectedPlayerId = "player1";
-reportInfo.TbSubType = 0;
 reportInfo.TbTimeEpoch = 1684059337532;
-reportInfo.TbType = 0;
+reportInfo.TbType = GetGudSdk::Values::ReporterSubtype.Wallhack;
 reports.push_back(reportInfo);
 
 GetGudSdk::SendReports(
@@ -409,6 +380,9 @@ GetGudSdk::SendReports(
 ## Sending Player Updates
 
 To update player information, you can call `UpdatePlayers`:
+All fields are optional except player Id.
+Use a deque of PlayerInfo objects to send to Getgud SDK.
+This is an async method which will not block the calling thread.
 
 ```cpp
 std::deque<GetGudSdk::PlayerInfo> playerInfos;
@@ -417,8 +391,8 @@ playerInfo.PlayerId = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 playerInfo.PlayerNickname = "test";
 playerInfo.PlayerEmail = "test@test.com";
 playerInfo.PlayerRank = 10;
-playerInfo."playerSuspectScore": 12,
-playerInfo."playerReputation": "esteemed",
+playerInfo.playerSuspectScore: 12,
+playerInfo.playerReputation: "esteemed",
 playerInfo.PlayerJoinDateEpoch = 1684059337532;
 playerInfos.push_back(playerInfo);
 bool playersUpdated = GetGudSdk::UpdatePlayers(
@@ -435,19 +409,11 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
 * `playerReputation`- A String represention the reputation of the player, 36 chars max. **(optional field)**
 * `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 
-Note, that all fields are optional except player Id.
-As you see similarly to SendReports we use a deque of PlayerInfo objects to send it to Getgud SDK.
-This is an async method which will not block the calling thread.
-
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
 ```cpp
 bool playersUpdated = GetGudSdk::UpdatePlayers(players);
 ```
-
-Here is the description of each player field:
-
-
 
 ## Configuration
 
@@ -492,4 +458,4 @@ Example of configuration file `config.json`:
 
 ## Examples
 
-An example of how to use the GetGud C++ SDK can be found in the [examples](../examples) directory.
+An example of how to use the GetGud C++ SDK can be found in the [examples](/examples/Starter) directory.
