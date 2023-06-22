@@ -54,7 +54,7 @@ Like `Game`, `Match` also has a GUID which will be provided to you once you star
   ```
 
 * `Action` represents an in-match activity that is associated with a player. We collect six different action types which are common to all first person shooter gamnes:
-1. `Spwan` - Whenever a player appears or reappears in-match, on the map.
+1. `Spawn` - Whenever a player appears or reappears in-match, on the map.
 2. `Death` - A death of a player.
 3. `Position` - player position change (including looking direction).
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
