@@ -4,20 +4,20 @@
 
 Getgud's C++ SDK allows you to integrate your game with the GetGud platform. Once integrated, you will be able to:
 
-- Stream live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
+- Stream live game data to GetGud's cloud, including in-match actions, in-match reports, and in-match chat messages.
 - Send Reports about historical matches to Getgud.
 - Send (and update) player information to Getgud.
 
 ## Build requirements:
-The shared and static libraries are different. Shared library can be linked directly to a project, because the binaries and headers requires only.
+The shared and static libraries are different. The shared library can be linked directly to a project because it only requires the binaries and headers.
 However, here is the way to link the static library correctly:
 ### Linux:
 Dependencies:
 - libcurl development kit.
 - zlib development kit.
 - openssl development kit.
-- libssl developemnt kit.
-- libcrypto developemnt kit.
+- libssl development kit.
+- libcrypto development kit.
 - g++ and gcc packages.
 - pthread library.
 
@@ -29,7 +29,7 @@ A test project with completed setup is included in each release folder.
 
 ## Prerequisites
 
-To start, we should understand the basic structure Getgud's SDK uses to understand an FPS: 
+To start, we need to understand the basic structure GetGud's SDK uses for an FPS: 
 
 **Titles->1->N->Games->1->N->Matches->1->N->Actions**
 
@@ -42,11 +42,11 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 * Next up is `Game`, a `Game` is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is provided to you once the `Game` starts. 
 
   ```
-  An example of a Game is a CS:GO game which has 30 macthes (AKA rounds) inside it.
+  An example of a Game is a CS:GO game which has 30 matches (also known as rounds) within it.
   ```
 
 * `Match` represents the actual play time that is streamed for analysis.
-A `Match` is the containr of actions that occured in the match's timespan.
+A `Match` contains the actions that occurred during the match's timespan.
 Like `Game`, `Match` also has a GUID which will be provided to you once you start a new match.
 
   ```
@@ -318,7 +318,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(BaseAction:: 
 * `BaseAction` - See BaseAction
 
 ## Adding Chat Messages
-To add a chat massge to a live Match:
+To add a chat message to a live Match:
 
 ```cpp
 GetGudSdk::ChatMessageInfo messageData;
@@ -420,7 +420,7 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
   players
 );
 ```
-* `PlayerGuid`- Your player Id - String, 36 chars max.
+* `PlayerGuid`- Your player Id - String, 36 chars max. **(Mandatory field)**
 * `PlayerNickname`- Nickname of the player **(optional field)**
 * `PlayerEmail`- Email of the player **(optional field)**
 * `PlayerRank`- Integer rank of the player **(optional field)**
