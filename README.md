@@ -8,6 +8,25 @@ Getgud's C++ SDK allows you to integrate your game with the GetGud platform. Onc
 - Send Reports about historical matches to Getgud.
 - Send (and update) player information to Getgud.
 
+## Build requirements:
+The shared and static libraries are different. Shared library can be linked directly to a project, because the binaries and headers requires only.
+However, here is the way to link the static library correctly:
+### Linux:
+Dependencies:
+- libcurl development kit.
+- zlib development kit.
+- openssl development kit.
+- libssl developemnt kit.
+- libcrypto developemnt kit.
+- g++ and gcc packages.
+- pthread library.
+
+### Windows:
+- libcurl library package.
+- zlib library package.
+
+A test project with completed setup is included in each release folder.
+
 ## Prerequisites
 
 To start, we should understand the basic structure Getgud's SDK uses to understand an FPS: 
