@@ -352,7 +352,7 @@ reportInfo.TbType = GetGudSdk::Values::TBType.Wallhack;
 GetGudSdk::SendInMatchReport(reportInfo);
 ```
 * `MatchGuid`- guid of the live Match you are sending a report to **(Mandatory field)**
-* `ReportedTimeEpoch`- epoch time of when the report was created **(optional field)**
+* `ReportedTimeEpoch`- epoch time of when the report was created **(Mandatory field)**
 * `ReporterName`- the name of the entity that created the report **(optional field)**
 * `ReporterType`- the type of the entity that created the report **(optional field)**
 * `ReporterSubType`-   the subtype of the entity that created the report **(optional field)**
