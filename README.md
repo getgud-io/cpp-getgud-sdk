@@ -359,7 +359,6 @@ GetGudSdk::SendInMatchReport(reportInfo);
 * `SuggestedToxicityScore`- 0-100 toxicity score, ie: how much do you suspect the player **(optional field)**
 * `SuspectedPlayerId`- the player Id of the suspected player **(Mandatory field)**
 * `TbType` - id of the toxic behavior type, for example, Aimbot **(optional field)**
-* `TbSubType` - id of the toxic behavior subtype, for example, Spinbot **(optional field)**
 * `TbTimeEpoch` - epoch time of when the toxic behavior event occured **(optional field)**
 
 ### Sending Reports On Historical Matches
