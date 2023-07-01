@@ -30,6 +30,7 @@ enum class LogType : unsigned int { DEBUG = 0, WARN, _ERROR, FATAL };
  **/
 enum class Actions : unsigned int {
   None = 0,
+  Affect,
   Attack,
   Damage,
   Death,
@@ -140,8 +141,8 @@ struct RotationF {
  * apply our delta algorithm
  **/
 struct Orientation {
-  PositionF position = { 0.0f };
-  RotationF rotation = { 0.0f };
+  PositionF position;
+  RotationF rotation;
   Orientation operator-(Orientation& rhs)
   {
     Orientation outOrientation;
@@ -164,10 +165,10 @@ struct Orientation {
 struct ReportInfo {
   std::string MatchGuid; //36 + SQL // required
   std::string ReporterName;  // SQL, size <=10.000
-  GetGudSdk::ReporterType ReporterType = ReporterType::None; // >= 1, < max
-  ReporterSubtype ReporterSubType = ReporterSubtype::None; // >= 1, < max
+  GetGudSdk::ReporterType ReporterType = GetGudSdk::ReporterType::None; // >= 1, < max
+  ReporterSubtype ReporterSubType = GetGudSdk::ReporterSubtype::None; // >= 1, < max
   std::string SuspectedPlayerGuid;  // 36 + SQL //required
-  GetGudSdk::TbType TbType = TbType::None; //>=1, <max
+  GetGudSdk::TbType TbType = GetGudSdk::TbType::None; //>=1, <max
   long long TbTimeEpoch = -1; //>=time.min, <= time.max
   int SuggestedToxicityScore = -1; //>=0, <=100
   long long ReportedTimeEpoch = -1; //>=time.min, <=time.max

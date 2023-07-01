@@ -35,24 +35,24 @@ GetGudSdk::BaseActionData* MakeRandomAction(std::string matchGuid,
       outAction = new GetGudSdk::PositionActionData(
           matchGuid, curTimeEpoch, "player-5",
           GetGudSdk::PositionF{20.32000f, 50.001421f, 0.30021f},
-          GetGudSdk::RotationF{10, 20});
+          GetGudSdk::RotationF{10, 20, 30});
       break;
     case 5:
         outAction = new GetGudSdk::SpawnActionData(
             matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
-            GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20});
+            GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20, 30});
       break;
   }
 
   std::vector < GetGudSdk::BaseActionData*> actionsToSend{
 new GetGudSdk::SpawnActionData(
             matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
-            GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20}),
+            GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20, 30}),
 
 new GetGudSdk::PositionActionData(
           matchGuid, curTimeEpoch, "player-5",
           GetGudSdk::PositionF{20.32000f, 50.001421f, 0.30021f},
-          GetGudSdk::RotationF{10, 20})
+          GetGudSdk::RotationF{10, 20, 30})
   };
 
   return outAction;
@@ -80,13 +80,12 @@ void CreateReports(std::string matchGuid, int numberOfReports) {
     reportInfo.MatchGuid = matchGuid;
     reportInfo.ReportedTimeEpoch = 1684059337532;
     reportInfo.ReporterName = "reporter_name";
-    reportInfo.ReporterSubType = 1;
-    reportInfo.ReporterType = 1;
+    reportInfo.ReporterSubType = GetGudSdk::ReporterSubtype::Custom;
+    reportInfo.ReporterType = GetGudSdk::ReporterType::Custom;
     reportInfo.SuggestedToxicityScore = 100;
     reportInfo.SuspectedPlayerGuid = "suspected_player_guid";
-    reportInfo.TbSubType = 1;
     reportInfo.TbTimeEpoch = 1684059337532;
-    reportInfo.TbType = 1;
+    reportInfo.TbType = GetGudSdk::TbType::Laghack;
 
     reports.push_back(reportInfo);
   }
@@ -129,7 +128,7 @@ int main() {
   );
   // Once you have a match, you can send Actions to it. Let's create a vector of
   // Actions and send it to the match:
-  int actionsAmount = 100;
+  int actionsAmount = 1000;
   int reportsAmount = 3;
   int playersAmount = 10;
   std::deque<GetGudSdk::BaseActionData*> actionsVector =

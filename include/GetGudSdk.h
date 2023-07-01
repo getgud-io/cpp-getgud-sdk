@@ -17,6 +17,7 @@
 #include "actions/Helpers.h"
 #include "actions/PositionActionData.h"
 #include "actions/SpawnActionData.h"
+#include "actions/AffectActionData.h"
 
 #include <deque>
 
@@ -36,6 +37,11 @@ GETGUDSDK_API bool SendInMatchReport(ReportInfo reportInfo);
 GETGUDSDK_API bool SendChatMessage(std::string matchGuid, ChatMessageInfo messageInfo);
 GETGUDSDK_API bool SendActions(std::deque<BaseActionData*> actions);
 GETGUDSDK_API bool SendAction(BaseActionData* action);
+GETGUDSDK_API bool SendAffectAction(std::string matchGuid,
+                      long long actionTimeEpoch,
+                      std::string affectGuid,
+                      std::string playerGuid,
+                      AffectState affectState);
 GETGUDSDK_API bool SendAttackAction(std::string matchGuid,
                       long long actionTimeEpoch,
                       std::string playerGuid,
