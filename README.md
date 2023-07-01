@@ -4,13 +4,32 @@
 
 Getgud's C++ SDK allows you to integrate your game with the GetGud platform. Once integrated, you will be able to:
 
-- Stream live Game data to Getgud's cloud (In-match Actions, In-match Reports, In-match Chat messages)
+- Stream live game data to GetGud's cloud, including in-match actions, in-match reports, and in-match chat messages.
 - Send Reports about historical matches to Getgud.
 - Send (and update) player information to Getgud.
 
+## Build requirements:
+The shared and static libraries are different. The shared library can be linked directly to a project because it only requires the binaries and headers.
+However, here is the way to link the static library correctly:
+### Linux:
+Dependencies:
+- libcurl development kit.
+- zlib development kit.
+- openssl development kit.
+- libssl development kit.
+- libcrypto development kit.
+- g++ and gcc packages.
+- pthread library.
+
+### Windows:
+- libcurl library package.
+- zlib library package.
+
+A test project with completed setup is included in each release folder.
+
 ## Prerequisites
 
-To start, we should understand the basic structure Getgud's SDK uses to understand an FPS: 
+To start, we need to understand the basic structure GetGud's SDK uses for an FPS: 
 
 **Titles->1->N->Games->1->N->Matches->1->N->Actions**
 
@@ -23,11 +42,11 @@ To start, we should understand the basic structure Getgud's SDK uses to understa
 * Next up is `Game`, a `Game` is a container of matches that belong to the same `Title` from the same server session, where mostly the same players in the same teams, play one or more `Matches` together. You as a client can identify every game with a unique `gameGuid` that is provided to you once the `Game` starts. 
 
   ```
-  An example of a Game is a CS:GO game which has 30 macthes (AKA rounds) inside it.
+  An example of a Game is a CS:GO game which has 30 matches (also known as rounds) within it.
   ```
 
 * `Match` represents the actual play time that is streamed for analysis.
-A `Match` is the containr of actions that occured in the match's timespan.
+A `Match` contains the actions that occurred during the match's timespan.
 Like `Game`, `Match` also has a GUID which will be provided to you once you start a new match.
 
   ```
@@ -35,7 +54,7 @@ Like `Game`, `Match` also has a GUID which will be provided to you once you star
   ```
 
 * `Action` represents an in-match activity that is associated with a player. We collect six different action types which are common to all first person shooter gamnes:
-1. `Spwan` - Whenever a player appears or reappears in-match, on the map.
+1. `Spawn` - Whenever a player appears or reappears in-match, on the map.
 2. `Death` - A death of a player.
 3. `Position` - player position change (including looking direction).
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
@@ -299,7 +318,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(BaseAction:: 
 * `BaseAction` - See BaseAction
 
 ## Adding Chat Messages
-To add a chat massge to a live Match:
+To add a chat message to a live Match:
 
 ```cpp
 GetGudSdk::ChatMessageInfo messageData;
@@ -333,14 +352,13 @@ reportInfo.TbType = GetGudSdk::Values::TBType.Wallhack;
 GetGudSdk::SendInMatchReport(reportInfo);
 ```
 * `MatchGuid`- guid of the live Match you are sending a report to **(Mandatory field)**
-* `ReportedTimeEpoch`- epoch time of when the report was created **(optional field)**
+* `ReportedTimeEpoch`- epoch time of when the report was created **(Mandatory field)**
 * `ReporterName`- the name of the entity that created the report **(optional field)**
 * `ReporterType`- the type of the entity that created the report **(optional field)**
 * `ReporterSubType`-   the subtype of the entity that created the report **(optional field)**
 * `SuggestedToxicityScore`- 0-100 toxicity score, ie: how much do you suspect the player **(optional field)**
 * `SuspectedPlayerId`- the player Id of the suspected player **(Mandatory field)**
 * `TbType` - id of the toxic behavior type, for example, Aimbot **(optional field)**
-* `TbSubType` - id of the toxic behavior subtype, for example, Spinbot **(optional field)**
 * `TbTimeEpoch` - epoch time of when the toxic behavior event occured **(optional field)**
 
 ### Sending Reports On Historical Matches
@@ -387,7 +405,7 @@ This is an async method which will not block the calling thread.
 ```cpp
 std::deque<GetGudSdk::PlayerInfo> playerInfos;
 GetGudSdk::PlayerInfo playerInfo;
-playerInfo.PlayerId = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
+playerInfo.PlayerGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 playerInfo.PlayerNickname = "test";
 playerInfo.PlayerEmail = "test@test.com";
 playerInfo.PlayerRank = 10;
@@ -401,12 +419,10 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
   players
 );
 ```
-* `PlayerId`- Your player Id - String, 36 chars max.
+* `PlayerGuid`- Your player Id - String, 36 chars max. **(Mandatory field)**
 * `PlayerNickname`- Nickname of the player **(optional field)**
 * `PlayerEmail`- Email of the player **(optional field)**
 * `PlayerRank`- Integer rank of the player **(optional field)**
-* `playerSuspectScore`- Integer between 1-100 that indicatews how suspicious this player is to you **(optional field)**
-* `playerReputation`- A String represention the reputation of the player, 36 chars max. **(optional field)**
 * `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
@@ -458,4 +474,4 @@ Example of configuration file `config.json`:
 
 ## Examples
 
-An example of how to use the GetGud C++ SDK can be found in the [examples](/examples/Starter) directory.
+An example of how to use the GetGud C++ SDK can be found in the [examples](/examples/) directory.
