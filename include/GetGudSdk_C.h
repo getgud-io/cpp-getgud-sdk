@@ -22,6 +22,17 @@ struct RotationF {
   float Pitch;
   float Roll;
 };
+
+struct PlayerTransactions
+{
+    char* TransactionGuid;
+    int TransactionGuidSize;
+    char* TransactionName;
+    int TransactionNameSize;
+    long long TransactionDateEpoch;
+    float TransactionValueUSD;
+};
+
 struct BaseActionData {
   long long actionTimeEpoch;
   char* matchGuid;
@@ -37,6 +48,8 @@ struct StartGameInfo {
   int serverGuidSize;
   char* gameMode;
   int gameModeSize;
+  char* serverLocation;
+  int serverLocationSize;
 };
 
 struct StartMatchInfo {
@@ -67,6 +80,27 @@ struct PlayerInfo {
   int playerEmailSize;
   int playerRank;
   long long playerJoinDateEpoch;
+  char* playerSuspectScore;
+  int playerSuspectScoreSize;
+  char* playerReputation;
+  int playerReputationSize;
+  char* playerStatus;
+  int playerStatusSize;
+  char* playerCompaign;
+  int playerCompaignSize;
+  char* playerNotes;
+  int playerNotesSize;
+  char* playerDevice;
+  int playerDeviceSize;
+  char* playerOS;
+  int playerOSSize;
+  int playerAge;
+  char* playerGender;
+  int playerGenderSize;
+  char* playerLocation;
+  int playerLocationSize;
+  struct PlayerTransactions* transactions;
+  int transactionsSize;
 };
 
 struct ReportInfo {
@@ -124,7 +158,7 @@ GETGUDSDK_API int MarkEndGame(char* gameGuid, int guidSize);
 GETGUDSDK_API int SendAffectAction(struct BaseActionData baseData,
   char* affectGuid,
   int affectGuidSize,
-  AffectState affectState);
+  enum AffectState affectState);
 
 /**
  * SendAttackAction:
@@ -167,7 +201,9 @@ GETGUDSDK_API int SendSpawnAction(struct BaseActionData baseData,
  * SendDeathAction:
  *
  **/
-GETGUDSDK_API int SendDeathAction(struct BaseActionData baseData);
+GETGUDSDK_API int SendDeathAction(struct BaseActionData baseData,
+                                  char* attackerGuid,
+                                  int attackerGuidSize);
 
 /**
  * SendPositionAction:

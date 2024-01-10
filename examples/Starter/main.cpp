@@ -25,35 +25,24 @@ GetGudSdk::BaseActionData* MakeRandomAction(std::string matchGuid,
       break;
     case 2:
       outAction =
-          new GetGudSdk::DeathActionData(matchGuid, curTimeEpoch, "player-0");
+          new GetGudSdk::DeathActionData(matchGuid, curTimeEpoch, "player-0", "player-1");
       break;
     case 3:
       outAction = new GetGudSdk::HealActionData(matchGuid, curTimeEpoch,
-                                                "player-5", 20.32100F);
+                                                ":plkayer-5", 20.32100F);
       break;
     case 4:
       outAction = new GetGudSdk::PositionActionData(
           matchGuid, curTimeEpoch, "player-5",
           GetGudSdk::PositionF{20.32000f, 50.001421f, 0.30021f},
-          GetGudSdk::RotationF{10, 20, 30});
+          GetGudSdk::RotationF{10, 20});
       break;
     case 5:
-        outAction = new GetGudSdk::SpawnActionData(
-            matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
-            GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20, 30});
+      outAction = new GetGudSdk::SpawnActionData(
+          matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
+          GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20});
       break;
   }
-
-  std::vector < GetGudSdk::BaseActionData*> actionsToSend{
-new GetGudSdk::SpawnActionData(
-            matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
-            GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20, 30}),
-
-new GetGudSdk::PositionActionData(
-          matchGuid, curTimeEpoch, "player-5",
-          GetGudSdk::PositionF{20.32000f, 50.001421f, 0.30021f},
-          GetGudSdk::RotationF{10, 20, 30})
-  };
 
   return outAction;
 }
@@ -80,12 +69,12 @@ void CreateReports(std::string matchGuid, int numberOfReports) {
     reportInfo.MatchGuid = matchGuid;
     reportInfo.ReportedTimeEpoch = 1684059337532;
     reportInfo.ReporterName = "reporter_name";
-    reportInfo.ReporterSubType = GetGudSdk::ReporterSubtype::Custom;
-    reportInfo.ReporterType = GetGudSdk::ReporterType::Custom;
+    reportInfo.ReporterSubType = GetGudSdk::ReporterSubtype::VAC;
+    reportInfo.ReporterType = GetGudSdk::ReporterType::AntiCheat;
     reportInfo.SuggestedToxicityScore = 100;
     reportInfo.SuspectedPlayerGuid = "suspected_player_guid";
     reportInfo.TbTimeEpoch = 1684059337532;
-    reportInfo.TbType = GetGudSdk::TbType::Laghack;
+    reportInfo.TbType = GetGudSdk::TbType::Aimbot;
 
     reports.push_back(reportInfo);
   }
@@ -116,10 +105,12 @@ int main() {
 
   std::string serverGuid = "us-west-1";
   std::string gameMode = "deathmatch";
+  std::string serverLocation = "UK";
 
   // Start a Game:
   std::string gameGuid = GetGudSdk::StartGame(serverGuid,  // serverGuid
-                                              gameMode     // gameMode
+                                              gameMode,     // gameMode
+                                              serverLocation
   );
 
   std::string matchGuid = GetGudSdk::StartMatch(gameGuid,
@@ -128,7 +119,7 @@ int main() {
   );
   // Once you have a match, you can send Actions to it. Let's create a vector of
   // Actions and send it to the match:
-  int actionsAmount = 1000;
+  int actionsAmount = 100;
   int reportsAmount = 3;
   int playersAmount = 10;
   std::deque<GetGudSdk::BaseActionData*> actionsVector =

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <limits>
+#include <vector>
 
 namespace GetGudSdk {
 
@@ -157,6 +158,14 @@ struct Orientation {
   }
 };
 
+struct PlayerTransactions
+{
+    std::string TransactionGuid; //36 + SQL // required
+    std::string TransactionName; //100 + SQL // required
+    long long TransactionDateEpoch = -1;//>=time.min, <=time.max
+    float TransactionValueUSD = -1; //>=0, <=max
+};
+
 /**
  * ReportInfo:
  *
@@ -185,6 +194,17 @@ struct PlayerInfo {
   std::string PlayerEmail;     // SQL, size <=10.000
   int PlayerRank = -1;//>=0, <=max
   long long PlayerJoinDateEpoch = -1;//>=time.min, <=time.max
+  std::string PlayerSuspectScore; //SQL, size <=100
+  std::string PlayerReputation; //SQL, <=36
+  std::string PlayerStatus; //SQL, <=36
+  std::string PlayerCompaign; //SQL, <=128
+  std::string PlayerNotes; //SQL, <=128
+  std::string PlayerDevice; //SQL, <=36
+  std::string PlayerOS; //SQL, <=36
+  int PlayerAge = -1; //>=0, <=100
+  std::string PlayerGender; //SQL, <=16
+  std::string PlayerLocation; //SQL, <=16
+  std::vector<PlayerTransactions> Transactions;
 };
 
 /**

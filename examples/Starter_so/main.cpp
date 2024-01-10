@@ -25,7 +25,7 @@ GetGudSdk::BaseActionData* MakeRandomAction(std::string matchGuid,
       break;
     case 2:
       outAction =
-          new GetGudSdk::DeathActionData(matchGuid, curTimeEpoch, "player-0");
+          new GetGudSdk::DeathActionData(matchGuid, curTimeEpoch, "player-0", "player-1");
       break;
     case 3:
       outAction = new GetGudSdk::HealActionData(matchGuid, curTimeEpoch,
@@ -69,8 +69,8 @@ void CreateReports(std::string matchGuid, int numberOfReports) {
     reportInfo.MatchGuid = matchGuid;
     reportInfo.ReportedTimeEpoch = 1684059337532;
     reportInfo.ReporterName = "reporter_name";
-    reportInfo.ReporterSubType = GetGudSdk::ReporterSubtype::CommunityManager;
-    reportInfo.ReporterType = GetGudSdk::ReporterType::Player;
+    reportInfo.ReporterSubType = GetGudSdk::ReporterSubtype::VAC;
+    reportInfo.ReporterType = GetGudSdk::ReporterType::AntiCheat;
     reportInfo.SuggestedToxicityScore = 100;
     reportInfo.SuspectedPlayerGuid = "suspected_player_guid";
     reportInfo.TbTimeEpoch = 1684059337532;
@@ -105,11 +105,12 @@ int main() {
 
   std::string serverGuid = "us-west-1";
   std::string gameMode = "deathmatch";
+  std::string serverLocation = "UK";
 
   // Start a Game:
-  std::string gameGuid = GetGudSdk::StartGame(1, "private_key",
-                                              serverGuid,  // serverGuid
-                                              gameMode     // gameMode
+  std::string gameGuid = GetGudSdk::StartGame(serverGuid,  // serverGuid
+                                              gameMode,     // gameMode
+                                              serverLocation
   );
 
   std::string matchGuid = GetGudSdk::StartMatch(gameGuid,

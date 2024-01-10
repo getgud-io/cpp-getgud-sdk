@@ -27,8 +27,9 @@ GETGUDSDK_API bool Init();
 GETGUDSDK_API std::string StartGame(int titleId,
                       std::string privateKey,
                       std::string serverGuid,
-                      std::string gameMode);
-GETGUDSDK_API std::string StartGame(std::string serverGuid, std::string gameMode);
+                      std::string gameMode,
+                      std::string serverLocation);
+GETGUDSDK_API std::string StartGame(std::string serverGuid, std::string gameMode, std::string serverLocation);
 GETGUDSDK_API std::string StartMatch(std::string gameGuid,
                        std::string matchMode,
                        std::string mapName);
@@ -66,7 +67,8 @@ GETGUDSDK_API bool SendSpawnAction(std::string matchGuid,
                      RotationF rotation);
 GETGUDSDK_API bool SendDeathAction(std::string matchGuid,
                      long long actionTimeEpoch,
-                     std::string playerGuid);
+                     std::string playerGuid,
+                     std::string attackerGuid);
 GETGUDSDK_API bool SendPositionAction(std::string matchGuid,
                         long long actionTimeEpoch,
                         std::string playerGuid,
