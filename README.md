@@ -277,6 +277,24 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
 * `attackerPlayerId` - A unique name (your player id) of the player which created the damage, if the damage was created by the environment, you can singal this by using the 'PvE' symbol as the player guid.
 * `weaponGuid` - A unique name of the weapon that the attack was performed with, max length is 36 chars.
 
+### Affect Action
+
+To create an Affect Action, use the `AffectActionData` Class.
+An Affect action is any attempt to create an affect based on the states, now or in the future, for example, taking an item, obtaining a buff or joining into an aura.
+
+```cpp
+GetGudSdk::BaseActionData* action = new GetGudSdk::AffectActionData(
+                     BaseAction:: baseAction,
+                     std::string affectedPlayerId,
+                     std::string affectGuid,
+                     AffectState affectState
+);
+```
+* `BaseAction` - See BaseAction
+* `affectedPlayerId` - A unique name (your player id) of the player which received the affect, if the affect was created by the environment, you can singal this by using the 'PvE' symbol as the player guid.
+* `affectGuid` - A unique name of the affect, max length is 36 chars.
+* `affectState` - An emumiration unit, Attach, Activate, Deactivate or Detach.
+
 ### Damage Action
 
 To create a Damage Action, use the `DamageActionData` class. A Damage should be triggered when a player loses health, both PVP and PVE. If the Damage is caused by the environment you can specify this in a playerGuid using a predefined variable `GetGudSdk::Values::Environment`
