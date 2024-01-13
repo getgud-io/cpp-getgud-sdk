@@ -86,8 +86,8 @@ struct PlayerInfo {
   int playerReputationSize;
   char* playerStatus;
   int playerStatusSize;
-  char* playerCompaign;
-  int playerCompaignSize;
+  char* PlayerCampaign;
+  int PlayerCampaignSize;
   char* playerNotes;
   int playerNotesSize;
   char* playerDevice;
