@@ -55,10 +55,10 @@ Like `Game`, `Match` also has a GUID which will be provided to you once you star
 
 * `Action` represents an in-match activity that is associated with a player. We collect seven different action types which are common to all first person shooter gamnes:
 1. `Spawn` - Whenever a player appears or reappears in-match, on the map.
-2. `Death` - A death of a player, either by another player, the environemnt or the plater itself.
+2. `Death` - A death of a player, either by another player, the environemnt or the player itself.
 3. `Position` - player position change (including looking direction).
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
-5. `Damage` - Whenever a player recieves any damage, from players or the environment.
+5. `Damage` - Whenever a player recieves any damage, either from another player, the environemnt or the player itself.
 6. `Heal` - Whenever a player is healed.
 7. `Affect` - Whenever an in-match affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health, etc. 
 
@@ -308,6 +308,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::AffectActionData(
 
 ### Damage Action
 
+A Affect action should be sent whenever a player recieves any damage, either from another player, the environemnt or the player itself.
 To create a Damage Action, use the `DamageActionData` class. A Damage should be triggered when a player loses health, both PVP and PVE. If the Damage is caused by the environment you can specify this in a playerGuid using a predefined variable `GetGudSdk::Values::Environment`
 
 ```cpp
