@@ -213,7 +213,7 @@ bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 ## Creating Actions 
 
 When a live Match starts, you can add Actions, Chat Data, and Reports to it. 
-There are 6 Action types you can add to the Match, all derived from base action which holds the actions base properties.
+There are 7 Action types you can add to the Match, all derived from base action which holds the actions base properties.
 
 ### Base Action
 
