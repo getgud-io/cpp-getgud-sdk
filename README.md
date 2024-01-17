@@ -55,7 +55,7 @@ Like `Game`, `Match` also has a GUID which will be provided to you once you star
 
 * `Action` represents an in-match activity that is associated with a player. We collect seven different action types which are common to all first person shooter gamnes:
 1. `Spawn` - Whenever a player appears or reappears in-match, on the map.
-2. `Death` - A death of a player.
+2. `Death` - A death of a player, either by another player, the environemnt or the plater itself.
 3. `Position` - player position change (including looking direction).
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
@@ -230,7 +230,9 @@ BaseAction(std::string matchGuid,
 
 ### Spawn Action
 
-To create a Spawn Action, use the `SpawnActionData` class. This action marks the appearance or reappearance of a `Player` inside the Match.
+A Spawn action should be sent whenever a player appears or reappears in-match, on the map.
+To create a Spawn Action, use the `SpawnActionData` class.
+This action marks the appearance or reappearance of a `Player` inside the Match.
 
 ```cpp
 GetGudSdk::BaseActionData* action = new SpawnActionData(
@@ -250,6 +252,7 @@ GetGudSdk::BaseActionData* action = new SpawnActionData(
 
 ### Position Action
 
+A Position action should be sent on player position change (including looking direction).
 To create a Position Action, use the `PositionActionData` class.
 This action marks the change of `Player` position and view site.
 
@@ -266,8 +269,8 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::PositionActionData(
 
 ### Attack Action
 
-To create an Attack Action, use the `AttackActionData` Class.
 An Attack action is any attempt to create damage, now or in the future, for example, firing a shot, swinging a sword, placing a bomb, throwing a grenade, or any other action that may result in damage.
+To create an Attack Action, use the `AttackActionData` Class.
 Note that the Attack action is not bound to the `Damage` action, it is an attempt to cause Damage, not the Damage event itself.
 
 ```cpp
@@ -283,8 +286,8 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
 
 ### Affect Action
 
+A Affect action should be sent whenever an in-match affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health, etc.
 To create an Affect Action, use the `AffectActionData` Class.
-An Affect action is any attempt to create an affect based on the states, now or in the future, for example, taking an item, obtaining a buff or joining into an aura.
 
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::AffectActionData(
@@ -297,7 +300,11 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::AffectActionData(
 * `BaseAction` - See BaseAction
 * `affectedPlayerId` - A unique name (your player id) of the player which received the affect, if the affect was created by the environment, you can singal this by using the 'PvE' symbol as the player guid.
 * `affectGuid` - A unique name of the affect, max length is 36 chars.
-* `affectState` - An emumiration unit, Attach, Activate, Deactivate or Detach.
+* `affectState` - An emumiration unit that allows you to flag the state of the Affect:
+  	Attach - indicate affect can happen on player (not mandatory).
+  	Detach - indicate affect can NOT happen on player (not mandatory).
+  	Activate - indicate affect is affecting the playter.
+  	Deactivate - indicate affect stopped affecting the playter.  
 
 ### Damage Action
 
@@ -331,6 +338,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::HealActionData(
 
 ### Death Action
 
+A Death action represents a death of a player, either by another player, the environemnt or the plater itself.
 To create a death action to a match, use the `DeathActionData` class. The Death player causes the player to Die, if the player died it should ALWAYS be marked. We do not detect this automatically.
 
 ```cpp
