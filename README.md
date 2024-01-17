@@ -301,8 +301,8 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::AffectActionData(
 * `affectedPlayerId` - A unique name (your player id) of the player which received the affect, if the affect was created by the environment, you can singal this by using the 'PvE' symbol as the player guid.
 * `affectGuid` - A unique name of the affect, max length is 36 chars.
 * `affectState` - An emumiration unit that allows you to flag the state of the Affect:
-  	Attach - indicate affect can happen on player (not mandatory).
-  	Detach - indicate affect can NOT happen on player (not mandatory).
+  	Attach - indicate affect is attahced to a player (not mandatory).
+  	Detach - indicate affect is detached from a player (not mandatory).
   	Activate - indicate affect is affecting the playter.
   	Deactivate - indicate affect stopped affecting the playter.  
 
