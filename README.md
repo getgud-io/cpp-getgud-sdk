@@ -53,13 +53,14 @@ Like `Game`, `Match` also has a GUID which will be provided to you once you star
   An example of a Match is a single CS:GO round inside the game.
   ```
 
-* `Action` represents an in-match activity that is associated with a player. We collect six different action types which are common to all first person shooter gamnes:
+* `Action` represents an in-match activity that is associated with a player. We collect seven different action types which are common to all first person shooter gamnes:
 1. `Spawn` - Whenever a player appears or reappears in-match, on the map.
 2. `Death` - A death of a player.
 3. `Position` - player position change (including looking direction).
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
 6. `Heal` - Whenever a player is healed.
+7. `Affect` - Whenever an affect any kind is applied on the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health 
 
 
 ## Getting Started
@@ -82,7 +83,8 @@ Start a Game:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(
-  "us-west-1", // serverGuid
+  "cs2-server-aws-ec2-134554", // serverGuid
+  "us-west-123.343.21.33", // serverLocation
   "deathmatch" // gameMode
 );
 ```
