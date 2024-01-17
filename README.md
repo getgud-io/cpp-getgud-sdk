@@ -167,7 +167,7 @@ std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gam
 
 Once you've started a live Game, you can now attach Matches to that Game.
 When a live Match starts it returns a `matchGuid`, which is used to add Actions, Chat messages, and Reports to that specific match.
-To start a new match for a live game, call `StartMatch()`:
+To start a new match, call `StartMatch()`:
 
 ```cpp
 std::string matchGuid = GetGudSdk::StartMatch(gameGuid, matchMode, mapName);
