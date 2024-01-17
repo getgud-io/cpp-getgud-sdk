@@ -29,7 +29,7 @@ A test project with completed setup is included in each release folder.
 
 ## Prerequisites
 
-To start, we need to understand the basic structure GetGud's SDK uses for an FPS: 
+To start, we need to understand the basic structure GetGud's SDK uses to describe a video game: 
 
 **Titles->1->N->Games->1->N->Matches->1->N->Actions**
 
