@@ -443,8 +443,16 @@ playerInfo.PlayerGuid = "549cf69d-0d55-4849-b2d1-a49a4f0a0b1e";
 playerInfo.PlayerNickname = "test";
 playerInfo.PlayerEmail = "test@test.com";
 playerInfo.PlayerRank = 10;
-playerInfo.playerSuspectScore: 12,
-playerInfo.playerReputation: "esteemed",
+playerInfo.playerSuspectScore = 12,
+playerInfo.playerReputation = "esteemed",
+playerInfo.playerStatus = "IBannedHim",
+playerInfo.playerCampaign = "Tiktok-2023-Feb-23-Id1332",
+playerInfo.playerDevice = "PC",
+playerInfo.playerOS = "Win11",
+playerInfo.playerAge = "27",
+playerInfo.playerGender = "Male",
+playerInfo.playerLocation = "203.0.113.42",
+playerInfo.playerNotes = "I just banned this player because of XYZ",
 playerInfo.PlayerJoinDateEpoch = 1684059337532;
 playerInfos.push_back(playerInfo);
 bool playersUpdated = GetGudSdk::UpdatePlayers(
@@ -457,6 +465,16 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
 * `PlayerNickname`- Nickname of the player **(optional field)**
 * `PlayerEmail`- Email of the player **(optional field)**
 * `PlayerRank`- Integer rank of the player **(optional field)**
+* `playerSuspectScore`- Integer rank of the player **(optional field)**
+* `playerReputation`- Integer rank of the player **(optional field)**
+* `playerStatus`- Integer rank of the player **(optional field)**
+* `playerCampaign`- Integer rank of the player **(optional field)**
+* `playerDevice`- Integer rank of the player **(optional field)**
+* `playerOS`- Integer rank of the player **(optional field)**
+* `playerAge`- Integer rank of the player **(optional field)**
+* `playerGender`- Integer rank of the player **(optional field)**
+* `playerLocation`- Integer rank of the player **(optional field)**
+* `playerNotes`- Integer rank of the player **(optional field)**
 * `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
