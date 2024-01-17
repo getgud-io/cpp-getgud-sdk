@@ -195,7 +195,7 @@ This is an async method which will not block the calling thread.
 ```cpp
 bool SendActions(action);
 ```
-* `action` - a `BaseActionData` object that is the base class of all the primal 6 actions (Spawn, Position, Attack, Damage, Heal and Death).
+* `action` - a `BaseActionData` object that is the base class of all the primal 7 actions (Spawn, Position, Attack, Damage, Heal, Affect and Death).
 
 ### MarkEndGame(gameGuid)
 
