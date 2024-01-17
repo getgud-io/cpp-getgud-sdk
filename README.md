@@ -60,7 +60,7 @@ Like `Game`, `Match` also has a GUID which will be provided to you once you star
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
 5. `Damage` - Whenever a player recieves any damage, from players or the environment.
 6. `Heal` - Whenever a player is healed.
-7. `Affect` - Whenever an affect any kind is applied on the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health 
+7. `Affect` - Whenever an affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health 
 
 
 ## Getting Started
