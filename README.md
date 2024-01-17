@@ -185,7 +185,7 @@ This is an async method which will not block the calling thread.
 ```cpp
 bool SendActions(std::deque<BaseActionData*> actions);
 ```
-* `actions` - deque of `BaseActionData` objects, where `BaseActionData` is the base calss of all the primal 6 actions (Spawn, Position, Attack, Damage, Heal and Death).
+* `actions` - deque of `BaseActionData` objects, where `BaseActionData` is the base calss of all the primal 7 actions (Spawn, Position, Attack, Damage, Heal, Affect and Death).
 
 #### AddAction(BaseActionData* action)
 
