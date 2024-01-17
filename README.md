@@ -83,8 +83,8 @@ Start a Game:
 
 ```cpp
 std::string gameGuid = GetGudSdk::StartGame(
-  "cs2-server-aws-ec2-134554", // serverGuid
-  "us-west-123.343.21.33", // serverLocation
+  "cs2-server-1", // serverGuid
+  "203.0.113.42", // serverLocation
   "deathmatch" // gameMode
 );
 ```
