@@ -138,18 +138,19 @@ GetGudSdk::Dispose();
 
 ## SDK Methods
 
-### StartGame(serverName, gameMode)
+### StartGame(serverName, serverLocation, gameMode)
 
 To start a new game, call `StartGame()`, this will use the environment variables `TITLE_ID` and `PRIVATE_KEY`.
 `StartGame` returns `gameGuid` - a unique identifier of the game which you will use later to start new Matches inside the Game as well as to end the Game when it is over.
 
 ```cpp
-std::string gameGuid = GetGudSdk::StartGame(serverName, gameMode);
+std::string gameGuid = GetGudSdk::StartGame(serverName, serverLocation, gameMode);
 ```
 * `serverName` - a qunique name of your game server - String, Alphanumeric, 36 chars max.
+* `serverLocation` - a name/ip of your game server's location - String, Alphanumeric, 36 chars max.
 * `gameMode` - the mode of the game (each mode has a separate AI learning processes) - String, Alphanumeric, 36 chars max.
 
-#### StartGame(titleId, privateKey, serverName, gameMode)
+#### StartGame(titleId, privateKey, serverName, serverLocation, gameMode)
 
 You can also call the `StartGame()` method with titleId and privateKey that you pass (supporting multiple titles on the same machine)
 
@@ -159,6 +160,7 @@ std::string gameGuid = GetGudSdk::StartGame(titleId, privateKey, serverName, gam
 * `titleId` - The title Id you recieved from Getgud.io
 * `privateKey` - The Private Key for the above title you recieved together with it's Title Id
 * `serverName` - a qunique name of your game server - String, Alphanumeric, 36 chars max.
+* `serverLocation` - a name/ip of your game server's location - String, Alphanumeric, 36 chars max.
 * `gameMode` - the mode of the game (each mode has an additional AI learning processes) - String, Alphanumeric, 36 chars max.
 
 ### StartMatch(gameGuid, matchMode, mapName)
