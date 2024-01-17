@@ -59,7 +59,7 @@ Like `Game`, `Match` also has a GUID which will be provided to you once you star
 3. `Position` - player position change (including looking direction).
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
 5. `Damage` - Whenever a player recieves any damage, either from another player, the environemnt or the player itself.
-6. `Heal` - Whenever a player is healed.
+6. `Heal` - Whenever a player is healed, doesn't matter by whom or how.
 7. `Affect` - Whenever an in-match affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health, etc. 
 
 
@@ -286,7 +286,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
 
 ### Affect Action
 
-A Affect action should be sent whenever an in-match affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health, etc.
+An Affect action should be sent whenever an in-match affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health, etc.
 To create an Affect Action, use the `AffectActionData` Class.
 
 ```cpp
@@ -308,8 +308,8 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::AffectActionData(
 
 ### Damage Action
 
-A Affect action should be sent whenever a player recieves any damage, either from another player, the environemnt or the player itself.
-To create a Damage Action, use the `DamageActionData` class. A Damage should be triggered when a player loses health, both PVP and PVE. If the Damage is caused by the environment you can specify this in a playerGuid using a predefined variable `GetGudSdk::Values::Environment`
+A Damage action should be raised when a player loses health, both PVP and PVE. If the Damage is caused by the environment you can specify this in a playerGuid using a predefined variable `GetGudSdk::Values::Environment`
+To create a Damage Action, use the `DamageActionData` class. 
 
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::DamageActionData(
@@ -320,14 +320,14 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::DamageActionData(
 );
 ```
 * `BaseAction` - See BaseAction
-* `victimPlayerGuid` - guid AKA nickname of the player who is the victim of the Damage action, max length is 36 chars.
+* `victimPlayerGuid` - guid of the player who is the victim of the Damage action, max length is 36 chars.
 * `damageDone` - How much damage was given
 * `weaponGuid` - A unique name of the weapon that the attack was performed with, max length is 36 chars.
 
 ### Heal Action
 
-To create a heal action, use the `HealActionData` class. A Heal action causes the player to increase his health while healing.
-
+A Heal action should be triggered whenever a player is healed, doesn't matter by whom or how.
+To create a heal action, use the `HealActionData` class.
 ```cpp
 GetGudSdk::BaseActionData* action = new GetGudSdk::HealActionData(
                      BaseAction:: baseAction,
@@ -339,14 +339,17 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::HealActionData(
 
 ### Death Action
 
-A Death action represents a death of a player, either by another player, the environemnt or the plater itself.
-To create a death action to a match, use the `DeathActionData` class. The Death player causes the player to Die, if the player died it should ALWAYS be marked. We do not detect this automatically.
+A Death action should be triggered on a death of a player, either by another player, the environemnt or the player itself.
+To create a death action to a match, use the `DeathActionData` class. 
 
 ```cpp
-GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(BaseAction:: baseAction)
+GetGudSdk::BaseActionData* action = new GetGudSdk::DeathActionData(
+                     BaseAction:: baseAction,
+                     std::string killerPlayerGuid,
 );
 ```
 * `BaseAction` - See BaseAction
+* `killerPlayerGuid` - guid of the player who killed the victim of the Damage action, max length is 36 chars. Use `GetGudSdk::Values::Environment` to indicate that PvE killed the player
 
 ## Adding Chat Messages
 To add a chat message to a live Match:
