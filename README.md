@@ -454,6 +454,15 @@ playerInfo.playerGender = "Male",
 playerInfo.playerLocation = "203.0.113.42",
 playerInfo.playerNotes = "I just banned this player from my system because of XYZ",
 playerInfo.PlayerJoinDateEpoch = 1684059337532;
+
+// add player transaction
+GetGudSdk::PlayerTransactions transaction;
+transaction.TransactionGuid = "trans-001";
+transaction.TransactionName = "In-Game Purchase";
+transaction.TransactionDateEpoch = 1684059337532;
+transaction.TransactionValueUSD = 9.99;
+playerInfo.Transactions.push_back(transaction);
+
 playerInfos.push_back(playerInfo);
 bool playersUpdated = GetGudSdk::UpdatePlayers(
   28, //titleId
@@ -476,6 +485,7 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
 * `playerLocation`- The location of the player - String, 36 chars max. **(optional field)**
 * `playerNotes`- Any player notes you wish to save - String, 128 chars max. **(optional field)**
 * `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
+* `PlayerTransactions`: Transactions of each player **(optional field)**
 
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
