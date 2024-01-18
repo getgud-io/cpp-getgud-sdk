@@ -487,6 +487,17 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
 * `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 * `PlayerTransactions`: Transactions of each player **(optional field)**
 
+Each item of `PlayerTransactions` has the following format:
+
+```
+struct PlayerTransactions {
+    std::string TransactionGuid; // Mandatory: Unique identifier for the transaction
+    std::string TransactionName; // Mandatory: Name or description of the transaction
+    long long TransactionDateEpoch; // Optional: Date of the transaction in epoch time
+    float TransactionValueUSD; // Optional: Value of the transaction in USD
+};
+```cpp
+
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
 
 ```cpp
