@@ -1,4 +1,4 @@
-# GetGud C++ SDK
+# Getgud.io C++ SDK
 
 ## What Can You Do With Getgud's SDK:
 
