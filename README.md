@@ -380,7 +380,7 @@ reportInfo.ReporterName = "player1";
 reportInfo.ReporterType = GetGudSdk::Values::ReporterSubtype.Moderator;
 reportInfo.ReporterSubType = GetGudSdk::Values::ReporterSubtype.QA;
 reportInfo.SuggestedToxicityScore = 100;
-reportInfo.SuspectedPlayerId = "player1";
+reportInfo.SuspectedPlayerGuid = "player1";
 reportInfo.TbTimeEpoch = 1684059337532;
 reportInfo.TbType = GetGudSdk::Values::TBType.Wallhack;
 GetGudSdk::SendInMatchReport(reportInfo);
@@ -391,7 +391,7 @@ GetGudSdk::SendInMatchReport(reportInfo);
 * `ReporterType`- the type of the entity that created the report **(optional field)**
 * `ReporterSubType`-   the subtype of the entity that created the report **(optional field)**
 * `SuggestedToxicityScore`- 0-100 toxicity score, ie: how much do you suspect the player **(optional field)**
-* `SuspectedPlayerId`- the player Id of the suspected player **(Mandatory field)**
+* `SuspectedPlayerGuid`- the player Id of the suspected player as appears in your system **(Mandatory field)**
 * `TbType` - id of the toxic behavior type, for example, Aimbot **(optional field)**
 * `TbTimeEpoch` - epoch time of when the toxic behavior event occured **(optional field)**
 
@@ -408,7 +408,7 @@ reportInfo.ReporterName = "player1";
 reportInfo.ReporterSubType = GetGudSdk::Values::ReporterSubtype.QA;
 reportInfo.ReporterType = GetGudSdk::Values::ReporterSubtype.Moderator;
 reportInfo.SuggestedToxicityScore = 100;
-reportInfo.SuspectedPlayerId = "player1";
+reportInfo.SuspectedPlayerGuid = "player1";
 reportInfo.TbTimeEpoch = 1684059337532;
 reportInfo.TbType = GetGudSdk::Values::ReporterSubtype.Wallhack;
 reports.push_back(reportInfo);
@@ -444,15 +444,15 @@ playerInfo.PlayerNickname = "test";
 playerInfo.PlayerEmail = "test@test.com";
 playerInfo.PlayerRank = 10;
 playerInfo.playerSuspectScore = 12,
-playerInfo.playerReputation = "esteemed",
-playerInfo.playerStatus = "IBannedHim",
+playerInfo.playerReputation = "Toxic",
+playerInfo.playerStatus = "Banned",
 playerInfo.playerCampaign = "Tiktok-2023-Feb-23-Id1332",
 playerInfo.playerDevice = "PC",
 playerInfo.playerOS = "Win11",
 playerInfo.playerAge = "27",
 playerInfo.playerGender = "Male",
 playerInfo.playerLocation = "203.0.113.42",
-playerInfo.playerNotes = "I just banned this player because of XYZ",
+playerInfo.playerNotes = "I just banned this player from my system because of XYZ",
 playerInfo.PlayerJoinDateEpoch = 1684059337532;
 playerInfos.push_back(playerInfo);
 bool playersUpdated = GetGudSdk::UpdatePlayers(
@@ -462,19 +462,19 @@ bool playersUpdated = GetGudSdk::UpdatePlayers(
 );
 ```
 * `PlayerGuid`- Your player Id - String, 36 chars max. **(Mandatory field)**
-* `PlayerNickname`- Nickname of the player **(optional field)**
-* `PlayerEmail`- Email of the player **(optional field)**
+* `PlayerNickname`- Nickname of the player - String, 36 chars max. **(optional field)**
+* `PlayerEmail`- Email of the player **(optional field)** - String, 36 chars max.
 * `PlayerRank`- Integer rank of the player **(optional field)**
-* `playerSuspectScore`- Integer rank of the player **(optional field)**
-* `playerReputation`- Integer rank of the player **(optional field)**
-* `playerStatus`- Integer rank of the player **(optional field)**
-* `playerCampaign`- Integer rank of the player **(optional field)**
-* `playerDevice`- Integer rank of the player **(optional field)**
-* `playerOS`- Integer rank of the player **(optional field)**
-* `playerAge`- Integer rank of the player **(optional field)**
-* `playerGender`- Integer rank of the player **(optional field)**
-* `playerLocation`- Integer rank of the player **(optional field)**
-* `playerNotes`- Integer rank of the player **(optional field)**
+* `playerSuspectScore`- A manually assigned number, between 0-100, that can be updated to trigger rules you define in Getgud. **(optional field)**
+* `playerReputation`- A field for you to use according to Rules you define, allowing you to set and continuously adjust Player Reparation to all your players - automatically. - String, 36 chars max.**(optional field)**
+* `playerStatus`- A field for you to use according to Rules you define, allowing you to set and continuously adjust Player Status to all your players - automatically. - String, 36 chars max.**(optional field)**
+* `playerCampaign`- The campign to attribute this player to - String, 128 chars max.**(optional field)**
+* `playerDevice`-The device of the player - String, 8 chars max.**(optional field)**
+* `playerOS`- The OS of the player - String, 8 chars max. **(optional field)**
+* `playerAge`- The age of the player 0-128 **(optional field)**
+* `playerGender`- The gender of the player - String, 8 chars max. **(optional field)**
+* `playerLocation`- The location of the player - String, 36 chars max. **(optional field)**
+* `playerNotes`- Any player notes you wish to save - String, 128 chars max. **(optional field)**
 * `PlayerJoinDateEpoch`:  Date when the player joined **(optional field)**
 
 You can use the `UpdatePlayers` function without `titleId` and `privateKey` arguments, in case you have `TITLE_ID` and `PRIVATE_KEY` env variables defined.
