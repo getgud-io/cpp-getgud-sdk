@@ -60,7 +60,7 @@ Like `Game`, `Match` also has a GUID which will be provided to you once you star
 4. `Attack` - Whenever a player initiates any action that might cause damage, now or in the future. Examples: shooting, throwning a granade, planting a bomb, swinging a sword, punching, firing a photon torpedo, etc.
 5. `Damage` - Whenever a player recieves any damage, either from another player, the environemnt or the player itself.
 6. `Heal` - Whenever a player is healed, doesn't matter by whom or how.
-7. `Affect` - Whenever an in-match affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health, etc. 
+7. `Affect` - Whenever an in-match affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, use special ability, boost speed/ammo/shield/health, etc. 
 
 
 ## Getting Started
@@ -286,7 +286,7 @@ GetGudSdk::BaseActionData* action = new GetGudSdk::AttackActionData(
 
 ### Affect Action
 
-An Affect action should be sent whenever an in-match affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, see through walls, extra speed/ammo/shield/health, etc.
+An Affect action should be sent whenever an in-match affect of any kind is applied to the player. Examples: crouch, prone, jump, fly, use special ability, boost speed/ammo/shield/health, etc. 
 To create an Affect Action, use the `AffectActionData` Class.
 
 ```cpp
