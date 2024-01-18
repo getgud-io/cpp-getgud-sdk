@@ -210,7 +210,7 @@ bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
 
 `MarkEndGame` returns true/false depending if the Game was successfully closed or not.
 
-## Creating Actions 
+## Sending Actions 
 
 When a live Match starts, you can add Actions, Chat Data, and Reports to it. 
 There are 7 Action types you can add to the Match, all derived from base action which holds the actions base properties.
