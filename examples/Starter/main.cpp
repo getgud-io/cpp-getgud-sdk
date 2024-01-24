@@ -1,4 +1,4 @@
-#include <GetGudSdk.h>
+#include <GetgudSDK.h>
 #include <iostream>
 
 #include <chrono>
