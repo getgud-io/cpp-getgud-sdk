@@ -21,7 +21,7 @@
 
 #include <deque>
 
-namespace GetGudSdk {
+namespace GetgudSDK {
 
 GETGUDSDK_API bool Init();
 GETGUDSDK_API std::string StartGame(int titleId,
@@ -85,4 +85,4 @@ GETGUDSDK_API bool UpdatePlayers(int titleId,
 GETGUDSDK_API bool UpdatePlayers(std::deque<PlayerInfo>& players);
 GETGUDSDK_API void Dispose();
 
-}  // namespace GetGudSdk
+}  // namespace GetgudSDK

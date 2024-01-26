@@ -1,4 +1,4 @@
-#include <GetGudSdk.h>
+#include <GetgudSDK.h>
 #include <iostream>
 
 #include <chrono>
@@ -9,51 +9,51 @@ std::random_device
     rdMain;  // a system based device that generates data randomly
 std::uniform_int_distribution<int> actionTypeDist(0, 5);
 
-GetGudSdk::BaseActionData* MakeRandomAction(std::string matchGuid,
+GetgudSDK::BaseActionData* MakeRandomAction(std::string matchGuid,
                                             long long curTimeEpoch) {
   int actionType = actionTypeDist(rdMain);
 
-  GetGudSdk::BaseActionData* outAction = nullptr;
+  GetgudSDK::BaseActionData* outAction = nullptr;
   switch (actionType) {
     case 0:
-      outAction = new GetGudSdk::AttackActionData(matchGuid, curTimeEpoch,
+      outAction = new GetgudSDK::AttackActionData(matchGuid, curTimeEpoch,
                                                   "player-5", "abc");
       break;
     case 1:
-      outAction = new GetGudSdk::DamageActionData(
+      outAction = new GetgudSDK::DamageActionData(
           matchGuid, curTimeEpoch, "player-5", "player-0", 50.001421f, "glc");
       break;
     case 2:
       outAction =
-          new GetGudSdk::DeathActionData(matchGuid, curTimeEpoch, "player-0", "player-1");
+          new GetgudSDK::DeathActionData(matchGuid, curTimeEpoch, "player-0", "player-1");
       break;
     case 3:
-      outAction = new GetGudSdk::HealActionData(matchGuid, curTimeEpoch,
+      outAction = new GetgudSDK::HealActionData(matchGuid, curTimeEpoch,
                                                 ":plkayer-5", 20.32100F);
       break;
     case 4:
-      outAction = new GetGudSdk::PositionActionData(
+      outAction = new GetgudSDK::PositionActionData(
           matchGuid, curTimeEpoch, "player-5",
-          GetGudSdk::PositionF{20.32000f, 50.001421f, 0.30021f},
-          GetGudSdk::RotationF{10, 20});
+          GetgudSDK::PositionF{20.32000f, 50.001421f, 0.30021f},
+          GetgudSDK::RotationF{10, 20});
       break;
     case 5:
-      outAction = new GetGudSdk::SpawnActionData(
+      outAction = new GetgudSDK::SpawnActionData(
           matchGuid, curTimeEpoch, "player-10", "ttr", 0, 100.f,
-          GetGudSdk::PositionF{1, 2, 3}, GetGudSdk::RotationF{10, 20});
+          GetgudSDK::PositionF{1, 2, 3}, GetgudSDK::RotationF{10, 20});
       break;
   }
 
   return outAction;
 }
 
-std::deque<GetGudSdk::BaseActionData*> CreateActionsVector(
+std::deque<GetgudSDK::BaseActionData*> CreateActionsVector(
     std::string matchGuid,
     int actionsAmount) {
-  std::deque<GetGudSdk::BaseActionData*> outVector;
+  std::deque<GetgudSDK::BaseActionData*> outVector;
   long long actionsEpochTime = 1684059337532;
   for (int actionNum = 0; actionNum < actionsAmount; actionNum++) {
-    GetGudSdk::BaseActionData* outAction =
+    GetgudSDK::BaseActionData* outAction =
         MakeRandomAction(matchGuid, actionsEpochTime);
     actionsEpochTime += 2;
     outVector.push_back(outAction);
@@ -62,32 +62,32 @@ std::deque<GetGudSdk::BaseActionData*> CreateActionsVector(
 }
 
 void CreateReports(std::string matchGuid, int numberOfReports) {
-  std::deque<GetGudSdk::ReportInfo> reports;
-  std::string privateKey = "private_key";
+  std::deque<GetgudSDK::ReportInfo> reports;
+  std::string privateKey = "41e99370-b12f-11ee-89f0-4b4e9fccc950";
   for (int gameNum = 0; gameNum < numberOfReports; gameNum++) {
-    GetGudSdk::ReportInfo reportInfo;
+    GetgudSDK::ReportInfo reportInfo;
     reportInfo.MatchGuid = matchGuid;
     reportInfo.ReportedTimeEpoch = 1684059337532;
     reportInfo.ReporterName = "reporter_name";
-    reportInfo.ReporterSubType = GetGudSdk::ReporterSubtype::VAC;
-    reportInfo.ReporterType = GetGudSdk::ReporterType::AntiCheat;
+    reportInfo.ReporterSubType = GetgudSDK::ReporterSubtype::VAC;
+    reportInfo.ReporterType = GetgudSDK::ReporterType::AntiCheat;
     reportInfo.SuggestedToxicityScore = 100;
     reportInfo.SuspectedPlayerGuid = "suspected_player_guid";
     reportInfo.TbTimeEpoch = 1684059337532;
-    reportInfo.TbType = GetGudSdk::TbType::Aimbot;
+    reportInfo.TbType = GetgudSDK::TbType::Aimbot;
 
     reports.push_back(reportInfo);
   }
 
-  GetGudSdk::SendReports(28, privateKey, reports);
+  GetgudSDK::SendReports(132, privateKey, reports);
 }
 
 void CreatePlayerUpdates(int numberOfPlayerUpdates) {
-  std::deque<GetGudSdk::PlayerInfo> playerInfos;
-  std::string privateKey = "private_key";
+  std::deque<GetgudSDK::PlayerInfo> playerInfos;
+  std::string privateKey = "41e99370-b12f-11ee-89f0-4b4e9fccc950";
   for (int playerUpdateNum = 0; playerUpdateNum < numberOfPlayerUpdates;
        playerUpdateNum++) {
-    GetGudSdk::PlayerInfo playerInfo;
+    GetgudSDK::PlayerInfo playerInfo;
     playerInfo.PlayerGuid = "player-5";
     playerInfo.PlayerNickname = "test";
     playerInfo.PlayerEmail = "test@test.com";
@@ -96,24 +96,26 @@ void CreatePlayerUpdates(int numberOfPlayerUpdates) {
     playerInfos.push_back(playerInfo);
   }
 
-  GetGudSdk::UpdatePlayers(28, privateKey, playerInfos);
+  GetgudSDK::UpdatePlayers(132, privateKey, playerInfos);
 }
 
 int main() {
   // Initialize the SDK:
-  GetGudSdk::Init();
+  GetgudSDK::Init();
 
   std::string serverGuid = "us-west-1";
   std::string gameMode = "deathmatch";
   std::string serverLocation = "UK";
 
   // Start a Game:
-  std::string gameGuid = GetGudSdk::StartGame(serverGuid,  // serverGuid
+  std::string gameGuid = GetgudSDK::StartGame(132,
+                                              "41e99370-b12f-11ee-89f0-4b4e9fccc950",
+                                              serverGuid,  // serverGuid
                                               gameMode,     // gameMode
                                               serverLocation
   );
 
-  std::string matchGuid = GetGudSdk::StartMatch(gameGuid,
+  std::string matchGuid = GetgudSDK::StartMatch(gameGuid,
                                                 "Knives-only",  // matchMode
                                                 "de-dust"       // mapName
   );
@@ -122,10 +124,10 @@ int main() {
   int actionsAmount = 100;
   int reportsAmount = 3;
   int playersAmount = 10;
-  std::deque<GetGudSdk::BaseActionData*> actionsVector =
+  std::deque<GetgudSDK::BaseActionData*> actionsVector =
       CreateActionsVector(matchGuid, actionsAmount);
   // Send the actions to the SDK:
-  GetGudSdk::SendActions(actionsVector);
+  GetgudSDK::SendActions(actionsVector);
 
   // Delete the pointers and clear the vector:
   for (auto* sentAction : actionsVector)
@@ -138,13 +140,13 @@ int main() {
   CreatePlayerUpdates(playersAmount);
 
   // End a game (All Game's Matches will close as well):
-  bool gameEnded = GetGudSdk::MarkEndGame(gameGuid);
+  bool gameEnded = GetgudSDK::MarkEndGame(gameGuid);
 
   // Wait until packets will be sent
   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
   // Close and Dispose of the SDK:
-  GetGudSdk::Dispose();
+  GetgudSDK::Dispose();
 
   // Wait until the threads will be stopped
   std::this_thread::sleep_for(std::chrono::milliseconds(3000));

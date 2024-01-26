@@ -14,7 +14,7 @@
 #endif
 
 
-namespace GetGudSdk {
+namespace GetgudSDK {
 class SpawnActionData : public BaseActionData {
   PositionF m_position;
   RotationF m_rotation;
@@ -39,4 +39,4 @@ class SpawnActionData : public BaseActionData {
   GETGUDSDK_API std::string ToStringMeta() override;
   GETGUDSDK_API SpawnActionData* Clone() override;
 };
-}  // namespace GetGudSdk
+}  // namespace GetgudSDK

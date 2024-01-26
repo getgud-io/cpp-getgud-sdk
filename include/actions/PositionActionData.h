@@ -11,7 +11,7 @@
 #define GETGUDSDK_API
 #endif
 
-namespace GetGudSdk {
+namespace GetgudSDK {
 unsigned int GetPositionActionSize();
 class PositionActionData : public BaseActionData {
 private:
@@ -33,4 +33,4 @@ private:
   GETGUDSDK_API PositionActionData* Clone() override;
   GETGUDSDK_API Orientation& getOrientation();
 };
-}  // namespace GetGudSdk
+}  // namespace GetgudSDK

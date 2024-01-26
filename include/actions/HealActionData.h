@@ -11,7 +11,7 @@
 #define GETGUDSDK_API
 #endif
 
-namespace GetGudSdk {
+namespace GetgudSDK {
 class HealActionData : public BaseActionData {
   float m_healthGained = 0;
 
@@ -28,4 +28,4 @@ class HealActionData : public BaseActionData {
   GETGUDSDK_API std::string ToStringMeta() override;
   GETGUDSDK_API HealActionData* Clone() override;
 };
-}  // namespace GetGudSdk
+}  // namespace GetgudSDK

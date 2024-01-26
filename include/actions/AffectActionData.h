@@ -11,7 +11,7 @@
 #define GETGUDSDK_API
 #endif
 
-namespace GetGudSdk {
+namespace GetgudSDK {
   enum class AffectState : int
   {
     Attach, Activate, Deactivate, Detach
@@ -35,4 +35,4 @@ class AffectActionData : public BaseActionData {
   GETGUDSDK_API std::string ToStringMeta() override;
   GETGUDSDK_API AffectActionData* Clone() override;
 };
-}  // namespace GetGudSdk
+}  // namespace GetgudSDK

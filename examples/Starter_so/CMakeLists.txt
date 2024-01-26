@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.18) # or whatever is suitable/available for you
 include(CMakePrintHelpers)
 
 project(
-  GetGudSdk_Starter
+  GetgudSDK_Starter
   VERSION 0.1
   DESCRIPTION "The GetGud REST API SDK"
   LANGUAGES CXX)
@@ -23,14 +23,14 @@ link_directories(
   ${SDK_DIR}
 )
 
-add_executable(GetGudSdk_Starter main.cpp)
+add_executable(GetgudSDK_Starter main.cpp)
 
-target_include_directories(GetGudSdk_Starter
+target_include_directories(GetgudSDK_Starter
 		PRIVATE
 		../../include/
 )
 
-target_link_libraries(GetGudSdk_Starter 
+target_link_libraries(GetgudSDK_Starter 
   PUBLIC
-  libGetGudSdk.so
+  libGetgudSDK.so
 )

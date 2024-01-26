@@ -11,7 +11,7 @@
 #define GETGUDSDK_API
 #endif
 
-namespace GetGudSdk {
+namespace GetgudSDK {
 class DamageActionData : public BaseActionData {
   std::string m_weaponGuid;
   std::string m_victimPlayerGuid;
@@ -32,4 +32,4 @@ class DamageActionData : public BaseActionData {
   GETGUDSDK_API std::string ToStringMeta() override;
   GETGUDSDK_API DamageActionData* Clone() override;
 };
-}  // namespace GetGudSdk
+}  // namespace GetgudSDK

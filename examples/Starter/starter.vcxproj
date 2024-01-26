@@ -116,7 +116,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>zlib.lib;Normaliz.lib;Ws2_32.lib;Crypt32.lib;wldap32.lib;advapi32.lib;GetGudSdk_Debug.lib;;$(CoreLibraryDependencies);%(AdditionalDependencies);libcurl_a_debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;Normaliz.lib;Ws2_32.lib;Crypt32.lib;wldap32.lib;advapi32.lib;GetgudSDK_debug.lib;;$(CoreLibraryDependencies);%(AdditionalDependencies);libcurl_a_debug.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -135,7 +135,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>zlib.lib;Normaliz.lib;Ws2_32.lib;Crypt32.lib;wldap32.lib;GetGudSdk.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);libcurl_a.lib</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;Normaliz.lib;Ws2_32.lib;Crypt32.lib;wldap32.lib;GetgudSDK.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);libcurl_a.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

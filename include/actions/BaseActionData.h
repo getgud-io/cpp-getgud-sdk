@@ -15,7 +15,7 @@
 
 #include "Helpers.h"
 
-namespace GetGudSdk {
+namespace GetgudSDK {
 unsigned int GetEmptyActionSize();
 
 class BaseActionData {
@@ -36,4 +36,4 @@ class BaseActionData {
   GETGUDSDK_API virtual std::string ToStringMeta();
   GETGUDSDK_API virtual BaseActionData* Clone();
 };
-}  // namespace GetGudSdk
+}  // namespace GetgudSDK

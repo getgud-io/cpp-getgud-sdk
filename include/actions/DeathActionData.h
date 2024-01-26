@@ -12,7 +12,7 @@
 #define GETGUDSDK_API
 #endif
 
-namespace GetGudSdk {
+namespace GetgudSDK {
 class DeathActionData : public BaseActionData {
    std::string m_attackerGuid;
  public:
@@ -28,4 +28,4 @@ class DeathActionData : public BaseActionData {
   GETGUDSDK_API std::string ToStringMeta() override;
   GETGUDSDK_API DeathActionData* Clone() override;
 };
-}  // namespace GetGudSdk
+}  // namespace GetgudSDK
